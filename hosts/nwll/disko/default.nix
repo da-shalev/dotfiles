@@ -1,1 +1,1 @@
-{ imports = [ ./rollback.nix ./a.nix ]; }
+{ imports = [ ./a.nix ]; }

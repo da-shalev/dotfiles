@@ -1,7 +1,7 @@
 { config, options, lib, ... }: {
   config = lib.mkMerge [
     (lib.mkIf (options.environment ? persistence) {
-      environment.persistence."/persist" = {
+      environment.persistence."/nix/persist" = {
         enable = true;
         hideMounts = true;
         directories =

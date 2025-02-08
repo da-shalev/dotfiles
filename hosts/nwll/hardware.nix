@@ -2,11 +2,11 @@
   config = lib.mkMerge [
     (lib.mkIf
       (options.environment ? persistence && config.hardware.bluetooth.enable) {
-        environment.persistence."/persist" = {
+        environment.persistence."/nix/persist" = {
           directories = [
             "/var/lib/bluetooth/"
-            # "/var/lib/NetworkManager/"
-            # "/etc/NetworkManager/"
+            "/var/lib/NetworkManager/"
+            "/etc/NetworkManager/"
           ];
         };
       })
