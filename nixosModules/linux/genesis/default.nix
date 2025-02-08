@@ -3,7 +3,10 @@
     linuxGenesis = architecture: hostName: systemModules:
       let
         specialArgs = withSystem architecture
-          ({ inputs', self', ... }: { inherit self' inputs' inputs; });
+          ({ config, inputs', self', ... }: {
+            packages = config.packages;
+            inherit self' inputs' inputs;
+          });
       in inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         modules = [

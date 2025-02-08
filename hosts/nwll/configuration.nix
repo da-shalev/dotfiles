@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: {
+{ pkgs, packages, ... }: {
   users.users.dashalev = {
     shell = pkgs.fish;
     uid = 1000;
@@ -10,7 +10,7 @@
     packages = with pkgs; [
       corefonts
       inter
-      # inputs.self.packages.${pkgs.system}.apple-emoji-linux
+      packages.apple-emoji-linux
       nerd-fonts.caskaydia-cove
     ];
     fontconfig = {

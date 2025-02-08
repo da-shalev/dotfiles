@@ -3,7 +3,10 @@
     darwinGenesis = architecture: hostName: systemModules:
       let
         specialArgs = withSystem architecture
-          ({ pkgs, inputs', self', ... }: { inherit self' inputs' inputs; });
+          ({ config, pkgs, inputs', self', ... }: {
+            packages = config.packages;
+            inherit self' inputs' inputs;
+          });
       in inputs.nix-darwin.lib.darwinSystem {
         inherit specialArgs;
         modules = [

@@ -10,6 +10,7 @@
       firefox
       aseprite
       ghostty
+      nushell
       # blender
       signal-desktop
       mullvad-vpn
