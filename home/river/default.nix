@@ -35,7 +35,7 @@
           "${mod} K" = "focus-view previous";
           "${mod}+Shift S" =
             "spawn 'pkill grimshot || ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area | -'";
-          "${mod} Space" = "spawn 'pkill fuzzel || ${pkgs.fuzzel}/bin/fuzzel'";
+          "${mod} Space" = "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run'";
           "${mod}+Shift H" = "swap next";
           "${mod}+Shift J" = "swap previous";
           "${mod}+Shift Q" = "exit";

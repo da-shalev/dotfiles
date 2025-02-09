@@ -107,7 +107,7 @@
       # }"
     };
 
-    fuzzel.enable = true;
+    # fuzzel.enable = true;
     xdg.enable = true;
   };
 }

@@ -5,7 +5,7 @@
         enable = true;
         hideMounts = true;
         directories =
-          [ "/var/lib/nixos" "/var/log" "/var/lib/systemd/coredump" ];
+          [ "/var/lib/nixos" "/var/log" "/var/lib/systemd/coredump" "/tmp" ];
       };
     })
     {

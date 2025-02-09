@@ -94,7 +94,7 @@
 
       packages = with pkgs; [
         wl-clipboard
-        pavucontrol
+        pwvucontrol
         nautilus
         pulsemixer
         dconf-editor

@@ -22,6 +22,11 @@
         };
       };
 
+      boot = {
+        kernelPackages = pkgs.linuxPackages_cachyos;
+        tmp.cleanOnBoot = true;
+      };
+
       hardware = {
         enableAllFirmware = lib.mkForce true;
         wirelessRegulatoryDatabase = true;

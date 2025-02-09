@@ -6,8 +6,6 @@
       zathura
       prismlauncher
       obs-studio
-      brave
-      firefox
       aseprite
       ghostty
       nushell
