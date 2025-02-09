@@ -7,7 +7,6 @@
       file
       ffmpeg
       wget
-      rsync
       unzip
       p7zip
       zip

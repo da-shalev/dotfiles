@@ -6,7 +6,6 @@
     ./hardware.nix
     ./configuration.nix
     ./programs.nix
-    ./brave.nix
     ./packages.nix
     (linuxUser "dashalev" [ ./home/dashalev.nix ])
   ];

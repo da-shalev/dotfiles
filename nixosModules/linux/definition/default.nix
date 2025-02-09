@@ -1,1 +1,1 @@
-{ imports = [ ./nix-settings.nix ./global-programs.nix ]; }
+{ imports = [ ./nix-settings.nix ./global-programs.nix ./nh.nix ]; }

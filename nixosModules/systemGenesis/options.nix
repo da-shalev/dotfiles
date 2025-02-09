@@ -13,8 +13,8 @@
 
       configDir = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "~/.config/nix";
-        description = "Configuration location important for rebuilds.";
+        default = ".config/nix";
+        description = "Configuration location for rebuild aliases. Assumes config starts at user $HOME.";
       };
     };
   };

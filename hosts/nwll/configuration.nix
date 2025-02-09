@@ -6,6 +6,11 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    NIXPKGS_ALLOW_BROKEN = 1;
+  };
+
   fonts = {
     packages = with pkgs; [
       corefonts

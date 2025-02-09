@@ -13,7 +13,6 @@
     river = import ./river;
     ghostty = import ./ghostty;
     wayland = import ./wayland;
-    fuzzel = import ./fuzzel;
     xdg = import ./xdg;
     scripts = import ./scripts;
     nixCats = import ./nixCats;

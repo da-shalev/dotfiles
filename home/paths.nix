@@ -46,7 +46,6 @@
 
       shellAliases = {
         tree = "tree -C";
-        cleanup = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
         asciiquarium = "asciiquarium -t";
       };
     };

@@ -54,7 +54,6 @@
                 fish
                 wayland
                 river
-                fuzzel
                 lsd
                 xdg
                 scripts

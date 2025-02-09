@@ -37,6 +37,8 @@
         earlyoom.enable = lib.mkForce true;
         udisks2.enable = lib.mkForce true;
         dbus.implementation = lib.mkForce "broker";
+        openssh.enable = true;
+        rsyncd.enable = true;
         pipewire = {
           inherit (config.hardware.graphics) enable;
           pulse.enable = true;
@@ -50,7 +52,10 @@
 
       programs = {
         dconf = { inherit (config.hardware.graphics) enable; };
-        direnv.enable = lib.mkForce true;
+        direnv = {
+          enable = lib.mkForce true;
+          silent = true;
+        };
         command-not-found.enable = lib.mkForce false;
         fuse.userAllowOther = true;
         git = {
