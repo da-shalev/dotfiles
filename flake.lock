@@ -1,17 +1,5 @@
 {
   "nodes": {
-    "apple-emoji-linux": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-VBHWfueSIratai7aQvvH1xZEOva/RYIi0mZLZ1DfjMY=",
-        "type": "file",
-        "url": "https://github.com/samuelngs/apple-emoji-linux/releases/download/v17.4/AppleColorEmoji.ttf"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/samuelngs/apple-emoji-linux/releases/download/v17.4/AppleColorEmoji.ttf"
-      }
-    },
     "chaotic": {
       "inputs": {
         "fenix": "fenix",
@@ -296,7 +284,6 @@
     },
     "root": {
       "inputs": {
-        "apple-emoji-linux": "apple-emoji-linux",
         "chaotic": "chaotic",
         "disko": "disko",
         "flake-parts": "flake-parts",

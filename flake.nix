@@ -23,12 +23,6 @@
       ref = "nyxpkgs-unstable";
     };
 
-    apple-emoji-linux = {
-      url =
-        "https://github.com/samuelngs/apple-emoji-linux/releases/download/v17.4/AppleColorEmoji.ttf";
-      flake = false;
-    };
-
     flake-parts = {
       type = "github";
       owner = "hercules-ci";
