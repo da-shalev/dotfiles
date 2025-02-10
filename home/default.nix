@@ -4,6 +4,7 @@
     foot = import ./foot;
     dev = import ./dev;
     git = import ./git;
+    dunst = import ./dunst;
     tmux = import ./tmux;
     fzf = import ./fzf;
     fd = import ./fd;

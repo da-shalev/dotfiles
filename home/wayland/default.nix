@@ -96,6 +96,7 @@
         wl-clipboard
         pwvucontrol
         nautilus
+        libnotify
         pulsemixer
         dconf-editor
         xorg.xeyes

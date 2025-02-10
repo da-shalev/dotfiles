@@ -139,6 +139,11 @@ if M.enabled then
     on_attach = M.on_attach,
   })
 
+  lspconfig.pyright.setup({
+    capabilities = M.capabilities,
+    on_attach = M.on_attach,
+  })
+
   lspconfig.html.setup({
     capabilities = M.capabilities,
     on_attach = M.on_attach,

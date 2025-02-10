@@ -6,12 +6,7 @@
 # LINUX OPTIONS: https://search.nixos.org/options
 
 { lib, config, ... }: {
+  # LMAO
   networking = { inherit (config.systemGenesis) hostName; };
-
   time.timeZone = lib.mkDefault "Canada/Eastern";
-
-  system = {
-    tools.nixos-option.enable = false;
-    rebuild.enableNg = true;
-  };
 }

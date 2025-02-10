@@ -54,6 +54,7 @@
                 fish
                 wayland
                 river
+                dunst
                 lsd
                 xdg
                 scripts

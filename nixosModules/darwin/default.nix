@@ -1,1 +1,1 @@
-{ imports = [ ./conf ./definition ]; }
+{ imports = [ ./genesis ./definition ]; }

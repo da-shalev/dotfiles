@@ -1,4 +1,4 @@
-{ config, options, lib, ... }: {
+{ config, pkgs, options, lib, ... }: {
   config = lib.mkMerge [
     (lib.mkIf (options.environment ? persistence) {
       environment.persistence."/nix/persist" = {
@@ -15,6 +15,16 @@
           efi.canTouchEfiVariables = true;
         };
         initrd.systemd.enable = lib.mkDefault true;
+      };
+
+      environment = {
+        # override all default packages from nix
+        defaultPackages = [ ];
+        systemPackages = with pkgs; [
+          usbutils
+          pciutils
+          file
+        ];
       };
 
       networking = {

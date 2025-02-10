@@ -45,6 +45,7 @@ in {
             nodePackages_latest."@astrojs/language-server"
             emmet-ls
             jdt-language-server
+            pyright
             php83Packages.psalm
             intelephense
 

@@ -2,9 +2,6 @@
   environment = {
     variables.NIXPKGS_CONFIG = lib.mkForce "${config.systemGenesis.configDir}";
     systemPackages = with pkgs; [
-      usbutils
-      pciutils
-      file
       ffmpeg
       wget
       unzip
@@ -21,8 +18,5 @@
       hyperfine
       neovim
     ];
-
-    # override all default packages from nix
-    defaultPackages = [ ];
   };
 }

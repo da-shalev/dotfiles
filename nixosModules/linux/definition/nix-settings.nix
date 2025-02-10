@@ -18,4 +18,9 @@
         (lib.filterAttrs (_: user: user.isNormalUser) config.users.users);
     };
   };
+
+  system = {
+    rebuild.enableNg = true;
+    tools.nixos-option.enable = false;
+  };
 }
