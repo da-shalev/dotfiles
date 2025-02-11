@@ -15,9 +15,9 @@
             home-manager.extraSpecialArgs = specialArgs;
           }
 
-          inputs.home-manager.darwinModules.home-manager
           inputs.self.nixosModules.systemGenesis
           inputs.self.nixosModules.darwin
+          inputs.home-manager.darwinModules.home-manager
 
           {
             systemGenesis = {
@@ -28,7 +28,7 @@
         ] ++ systemModules;
       };
 
-    darwinUser = architecture: userName: homeConfiguration:
+    darwinUser = userName: homeConfiguration:
       let homePath = "/Users/${userName}";
       in {
         imports = [ ./home-manager.nix ];
@@ -55,6 +55,8 @@
                 nixCats
               ] ++ homeConfiguration;
           };
+
+          home.stateVersion = "25.05";
         };
 
         users.users.${userName} = {

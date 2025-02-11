@@ -11,7 +11,7 @@
       server.enable = true;
       settings = {
         main = {
-          font = "monospace:size=32";
+          font = "monospace:size=28";
           term = "xterm-256color";
           dpi-aware = "no";
           pad = "0x0";
@@ -20,7 +20,7 @@
         mouse = { hide-when-typing = "yes"; };
 
         colors = {
-          alpha = "0.9";
+          alpha = "0.95";
           background = "000000";
           foreground = "ebdbb2";
           regular0 = "282828";

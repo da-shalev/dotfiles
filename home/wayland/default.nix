@@ -42,7 +42,7 @@
     qt = {
       name = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "Adwaita-dark";
+        default = "adwaita-dark";
       };
 
       package = lib.mkOption {

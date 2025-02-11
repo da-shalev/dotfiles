@@ -9,7 +9,15 @@
       config = lib.mkOption {
         type = lib.types.str;
         default = ''
-          -font "monospace:size=24" -active-fg-color "#ffffff" -active-bg-color "#b16286" -title-bg-color "#000000" -inactive-bg-color "#000000"'';
+          -font "monospace:size=27" -active-fg-color "#ffffff" -active-bg-color "#b16286" -title-bg-color "#000000" -inactive-bg-color "#000000"'';
+      };
+    };
+
+    wmenu = {
+      enable = lib.mkEnableOption "Enables Wmenu." // { default = true; };
+      config = lib.mkOption {
+        type = lib.types.str;
+        default = ''-f "monospace 21" -s "#ffffff" -S "#b16286" -N "#000000"'';
       };
     };
 
@@ -35,13 +43,15 @@
           "${mod} K" = "focus-view previous";
           "${mod}+Shift S" =
             "spawn 'pkill grimshot || ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area | -'";
-          "${mod} Space" = "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run'";
           "${mod}+Shift H" = "swap next";
           "${mod}+Shift J" = "swap previous";
           "${mod}+Shift Q" = "exit";
         } // lib.optionals config.h.river.sandbar.enable {
           "${mod} U" =
             "spawn 'pkill sandbar || ${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.config}'";
+        } // lib.optionals config.h.river.wmenu.enable {
+          "${mod} Space" =
+            "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run ${config.h.river.wmenu.config}'";
         };
 
         map-pointer.normal = {

@@ -24,6 +24,7 @@
   };
 
   programs = {
+    steam.enable = true;
     nh = {
       enable = true;
       clean.enable = true;

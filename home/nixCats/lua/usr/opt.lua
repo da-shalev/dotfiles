@@ -14,6 +14,7 @@ vim.opt.updatetime = 50
 vim.opt.writebackup = false
 vim.opt.expandtab = true
 vim.opt.cursorline = true
+vim.opt.showmode = false
 vim.opt.nu = true
 -- enable a global status line across all windows
 vim.opt.laststatus = 3

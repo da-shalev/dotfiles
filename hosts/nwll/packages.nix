@@ -11,6 +11,10 @@
       brave
       signal-desktop
       vesktop
+      torzu
+      cool-retro-term
+      mullvad-vpn
+      qbittorrent
     ];
   };
 }

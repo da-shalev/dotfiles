@@ -14,7 +14,7 @@
         videos = "${config.home.homeDirectory}/";
         music = "${config.home.homeDirectory}/";
         pictures = "${config.home.homeDirectory}/pix";
-        publicShare = "${config.home.homeDirectory}/";
+        publicShare = "${config.home.homeDirectory}/media";
         templates = "${config.home.homeDirectory}/";
       };
     };

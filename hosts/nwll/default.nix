@@ -7,6 +7,7 @@
     ./configuration.nix
     ./programs.nix
     ./packages.nix
+    ./server
     (linuxUser "dashalev" [ ./home/dashalev.nix ])
   ];
 }

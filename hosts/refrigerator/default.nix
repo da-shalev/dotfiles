@@ -3,6 +3,6 @@
     darwinGenesis "aarch64-darwin" "refrigerator" [
       ./configuration.nix
       ./homebrew.nix
-      (darwinUser "aarch64-darwin" "dashalev" [ ./Users/dashalev.nix ])
+      (darwinUser "dashalev" [ ./Users/dashalev.nix ])
     ];
 }

@@ -1,1 +1,4 @@
-{ inputs, ... }: { perSystem = { pkgs, system, ... }: { packages = { }; }; }
+{ inputs, ... }: {
+  perSystem = { pkgs, system, ... }: {
+  };
+}

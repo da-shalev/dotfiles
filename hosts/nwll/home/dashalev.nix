@@ -1,5 +1,15 @@
 { pkgs, ... }: {
-  programs = { mpv = { enable = true; }; };
+  programs = {
+    mpv = {
+      enable = true;
+      config = {
+        hwdec = "nvdec";
+        vo = "gpu";
+        profile = "gpu-hq";
+        gpu-context = "wayland";
+      };
+    };
+  };
 
   xdg = {
     mimeApps = let browser = "brave-browser";
@@ -80,13 +90,13 @@
         riverctl spawn "${pkgs.kanshi}/bin/kanshi &"
         pkill dunst
         riverctl spawn "${pkgs.dunst}"
+        pkill mpvpaper
+        riverctl spawn "${pkgs.mpvpaper}/bin/mpvpaper -o 'no-audio --loop-playlist shuffle' '*' ${
+          ./wallpapers/Black.Curtain.mp4
+        }"
       '';
       # pkill wlclock
       # riverctl spawn "${pkgs.wlclock}/bin/wlclock --clock-colour '#ffffff' --background-colour '#00000000' --border-size 0 --exclusive-zone false --layer bottom --position top-right --size 230 --margin 20 --hand-width 2 --marking-width 2"
-      # pkill mpvpaper
-      # riverctl spawn "${pkgs.mpvpaper}/bin/mpvpaper -o 'no-audio --loop-playlist shuffle' '*' ${
-      #   ../../../home/wallpapers/Sasuke.Uchiha.Sharingan/video.mp4
-      # }"
     };
 
     xdg.enable = true;
