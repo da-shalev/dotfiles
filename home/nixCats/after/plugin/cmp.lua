@@ -6,7 +6,7 @@ if require('usr.lsps').enabled then
       preset = 'default',
     },
 
-    snippets = { preset = 'luasnip' },
+    -- snippets = { preset = 'luasnip' },
 
     completion = {
       accept = { auto_brackets = { enabled = true } },

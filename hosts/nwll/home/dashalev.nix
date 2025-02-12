@@ -83,6 +83,7 @@
     wayland.enable = true;
     dunst.enable = true;
 
+    wayland = { cursorTheme.size = 32; };
     river = {
       enable = true;
       extraConfig = ''

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
-    pkill wmenu || $(${pkgs.wtype}/bin/wtype $(cat ~/.config/bookmarks | ${pkgs.wmenu}/bin/wmenu -f "monospace 21" -s "#ffffff" -S "#b16286" -N "#000000"))
+    pkill wmenu || $(${pkgs.wtype}/bin/wtype $(cat ~/.config/bookmarks | ${pkgs.wmenu}/bin/wmenu ${config.h.wmenu.config}))
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''

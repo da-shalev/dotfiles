@@ -79,13 +79,12 @@ in {
             todo-comments-nvim
             nvim-colorizer-lua
 
-            # nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
           ];
 
           lsps-enabled = with pkgs.vimPlugins; [
+            lazydev-nvim
             nvim-lspconfig
-            neodev-nvim
             nvim-ts-autotag
 
             conform-nvim
@@ -94,7 +93,6 @@ in {
             nvim-autopairs
 
             friendly-snippets
-            luasnip
             blink-cmp
             crates-nvim
           ];

@@ -3,7 +3,7 @@ local M = {}
 M.enabled = nixCats('lsps-enabled')
 
 if M.enabled then
-  require("neodev").setup()
+  require('lazydev').setup()
   require("crates").setup({})
   require('Comment').setup()
 
