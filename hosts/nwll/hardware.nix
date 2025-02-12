@@ -24,6 +24,8 @@
     tmp.cleanOnBoot = true;
   };
 
+  powerManagement.cpuFreqGovernor = "performance";
+
   hardware = {
     enableAllFirmware = lib.mkForce true;
     wirelessRegulatoryDatabase = true;
@@ -47,8 +49,10 @@
 
     nvidia = {
       modesetting.enable = true;
-      powerManagement = { enable = false; };
-      powerManagement.finegrained = false;
+      powerManagement = {
+        enable = false;
+        finegrained = false;
+      };
 
       nvidiaPersistenced = false;
 
@@ -61,7 +65,7 @@
   boot = {
     kernelModules = [ "nvidia-uvm" "ctr" ];
     blacklistedKernelModules = [ "amdgpu" "radeon" ];
-    kernelParams = [ "nvidia-drm.fbdev=1" ];
+    kernelParams = [ "nvidia-drm.fbdev=1" "nvidia-drm.modeset=1" ];
     initrd.availableKernelModules =
       [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "uas" ];
   };

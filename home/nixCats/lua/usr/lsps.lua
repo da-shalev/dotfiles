@@ -4,13 +4,11 @@ M.enabled = nixCats('lsps-enabled')
 
 if M.enabled then
   require("neodev").setup()
-
-  vim.api.nvim_command("packadd crates.nvim")
   require("crates").setup({})
   require('Comment').setup()
 
   M.conform = require("conform")
-  M.capabilities = require("cmp_nvim_lsp").default_capabilities()
+  M.capabilities = require("blink.cmp").get_lsp_capabilities()
   M.format = function(bufnr)
     M.conform.format({ bufnr, lsp_fallback = true })
   end

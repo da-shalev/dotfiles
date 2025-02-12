@@ -52,6 +52,7 @@
                 fzf
                 fd
                 fish
+                wmenu
                 wayland
                 river
                 dunst

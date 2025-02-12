@@ -34,7 +34,7 @@
           #   %%  Literal %
           format = "<b>%s</b>\\n%b";
           max_icon_size = "64";
-          corner_radius = "16";
+          corner_radius = "24";
           gap_size = "8";
           offset = "8x8";
           show_indicators = "no";

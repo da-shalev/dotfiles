@@ -1,64 +1,36 @@
 if require('usr.lsps').enabled then
-  local cmp = require("cmp")
-  local luasnip = require("luasnip")
-  local lspkind = require("lspkind")
-
-  require("luasnip.loaders.from_vscode").lazy_load()
-  require("luasnip.loaders.from_lua").lazy_load()
+  local cmp = require("blink.cmp")
 
   cmp.setup({
-    snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
+    keymap = {
+      preset = 'default',
     },
-    formatting = {
-      format = lspkind.cmp_format({
-        mode = "text_symbol",
-        maxwidth = 20,
-        ellipsis_char = "...",
-        show_labelDetails = false,
 
-        before = function(_, vim_item)
-          return vim_item
-        end,
-      }),
+    snippets = { preset = 'luasnip' },
+
+    completion = {
+      accept = { auto_brackets = { enabled = true } },
+      documentation = { auto_show = true, auto_show_delay_ms = 0 },
+      ghost_text = { enabled = true },
     },
-    mapping = cmp.mapping.preset.insert({
-      ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-      ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>"] = cmp.mapping.complete({}),
-      ["<CR>"] = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      }),
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_locally_jumpable() then
-          luasnip.expand_or_jump()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.locally_jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-    }),
-    sources = cmp.config.sources({
-      { name = "luasnip" },
-      { name = "nvim_lsp" },
-      { name = "path" },
-      -- yes cmp says its not needed, but cap
-      { name = "buffer" },
-    }),
+
+    signature = { enabled = true },
+
+    appearance = {
+      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+      -- Useful for when your theme doesn't support blink.cmp
+      -- Will be removed in a future release
+      use_nvim_cmp_as_default = true,
+      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- Adjusts spacing to ensure icons are aligned
+      nerd_font_variant = 'mono'
+    },
+
+    -- Default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      cmdline = {},
+    },
   })
 end

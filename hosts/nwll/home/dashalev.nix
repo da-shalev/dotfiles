@@ -88,8 +88,6 @@
       extraConfig = ''
         pkill kanshi
         riverctl spawn "${pkgs.kanshi}/bin/kanshi &"
-        pkill dunst
-        riverctl spawn "${pkgs.dunst}"
         pkill mpvpaper
         riverctl spawn "${pkgs.mpvpaper}/bin/mpvpaper -o 'no-audio --loop-playlist shuffle' '*' ${
           ./wallpapers/Black.Curtain.mp4

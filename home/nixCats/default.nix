@@ -88,32 +88,26 @@ in {
             neodev-nvim
             nvim-ts-autotag
 
-            # nvim-lint
             conform-nvim
 
             comment-nvim
+            nvim-autopairs
 
-            cmp-nvim-lsp
-            cmp-path
-            cmp-buffer
-            cmp_luasnip
             friendly-snippets
             luasnip
-            lspkind-nvim
-            nvim-cmp
-            lsp_signature-nvim
+            blink-cmp
+            crates-nvim
           ];
         };
 
         optionalPlugins = {
           general = with pkgs.vimPlugins; [
-            nvim-autopairs
             undotree
             zen-mode-nvim
             trouble-nvim
           ];
 
-          lsps-enabled = with pkgs.vimPlugins; [ crates-nvim nvim-jdtls ];
+          lsps-enabled = with pkgs.vimPlugins; [ nvim-jdtls ];
         };
       };
 

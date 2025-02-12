@@ -25,6 +25,10 @@
 
   programs = {
     steam.enable = true;
+    gamescope = {
+      enable = true;
+      args = [ "--hdr-enabled" ];
+    };
     nh = {
       enable = true;
       clean.enable = true;

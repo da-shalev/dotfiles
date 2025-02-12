@@ -1,6 +1,26 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let
+  bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
+    pkill wmenu || $(${pkgs.wtype}/bin/wtype $(cat ~/.config/bookmarks | ${pkgs.wmenu}/bin/wmenu -f "monospace 21" -s "#ffffff" -S "#b16286" -N "#000000"))
+  '';
+
+  bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
+    line=$(tail -n1 ~/.config/bookmarks)
+    sed -i '$d' ~/.config/bookmarks
+    ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Removed" -- "$line"
+  '';
+
+  bookmarkSet = pkgs.writeShellScriptBin "bookmark-set" ''
+    wl-paste >> ~/.config/bookmarks
+    ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Set" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
+  '';
+in {
   options.h.river = {
     enable = lib.mkEnableOption "Enables River WM." // { default = false; };
+    mod = lib.mkOption {
+      type = lib.types.str;
+      default = "Alt";
+    };
     sandbar = {
       enable = lib.mkEnableOption "Enable sandbar." // { default = true; };
       launch = lib.mkEnableOption "Automagically start it up." // {
@@ -13,14 +33,6 @@
       };
     };
 
-    wmenu = {
-      enable = lib.mkEnableOption "Enables Wmenu." // { default = true; };
-      config = lib.mkOption {
-        type = lib.types.str;
-        default = ''-f "monospace 21" -s "#ffffff" -S "#b16286" -N "#000000"'';
-      };
-    };
-
     extraConfig = lib.mkOption {
       type = lib.types.lines;
       default = "";
@@ -28,8 +40,9 @@
   };
 
   config = lib.mkIf config.h.river.enable {
-    home.sessionVariables = { XDG_CURRENT_DESKTOP = "river"; };
-    wayland.windowManager.river = let mod = "Alt";
+    home = { sessionVariables = { XDG_CURRENT_DESKTOP = "river"; }; };
+
+    wayland.windowManager.river = let mod = config.h.river.mod;
     in {
       enable = true;
       package = lib.mkForce pkgs.river_git;
@@ -49,9 +62,16 @@
         } // lib.optionals config.h.river.sandbar.enable {
           "${mod} U" =
             "spawn 'pkill sandbar || ${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.config}'";
-        } // lib.optionals config.h.river.wmenu.enable {
+        } // lib.optionals config.h.wmenu.enable {
+          # run an app:
           "${mod} Space" =
-            "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run ${config.h.river.wmenu.config}'";
+            "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run ${config.h.wmenu.config}'";
+          # paste a bookmark:
+          "${mod} P" = "spawn ${bookmarkPaste}/bin/bookmark-paste";
+          # remove a bookmark:
+          "${mod}+Shift B" = "spawn ${bookmarkRemove}/bin/bookmark-remove";
+          # set a bookmark:
+          "${mod} B" = "spawn ${bookmarkSet}/bin/bookmark-set";
         };
 
         map-pointer.normal = {
@@ -68,7 +88,7 @@
           "'${pkgs.foot}/bin/foot --server --log-no-syslog'"
           "'${pkgs.river}/bin/rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.5 -main-location left'"
         ] ++ lib.optionals config.h.river.sandbar.launch [''
-          "${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.extraConfig}"
+          "${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.config}"
         ''];
       };
 

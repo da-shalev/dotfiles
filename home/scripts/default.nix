@@ -1,5 +1,7 @@
 { pkgs, ... }: {
   home.packages = with pkgs; [
+    # writeShellApplication is banned
+    # its a pain in the ass, errors cannot be handled
     (writeShellApplication {
       name = "yonk";
 
