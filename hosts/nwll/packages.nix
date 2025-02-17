@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
   environment = {
     systemPackages = with pkgs; [
       onlyoffice-desktopeditors
@@ -9,12 +9,15 @@
       prismlauncher
       airshipper
       brave
+      inputs.zen-browser.packages.${pkgs.system}.default
+      zed-editor
       signal-desktop
       vesktop
-      torzu
       cool-retro-term
       mullvad-vpn
       qbittorrent
+      ryubing
+      torzu
     ];
   };
 }

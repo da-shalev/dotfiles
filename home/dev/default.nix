@@ -45,7 +45,7 @@
 
         # school (i.e. bs) languages
         maven
-        dotnet-sdk_8
+        dotnet-sdk_9
 
         # util
         smartmontools

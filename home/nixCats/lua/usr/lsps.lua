@@ -95,9 +95,9 @@ if M.enabled then
     formatters_by_ft = {
       ["*"] = { "trim_newlines" },
       json = { "jq" },
+      yaml = { "yq" },
       nix = { "nixfmt" },
       sh = { "shfmt" },
-      yaml = { "yq" },
       astro = { "prettier" },
     },
   })
@@ -105,6 +105,11 @@ if M.enabled then
   local lspconfig = require("lspconfig")
 
   lspconfig.nil_ls.setup({
+    capabilities = M.capabilities,
+    on_attach = M.on_attach,
+  })
+
+  lspconfig.jsonls.setup({
     capabilities = M.capabilities,
     on_attach = M.on_attach,
   })
@@ -161,6 +166,11 @@ if M.enabled then
     capabilities = M.capabilities,
     on_attach = M.on_attach,
   })
+
+  lspconfig.mdx_analyzer.setup {
+    capabilities = M.capabilities,
+    on_attach = M.on_attach,
+  }
 
   lspconfig.emmet_ls.setup({
     capabilities = M.capabilities,

@@ -11,7 +11,7 @@
       server.enable = true;
       settings = {
         main = {
-          font = "monospace:size=28";
+          font = "monospace:size=32";
           term = "xterm-256color";
           dpi-aware = "no";
           pad = "0x0";

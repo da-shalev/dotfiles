@@ -16,6 +16,17 @@
       ref = "nixos-unstable";
     };
 
+    apple-emoji-linux = {
+      url =
+        "https://github.com/samuelngs/apple-emoji-linux/releases/download/v17.4/AppleColorEmoji.ttf";
+      flake = false;
+    };
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs = { nixpkgs.follows = "nixpkgs"; };
+    };
+
     chaotic = {
       type = "github";
       owner = "chaotic-cx";

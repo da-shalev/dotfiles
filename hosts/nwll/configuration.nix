@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, packages, ... }: {
   users.users.dashalev = {
     shell = pkgs.fish;
     uid = 1000;
@@ -17,12 +17,20 @@
   };
 
   fonts = {
-    packages = with pkgs; [ corefonts inter nerd-fonts.caskaydia-cove ];
-    fontconfig = {
-      defaultFonts = {
-        serif = [ "Inter" ];
-        sansSerif = [ "Inter" ];
-      };
+    packages = with pkgs; [
+      corefonts
+      vistafonts
+      cascadia-code
+      inter
+      # packages.apple-emoji-linux
+      nerd-fonts.symbols-only
+      spleen
+    ];
+    fontconfig.defaultFonts = {
+      serif = [ "Inter" "Symbols Nerd Font" ];
+      sansSerif = [ "Inter" "Symbols Nerd Font" ];
+      monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
+      # emoji = [ "Apple Color Emoji" ];
     };
   };
 

@@ -38,6 +38,7 @@
       };
 
       services = {
+        userborn.enable = true;
         fstrim.enable = lib.mkForce true;
         pulseaudio.enable = lib.mkForce false;
         earlyoom.enable = lib.mkForce true;

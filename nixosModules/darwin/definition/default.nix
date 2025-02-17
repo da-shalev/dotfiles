@@ -1,8 +1,8 @@
-{ lib, ... }: {
+{ ... }: {
   imports = [ ./nix-settings.nix ];
 
-  services.nix-daemon.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
+  nix.enable = false;
 
   system = { stateVersion = 6; };
 }

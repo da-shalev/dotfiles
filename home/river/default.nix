@@ -113,6 +113,8 @@ in {
         riverctl map normal ${mod} 0 set-focused-tags "$all_tags"
         riverctl map normal ${mod}+Shift 0 set-view-tags "$all_tags"
 
+        riverctl xcursor-theme ${config.h.wayland.cursorTheme.name} ${builtins.toString config.h.wayland.cursorTheme.size}
+
         ${config.h.river.extraConfig}
       '';
     };

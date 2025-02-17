@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   services = {
+    postgresql = { enable = false; };
     mullvad-vpn.enable = true;
     greetd = {
       enable = true;
@@ -18,12 +19,14 @@
     enable = true;
     wlr.enable = true;
     config.common = {
-      default = [ "wlr" ];
-      river = [ "wlr" ];
+      default = [ "wlr" "xdg-desktop-portal-gtk" ];
+      river = [ "wlr" "xdg-desktop-portal-gtk" ];
     };
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   programs = {
+    adb.enable = true;
     steam.enable = true;
     gamescope = {
       enable = true;

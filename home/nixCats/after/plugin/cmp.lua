@@ -11,7 +11,7 @@ if require('usr.lsps').enabled then
     completion = {
       accept = { auto_brackets = { enabled = true } },
       documentation = { auto_show = true, auto_show_delay_ms = 0 },
-      ghost_text = { enabled = true },
+      ghost_text = { enabled = false },
     },
 
     signature = { enabled = true },
