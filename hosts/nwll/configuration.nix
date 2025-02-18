@@ -12,8 +12,9 @@
   };
 
   environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    NIXPKGS_ALLOW_UNFREE = "1";
+    NIXOS_OZONE_WL = 1;
+    NIXPKGS_ALLOW_UNFREE = 1;
+    NIXPKGS_ALLOW_BROKEN = 1; 
   };
 
   fonts = {
@@ -22,7 +23,7 @@
       vistafonts
       cascadia-code
       inter
-      # packages.apple-emoji-linux
+      packages.apple-emoji-linux
       nerd-fonts.symbols-only
       spleen
     ];
@@ -30,7 +31,7 @@
       serif = [ "Inter" "Symbols Nerd Font" ];
       sansSerif = [ "Inter" "Symbols Nerd Font" ];
       monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
-      # emoji = [ "Apple Color Emoji" ];
+      emoji = [ "Apple Color Emoji" ];
     };
   };
 

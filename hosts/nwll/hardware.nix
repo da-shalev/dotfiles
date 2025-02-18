@@ -43,8 +43,16 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = with pkgs; [ nvidia-vaapi-driver ];
-      extraPackages32 = with pkgs; [ nvidia-vaapi-driver ];
+      extraPackages = with pkgs; [
+        # nvidia-vaapi-driver
+        # vaapiVdpau
+        # libvdpau-va-gl
+      ];
+      extraPackages32 = with pkgs; [
+        # nvidia-vaapi-driver
+        # vaapiVdpau
+        # libvdpau-va-gl
+      ];
     };
 
     nvidia = {
@@ -54,18 +62,20 @@
         finegrained = false;
       };
 
-      nvidiaPersistenced = false;
-
-      open = false;
+      open = true;
       nvidiaSettings = false;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
 
+  environment.sessionVariables = {
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
+    LIBVA_DRIVER_NAME = "nvidia";
+    WLR_NO_HARDWARE_CURSORS = "1";
+  };
+
   boot = {
-    kernelModules = [ "nvidia-uvm" "ctr" ];
-    blacklistedKernelModules = [ "amdgpu" "radeon" ];
-    kernelParams = [ "nvidia-drm.fbdev=1" "nvidia-drm.modeset=1" ];
     initrd.availableKernelModules =
       [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "uas" ];
   };

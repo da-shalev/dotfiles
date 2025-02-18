@@ -1,4 +1,14 @@
 { pkgs, ... }: {
+  home.packages = with pkgs; [
+    (writeShellApplication {
+      name = "cider";
+      runtimeInputs = [ appimage-run ];
+      text = ''
+        appimage-run ~/.local/bin/cider-linux-x64.AppImage
+      '';
+    })
+  ];
+
   programs = {
     mpv = {
       enable = true;

@@ -3,12 +3,11 @@
     systemPackages = with pkgs; [
       onlyoffice-desktopeditors
       zathura
-      obs-studio
       aseprite
       ghostty
       prismlauncher
       airshipper
-      brave
+      ungoogled-chromium
       inputs.zen-browser.packages.${pkgs.system}.default
       zed-editor
       signal-desktop
@@ -16,7 +15,6 @@
       cool-retro-term
       mullvad-vpn
       qbittorrent
-      ryubing
       torzu
     ];
   };

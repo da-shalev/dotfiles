@@ -20,7 +20,8 @@
       environment = {
         # override all default packages from nix
         defaultPackages = [ ];
-        systemPackages = with pkgs; [ usbutils pciutils file ];
+        localBinInPath = true;
+        systemPackages = with pkgs; [ usbutils pciutils file libva-utils ];
       };
 
       networking = {

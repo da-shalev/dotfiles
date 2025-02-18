@@ -47,13 +47,21 @@ in {
       enable = true;
       package = lib.mkForce pkgs.river_git;
       settings = {
+        input = {
+          "'*'" = {
+            accel-profile = "flat";
+            pointer-accel = 0;
+            disable-while-typing = false;
+          };
+        };
+
         map.normal = {
-          "${mod} Return" = "spawn '${pkgs.foot}/bin/footclient'";
+          "${mod} Return" = "spawn ${pkgs.foot}/bin/footclient";
           "${mod} Q" = "close";
           "${mod} F" = "toggle-fullscreen";
           "${mod} S" = "toggle-float";
-          "${mod} J" = "focus-view next";
-          "${mod} K" = "focus-view previous";
+          "${mod} J" = "focus-view -skip-floating next";
+          "${mod} K" = "focus-view -skip-floating previous";
           "${mod}+Shift S" =
             "spawn 'pkill grimshot || ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area | -'";
           "${mod}+Shift H" = "swap next";
@@ -79,6 +87,8 @@ in {
           "${mod} BTN_RIGHT" = "resize-view";
         };
 
+        rule-add = { "-title" = { "Picture-in-Picture" = "float"; }; };
+
         default-layout = "rivertile";
         background-color = "0x000000";
         border-width = 0;
@@ -93,8 +103,6 @@ in {
       };
 
       extraConfig = ''
-        dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
-
         for i in $(seq 1 9)
         do
             tags=$((1 << (i - 1)))
@@ -104,16 +112,13 @@ in {
             riverctl map normal ${mod}+Shift+Control "$i" toggle-view-tags $tags
         done
 
-        for mouse in $(riverctl list-inputs | grep -i pointer)
-        do
-          riverctl input $mouse accel-profile flat
-        done
-
         all_tags=$(((1 << 32) - 1))
         riverctl map normal ${mod} 0 set-focused-tags "$all_tags"
         riverctl map normal ${mod}+Shift 0 set-view-tags "$all_tags"
 
-        riverctl xcursor-theme ${config.h.wayland.cursorTheme.name} ${builtins.toString config.h.wayland.cursorTheme.size}
+        riverctl xcursor-theme ${config.h.wayland.cursorTheme.name} ${
+          builtins.toString config.h.wayland.cursorTheme.size
+        }
 
         ${config.h.river.extraConfig}
       '';
