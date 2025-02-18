@@ -5,8 +5,7 @@
 # DARWIN OPTIONS: https://daiderd.com/nix-darwin/manual/index.html
 # LINUX OPTIONS: https://search.nixos.org/options
 
-{ lib, config, ... }: {
+{ config, ... }: {
   # LMAO
   networking = { inherit (config.systemGenesis) hostName; };
-  time.timeZone = lib.mkDefault "Canada/Eastern";
 }

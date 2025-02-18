@@ -17,6 +17,8 @@
         initrd.systemd.enable = lib.mkDefault true;
       };
 
+      time.timeZone = lib.mkDefault "Canada/Eastern";
+
       environment = {
         # override all default packages from nix
         defaultPackages = [ ];
