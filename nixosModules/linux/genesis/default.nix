@@ -5,6 +5,10 @@
         specialArgs = withSystem architecture
           ({ config, inputs', self', ... }: {
             packages = config.packages;
+            stable = import inputs.nixpkgs-stable {
+              system = architecture;
+              config = { allowUnfree = true; };
+            };
             inherit self' inputs' inputs;
           });
       in inputs.nixpkgs.lib.nixosSystem {

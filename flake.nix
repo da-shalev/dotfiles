@@ -16,6 +16,8 @@
       ref = "nixos-unstable";
     };
 
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+
     apple-emoji-linux = {
       url =
         "https://github.com/samuelngs/apple-emoji-linux/releases/download/v17.4/AppleColorEmoji.ttf";

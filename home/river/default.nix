@@ -67,6 +67,7 @@ in {
           "${mod}+Shift H" = "swap next";
           "${mod}+Shift J" = "swap previous";
           "${mod}+Shift Q" = "exit";
+          "${mod} N" = "spawn 'pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000'"; 
         } // lib.optionals config.h.river.sandbar.enable {
           "${mod} U" =
             "spawn 'pkill sandbar || ${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.config}'";
@@ -75,11 +76,11 @@ in {
           "${mod} Space" =
             "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run ${config.h.wmenu.config}'";
           # paste a bookmark:
-          "${mod} P" = "spawn ${bookmarkPaste}/bin/bookmark-paste";
+          "${mod} V" = "spawn ${bookmarkPaste}/bin/bookmark-paste";
           # remove a bookmark:
-          "${mod}+Shift B" = "spawn ${bookmarkRemove}/bin/bookmark-remove";
+          "${mod}+Shift C" = "spawn ${bookmarkRemove}/bin/bookmark-remove";
           # set a bookmark:
-          "${mod} B" = "spawn ${bookmarkSet}/bin/bookmark-set";
+          "${mod} C" = "spawn ${bookmarkSet}/bin/bookmark-set";
         };
 
         map-pointer.normal = {
