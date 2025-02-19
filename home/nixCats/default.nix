@@ -41,6 +41,7 @@ in {
             lua-language-server
             tailwindcss-language-server
             typescript-language-server
+            mdx-language-server
             astro-language-server
             emmet-ls
 
