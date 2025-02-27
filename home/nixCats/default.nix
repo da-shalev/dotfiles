@@ -28,11 +28,10 @@ in {
       luaPath = "${./.}";
       categoryDefinitions.replace = { pkgs, settings, categories, name, ... }: {
         lspsAndRuntimeDeps = {
-          general = with pkgs; [ ripgrep fd ];
+          general = with pkgs; [
+            ripgrep
+            fd
 
-          # NOTE: this includes generic lsps with specific ones
-          # expected to be loaded utilizing direnv(s)
-          lsps-enabled = with pkgs; [
             # lsps
             stdenv.cc.cc
             vscode-langservers-extracted
@@ -41,6 +40,7 @@ in {
             lua-language-server
             tailwindcss-language-server
             typescript-language-server
+            typescript
             mdx-language-server
             astro-language-server
             emmet-ls
@@ -50,10 +50,6 @@ in {
             pyright
             php83Packages.psalm
             intelephense
-
-            # utils
-            maven
-            dotnet-sdk_9
 
             # fmt + linter
             deadnix
@@ -75,12 +71,9 @@ in {
             vim-tmux-navigator
 
             todo-comments-nvim
-            nvim-colorizer-lua
 
             nvim-treesitter.withAllGrammars
-          ];
 
-          lsps-enabled = with pkgs.vimPlugins; [
             lazydev-nvim
             nvim-lspconfig
             nvim-ts-autotag
@@ -92,7 +85,6 @@ in {
 
             friendly-snippets
             blink-cmp
-            crates-nvim
           ];
         };
 
@@ -101,9 +93,9 @@ in {
             undotree
             zen-mode-nvim
             trouble-nvim
-          ];
 
-          lsps-enabled = with pkgs.vimPlugins; [ nvim-jdtls ];
+            # nvim-jdtls
+          ];
         };
       };
 
@@ -113,7 +105,6 @@ in {
 
           categories = {
             general = true;
-            lsps-enabled = true;
           };
         };
       };

@@ -1,13 +1,14 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [
-    (writeShellApplication {
-      name = "cider";
-      runtimeInputs = [ appimage-run ];
-      text = ''
-        appimage-run ~/.local/bin/cider-linux-x64.AppImage
-      '';
-    })
-  ];
+  home.packages = with pkgs;
+    [
+      (writeShellApplication {
+        name = "cider";
+        runtimeInputs = [ appimage-run ];
+        text = ''
+          appimage-run ~/.local/bin/cider-linux-x64.AppImage
+        '';
+      })
+    ];
 
   programs = {
     mpv = {
@@ -99,11 +100,11 @@
       extraConfig = ''
         pkill kanshi
         riverctl spawn "${pkgs.kanshi}/bin/kanshi &"
-        pkill mpvpaper
-        riverctl spawn "${pkgs.mpvpaper}/bin/mpvpaper -o 'no-audio --scale=nearest --loop-playlist shuffle' '*' ${
-          ./wallpapers/loz.fanart.mkv
-        }"
       '';
+      # pkill mpvpaper
+      # riverctl spawn "${pkgs.mpvpaper}/bin/mpvpaper -o 'no-audio --scale=nearest --loop-playlist shuffle' '*' ${
+      #   ./wallpapers/loz.fanart.mkv
+      # }"
       # pkill wlclock
       # riverctl spawn "${pkgs.wlclock}/bin/wlclock --clock-colour '#ffffff' --background-colour '#00000000' --border-size 0 --exclusive-zone false --layer bottom --position top-right --size 230 --margin 20 --hand-width 2 --marking-width 2"
     };

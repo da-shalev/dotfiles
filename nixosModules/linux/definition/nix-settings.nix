@@ -1,9 +1,5 @@
 { lib, config, ... }: {
   nix = {
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 4d";
-    };
     settings = {
       extra-experimental-features = [
         "nix-command"

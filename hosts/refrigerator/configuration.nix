@@ -2,7 +2,10 @@
   security.pki.installCACerts = false;
 
   fonts = { packages = with pkgs; [ nerd-fonts.caskaydia-cove lato inter ]; };
-  environment.shells = [ pkgs.fish ];
+  environment = {
+    shells = [ pkgs.fish ];
+    systemPackages = with pkgs; [ xcodes ];
+  };
   programs.fish.enable = true;
 
   system = {

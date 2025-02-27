@@ -14,7 +14,7 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = 1;
     NIXPKGS_ALLOW_UNFREE = 1;
-    NIXPKGS_ALLOW_BROKEN = 1; 
+    NIXPKGS_ALLOW_BROKEN = 1;
   };
 
   fonts = {
@@ -27,11 +27,14 @@
       nerd-fonts.symbols-only
       spleen
     ];
-    fontconfig.defaultFonts = {
-      serif = [ "Inter" "Symbols Nerd Font" ];
-      sansSerif = [ "Inter" "Symbols Nerd Font" ];
-      monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
-      emoji = [ "Apple Color Emoji" ];
+    fontconfig = {
+      hinting.enable = false;
+      defaultFonts = {
+        serif = [ "Inter" "Symbols Nerd Font" ];
+        sansSerif = [ "Inter" "Symbols Nerd Font" ];
+        monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
+        emoji = [ "Apple Color Emoji" ];
+      };
     };
   };
 
