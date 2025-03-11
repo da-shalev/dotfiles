@@ -13,7 +13,6 @@
           });
       in inputs.nixpkgs.lib.nixosSystem {
         inherit specialArgs;
-        # packages = specialArgs.packages // { mdxPlugin = mdxPlugin; };
         modules = [
           {
             nixpkgs = { hostPlatform = architecture; };
@@ -60,6 +59,7 @@
                 wmenu
                 wayland
                 river
+                hyprland
                 dunst
                 lsd
                 xdg

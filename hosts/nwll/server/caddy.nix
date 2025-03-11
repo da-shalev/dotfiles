@@ -1,6 +1,6 @@
 { config, ... }: {
   services.caddy = {
-    enable = true;
+    enable = false;
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

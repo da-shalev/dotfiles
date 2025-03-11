@@ -17,7 +17,7 @@
           pad = "0x0";
         };
 
-        mouse = { hide-when-typing = "yes"; };
+        mouse = { hide-when-typing = "no"; };
 
         colors = {
           # alpha = "0.95";

@@ -81,5 +81,7 @@
       owner = "BirdeeHub";
       repo = "nixCats-nvim";
     };
+
+    # affinity-nix.url = "github:mrshmllow/affinity-nix";
   };
 }

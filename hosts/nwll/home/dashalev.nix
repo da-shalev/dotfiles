@@ -33,55 +33,55 @@
     };
   };
 
-  services = {
-    kanshi = {
-      enable = true;
-      settings = [
-        {
-          profile.outputs = [{
-            criteria = "HDMI-A-1";
-            status = "enable";
-            mode = "3840x2160@120Hz";
-          }];
-        }
-        {
-          profile.outputs = [{
-            criteria = "DP-4";
-            status = "enable";
-            mode = "3840x2160@165Hz";
-          }];
-        }
-        {
-          profile.outputs = [{
-            criteria = "DP-2";
-            status = "enable";
-            mode = "3840x2160@165Hz";
-          }];
-        }
-        {
-          profile.outputs = [{
-            criteria = "DP-3";
-            status = "enable";
-            mode = "3840x2160@165Hz";
-          }];
-        }
-        {
-          profile.outputs = [{
-            criteria = "DP-1";
-            status = "enable";
-            mode = "3840x2160@165Hz";
-          }];
-        }
-        {
-          profile.outputs = [{
-            criteria = "DP-0";
-            status = "enable";
-            mode = "3840x2160@165Hz";
-          }];
-        }
-      ];
-    };
-  };
+  # services = {
+  #   kanshi = {
+  #     enable = true;
+  #     settings = [
+  #       {
+  #         profile.outputs = [{
+  #           criteria = "HDMI-A-1";
+  #           status = "enable";
+  #           mode = "3840x2160@120Hz";
+  #         }];
+  #       }
+  #       {
+  #         profile.outputs = [{
+  #           criteria = "DP-4";
+  #           status = "enable";
+  #           mode = "3840x2160@165Hz";
+  #         }];
+  #       }
+  #       {
+  #         profile.outputs = [{
+  #           criteria = "DP-2";
+  #           status = "enable";
+  #           mode = "3840x2160@165Hz";
+  #         }];
+  #       }
+  #       {
+  #         profile.outputs = [{
+  #           criteria = "DP-3";
+  #           status = "enable";
+  #           mode = "3840x2160@165Hz";
+  #         }];
+  #       }
+  #       {
+  #         profile.outputs = [{
+  #           criteria = "DP-1";
+  #           status = "enable";
+  #           mode = "3840x2160@165Hz";
+  #         }];
+  #       }
+  #       {
+  #         profile.outputs = [{
+  #           criteria = "DP-0";
+  #           status = "enable";
+  #           mode = "3840x2160@165Hz";
+  #         }];
+  #       }
+  #     ];
+  #   };
+  # };
 
   h = {
     shell = {
@@ -95,18 +95,28 @@
     dunst.enable = true;
 
     wayland = { cursorTheme.size = 32; };
-    river = {
+
+    hyprland = {
       enable = true;
+      extraConfig = ''
+        monitor=HDMI-A-1,preferred,auto,1,bitdepth,10
+        monitor=DP-0,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-1,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-2,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-3,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-4,highres@highrr,auto,1,bitdepth,10
+        env = LIBVA_DRIVER_NAME,nvidia
+        env = NVD_BACKEND,direct
+        env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+      '';
+    };
+
+    river = {
+      enable = false;
       extraConfig = ''
         pkill kanshi
         riverctl spawn "${pkgs.kanshi}/bin/kanshi &"
       '';
-      # pkill mpvpaper
-      # riverctl spawn "${pkgs.mpvpaper}/bin/mpvpaper -o 'no-audio --scale=nearest --loop-playlist shuffle' '*' ${
-      #   ./wallpapers/loz.fanart.mkv
-      # }"
-      # pkill wlclock
-      # riverctl spawn "${pkgs.wlclock}/bin/wlclock --clock-colour '#ffffff' --background-colour '#00000000' --border-size 0 --exclusive-zone false --layer bottom --position top-right --size 230 --margin 20 --hand-width 2 --marking-width 2"
     };
 
     xdg.enable = true;

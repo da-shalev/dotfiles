@@ -8,6 +8,7 @@
   };
 
   networking.networkmanager = { enable = true; };
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
   services = {
     xserver.videoDrivers = [ "nvidia" ];
@@ -43,16 +44,8 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      extraPackages = with pkgs; [
-        nvidia-vaapi-driver
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
-      extraPackages32 = with pkgs; [
-        nvidia-vaapi-driver
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
+      extraPackages = with pkgs; [ nvidia-vaapi-driver ];
+      extraPackages32 = with pkgs; [ nvidia-vaapi-driver ];
     };
 
     nvidia = {
@@ -66,13 +59,6 @@
       nvidiaSettings = false;
       package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
-  };
-
-  environment.sessionVariables = {
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-    LIBVA_DRIVER_NAME = "nvidia";
-    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   boot = {

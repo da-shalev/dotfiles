@@ -13,6 +13,7 @@
     bash = import ./bash;
     lsd = import ./lsd;
     river = import ./river;
+    hyprland = import ./hyprland;
     ghostty = import ./ghostty;
     wayland = import ./wayland;
     xdg = import ./xdg;

@@ -147,7 +147,7 @@ lspconfig.pyright.setup({
 lspconfig.html.setup({
   capabilities = M.capabilities,
   on_attach = M.on_attach,
-  filetypes = { "html", "templ", "svg" }
+  filetypes = { "html", "templ", "svg", "xml" }
 })
 
 lspconfig.astro.setup({

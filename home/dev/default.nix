@@ -41,6 +41,7 @@
 
         nodePackages_latest.npm
         nodejs
+        yarn
         php
 
         # school (i.e. bs) languages
