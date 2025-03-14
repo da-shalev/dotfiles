@@ -4,6 +4,8 @@
     uid = 1000;
   };
 
+  services.xserver.wacom.enable = true;
+
   security.sudo.wheelNeedsPassword = false;
   qt = {
     enable = true;
@@ -26,8 +28,12 @@
       packages.apple-emoji-linux
       nerd-fonts.symbols-only
       spleen
+      (google-fonts.override {
+        fonts = [ "CormorantGaramond" "DMSans" ];
+      })
     ];
     fontconfig = {
+      enable = true;
       hinting.enable = false;
       defaultFonts = {
         serif = [ "Inter" "Symbols Nerd Font" ];

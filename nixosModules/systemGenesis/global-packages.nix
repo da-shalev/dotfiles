@@ -6,6 +6,8 @@
       wget
       unzip
       p7zip
+      rar
+      unrar
       zip
       tree
       vimv

@@ -5,7 +5,7 @@
       chromium
 
       aseprite
-      gimp
+      krita
       onlyoffice-desktopeditors
       zathura
 

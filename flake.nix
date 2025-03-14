@@ -82,6 +82,10 @@
       repo = "nixCats-nvim";
     };
 
-    # affinity-nix.url = "github:mrshmllow/affinity-nix";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
+
+    affinity-nix.url = "github:mrshmllow/affinity-nix";
   };
 }

@@ -1,24 +1,36 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
   services = {
     # postgresql = { enable = false; };
     mullvad-vpn.enable = true;
   };
 
+  environment.persistence."/nix/persist" = {
+    directories = [
+      "/var/lib/logmein-hamachi"
+   ];
+  };
+
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
-    config.common = {
-      river = [ "wlr" ];
-      hyprland = [ "hyprland" ];
+    xdgOpenUsePortal = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config = {
+      common.default = [ "gtk" ];
+      hyprland.default = [ "hyprland" "gtk" ];
     };
-    extraPortals =
-      [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
   };
 
   programs = {
+    haguichi.enable = true;
+
+    hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+    };
     obs-studio = { enable = true; };
     adb.enable = true;
-    gamemode.enable = true;
     steam = {
       enable = true;
       extraCompatPackages = with pkgs; [ proton-ge-custom ];
@@ -29,7 +41,7 @@
     };
     gamescope = {
       enable = true;
-      # package = pkgs.gamescope-wsi_git;
+      # package = pkgs.gamescope_git;
     };
     nh = {
       enable = true;

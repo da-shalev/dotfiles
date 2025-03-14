@@ -28,19 +28,18 @@ in {
   };
 
   config = lib.mkIf config.h.hyprland.enable {
-    wayland.windowManager.hyprland = let
-      mod = config.h.hyprland.mod;
-      workspacekeys = workspaces:
-        lib.concatMap (i: [
-          "${mod},${i},workspace,${i}"
-          "${mod}+Shift,${i},movetoworkspace,${i}"
-          "${mod}+Control,${i},togglespecialworkspace,${i}"
-        ]) workspaces;
+    wayland.windowManager.hyprland = let mod = config.h.hyprland.mod;
     in {
       enable = true;
-      systemd.enable = true;
+      systemd = {
+        enable = true;
+        variables = [ "--all" ];
+      };
+      package = null;
+      portalPackage = null;
       extraConfig = "${config.h.hyprland.extraConfig}";
       settings = {
+        xwayland = { force_zero_scaling = true; };
         general = {
           gaps_in = 0;
           gaps_out = 0;
@@ -109,7 +108,12 @@ in {
           "${mod}, V, exec, ${bookmarkPaste}/bin/bookmark-paste"
           "${mod}+Shift, C, exec, ${bookmarkRemove}/bin/bookmark-remove"
           "${mod}, C, exec, ${bookmarkSet}/bin/bookmark-set"
-        ] ++ workspacekeys [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ];
+        ] ++ (builtins.concatLists (builtins.genList (i:
+          let ws = i + 1;
+          in [
+            "${mod}, code:1${toString i}, workspace, ${toString ws}"
+            "${mod} SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+          ]) 9));
         bindm =
           [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
         exec-once = [ "${pkgs.foot}/bin/foot --server --log-no-syslog" ];

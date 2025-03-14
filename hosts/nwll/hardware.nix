@@ -4,6 +4,8 @@
       "/var/lib/bluetooth/"
       "/var/lib/NetworkManager/"
       "/etc/NetworkManager/"
+      "/etc/mullvad-vpn"
+      "/var/cache/mullvad-vpn"
     ];
   };
 
@@ -15,8 +17,8 @@
     blueman.enable = true;
     scx = {
       enable = true;
-      package = pkgs.scx.full;
-      scheduler = "scx_bpfland";
+      package = pkgs.scx-full_git;
+      scheduler = "scx_lavd";
     };
   };
 
