@@ -63,11 +63,6 @@ in {
           enabled = false;
           first_launch_animation = false;
         };
-        experimental = {
-          hdr = false;
-          xx_color_management_v4 = true;
-          wide_color_gamut = true;
-        };
         input = {
           kb_layout = "us";
           kb_variant = "";

@@ -4,9 +4,14 @@
       "/var/lib/bluetooth/"
       "/var/lib/NetworkManager/"
       "/etc/NetworkManager/"
-      "/etc/mullvad-vpn"
-      "/var/cache/mullvad-vpn"
     ];
+  };
+
+  # mount gaming drive if there
+  fileSystems."/mnt/b" = {
+    device = "/dev/sda1";
+    fsType = "xfs";
+    options = [ "defaults" "nofail" ];
   };
 
   networking.networkmanager = { enable = true; };

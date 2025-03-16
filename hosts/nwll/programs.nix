@@ -1,13 +1,15 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, stable, ... }: {
   services = {
     # postgresql = { enable = false; };
-    mullvad-vpn.enable = true;
+    mullvad-vpn = { enable = true; };
   };
 
   environment.persistence."/nix/persist" = {
     directories = [
       "/var/lib/logmein-hamachi"
-   ];
+      "/etc/mullvad-vpn"
+      "/var/cache/mullvad-vpn"
+    ];
   };
 
   xdg.portal = {
@@ -22,7 +24,6 @@
 
   programs = {
     haguichi.enable = true;
-
     hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -47,7 +48,6 @@
       enable = true;
       clean.enable = true;
     };
-
     gnupg.agent = { enable = true; };
     fish.enable = true;
     chromium = {

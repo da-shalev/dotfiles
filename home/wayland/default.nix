@@ -94,7 +94,7 @@
 
       packages = with pkgs; [
         wl-clipboard
-        pwvucontrol
+        pwvucontrol_git
         nautilus
         libnotify
         pulsemixer
