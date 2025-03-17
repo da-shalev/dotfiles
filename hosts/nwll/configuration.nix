@@ -29,7 +29,7 @@
       nerd-fonts.symbols-only
       spleen
       (google-fonts.override {
-        fonts = [ "CormorantGaramond" "DMSans" ];
+        fonts = [ "CormorantGaramond" "DMSans" "BodoniModa" ];
       })
     ];
     fontconfig = {

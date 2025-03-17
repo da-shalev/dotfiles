@@ -107,8 +107,9 @@
         monitor=DP-4,highres@highrr,auto,1,bitdepth,10
         env = LIBVA_DRIVER_NAME,nvidia
         env = NVD_BACKEND,direct
-        env = __GLX_VENDOR_LIBRARY_NAME,nvidia
       '';
+
+      # env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 
       # monitor=HDMI-A-1,highrr,auto,1
       # monitor=DP-0,highres@highrr,auto,1
