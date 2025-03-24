@@ -19,8 +19,12 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
     apple-emoji-linux = {
-      url =
-        "https://github.com/samuelngs/apple-emoji-linux/releases/download/v17.4/AppleColorEmoji.ttf";
+      url = "github:samuelngs/apple-emoji-linux";
+      inputs = { nixpkgs.follows = "nixpkgs"; };
+    };
+
+    alsa-ucm-conf = {
+      url = "github:geoffreybennett/alsa-ucm-conf";
       flake = false;
     };
 
@@ -82,9 +86,7 @@
       repo = "nixCats-nvim";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-    };
+    hyprland = { url = "github:hyprwm/Hyprland"; };
 
     affinity-nix.url = "github:mrshmllow/affinity-nix";
   };

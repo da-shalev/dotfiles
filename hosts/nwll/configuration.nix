@@ -1,4 +1,4 @@
-{ pkgs, packages, ... }: {
+{ pkgs, inputs, ... }: {
   users.users.dashalev = {
     shell = pkgs.fish;
     uid = 1000;
@@ -25,11 +25,11 @@
       vistafonts
       cascadia-code
       inter
-      packages.apple-emoji-linux
+      inputs.apple-emoji-linux.packages.${pkgs.system}.apple-emoji-linux
       nerd-fonts.symbols-only
       spleen
       (google-fonts.override {
-        fonts = [ "CormorantGaramond" "DMSans" "BodoniModa" ];
+        fonts = [ "CormorantGaramond" "DMSans" "Georgia" "BodoniModa" ];
       })
     ];
     fontconfig = {

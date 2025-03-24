@@ -1,4 +1,4 @@
-{ pkgs, inputs, stable, ... }: {
+{ pkgs, inputs, packages, stable, ... }: {
   environment = {
     systemPackages = with pkgs; [
       inputs.zen-browser.packages.${pkgs.system}.default
@@ -14,6 +14,7 @@
       mullvad-vpn
       qbittorrent
       mission-center
+      alsa-scarlett-gui
     ];
   };
 }

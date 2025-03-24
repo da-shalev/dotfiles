@@ -11,6 +11,7 @@
       zip
       tree
       vimv
+      alsa-utils
       onefetch
       fastfetch
       btop

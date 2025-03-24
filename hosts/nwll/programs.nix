@@ -1,4 +1,4 @@
-{ pkgs, inputs, stable, ... }: {
+{ pkgs, inputs, ... }: {
   services = {
     # postgresql = { enable = false; };
     mullvad-vpn = { enable = true; };
@@ -15,9 +15,11 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
+    # wlr.enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     config = {
       common.default = [ "gtk" ];
+      river.default = [ "wlr" ];
       hyprland.default = [ "hyprland" "gtk" ];
     };
   };

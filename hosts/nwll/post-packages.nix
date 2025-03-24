@@ -10,6 +10,7 @@
       '')
 
       # games
+      retroarchFull
       mangohud
       torzu_git
       prismlauncher

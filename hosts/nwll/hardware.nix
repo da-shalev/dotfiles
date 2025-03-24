@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
   environment.persistence."/nix/persist" = {
     directories = [
       "/var/lib/bluetooth/"
@@ -6,6 +6,10 @@
       "/etc/NetworkManager/"
     ];
   };
+
+  environment.variables.ALSA_CONFIG_UCM2 = "${
+      pkgs.alsa-ucm-conf.overrideAttrs (old: { src = inputs.alsa-ucm-conf; })
+    }/share/alsa/ucm2";
 
   # mount gaming drive if there
   fileSystems."/mnt/b" = {

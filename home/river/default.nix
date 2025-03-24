@@ -40,7 +40,7 @@ in {
   };
 
   config = lib.mkIf config.h.river.enable {
-    # home = { sessionVariables = { XDG_CURRENT_DESKTOP = "river"; }; };
+    home = { sessionVariables = { XDG_CURRENT_DESKTOP = "river"; }; };
 
     wayland.windowManager.river = let mod = config.h.river.mod;
     in {
