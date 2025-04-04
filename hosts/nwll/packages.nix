@@ -1,15 +1,18 @@
-{ pkgs, inputs, packages, stable, ... }: {
+{ pkgs, inputs, packages, stable, ... }:
+let
+in {
   environment = {
     systemPackages = with pkgs; [
       inputs.zen-browser.packages.${pkgs.system}.default
       chromium
 
-      aseprite
+      stable.aseprite
       krita
       onlyoffice-desktopeditors
       zathura
 
       signal-desktop
+      nvitop
 
       mullvad-vpn
       qbittorrent

@@ -53,6 +53,10 @@ in {
           blur = { enabled = false; };
           shadow = { enabled = false; };
         };
+        input = {
+          repeat_delay = 300;
+          repeat_rate = 50;
+        };
         misc = {
           vfr = true;
           disable_hyprland_logo = true;

@@ -4,8 +4,6 @@
     uid = 1000;
   };
 
-  services.xserver.wacom.enable = true;
-
   security.sudo.wheelNeedsPassword = false;
   qt = {
     enable = true;

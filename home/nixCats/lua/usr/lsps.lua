@@ -99,7 +99,6 @@ require("conform").setup({
 })
 
 local lspconfig = require("lspconfig")
-local util = require("lspconfig/util")
 
 lspconfig.nil_ls.setup({
   capabilities = M.capabilities,
@@ -107,6 +106,11 @@ lspconfig.nil_ls.setup({
 })
 
 lspconfig.jsonls.setup({
+  capabilities = M.capabilities,
+  on_attach = M.on_attach,
+})
+
+lspconfig.svelte.setup({
   capabilities = M.capabilities,
   on_attach = M.on_attach,
 })

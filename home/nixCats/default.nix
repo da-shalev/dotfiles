@@ -39,6 +39,7 @@ in {
             nixfmt-classic
             lua-language-server
             tailwindcss-language-server
+            svelte-language-server
             typescript-language-server
             typescript
             mdx-language-server
@@ -103,9 +104,7 @@ in {
         nvim = { pkgs, ... }: {
           settings = { wrapRc = true; };
 
-          categories = {
-            general = true;
-          };
+          categories = { general = true; };
         };
       };
     };

@@ -23,6 +23,7 @@
         GOPATH = "${config.h.dataHome}/go";
         NPM_CONFIG_PREFIX = "${config.h.dataHome}/npm";
         NPM_CONFIG_USERCONFIG = "${config.h.configHome}/npm/config";
+        YARN_RC_FILENAME = "${config.h.configHome}/yarn/config";
         CARGO_HOME = "${config.h.dataHome}/cargo";
         LESSHISTFILE = "/dev/null";
         JAVA_HOME = "${jdk21}";
