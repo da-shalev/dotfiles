@@ -1,4 +1,4 @@
-{ pkgs, inputs, packages, stable, ... }:
+{ pkgs, inputs, stable, ... }:
 let
 in {
   environment = {
@@ -11,7 +11,7 @@ in {
       onlyoffice-desktopeditors
       zathura
 
-      signal-desktop
+      signal-desktop-bin
       nvitop
 
       mullvad-vpn

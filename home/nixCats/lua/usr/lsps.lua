@@ -4,9 +4,21 @@ require('lazydev').setup()
 require('Comment').setup()
 
 M.conform = require("conform")
+M.conform.setup({
+  formatters_by_ft = {
+    ["*"] = { "trim_newlines" },
+    json = { "jq" },
+    yaml = { "yq" },
+    nix = { "nixfmt" },
+    sh = { "shfmt" },
+    astro = { "prettier" },
+  },
+})
+
 M.capabilities = require("blink.cmp").get_lsp_capabilities()
 M.format = function(bufnr)
-  M.conform.format({ bufnr, lsp_fallback = true })
+  -- M.conform.format({lsp_format = "fallback"})
+  vim.lsp.buf.format({async=true})
 end
 
 M.keymaps = function(bufnr)
@@ -46,11 +58,11 @@ M.keymaps = function(bufnr)
   end, opts)
 
   vim.keymap.set("n", "<leader>aj", function()
-    vim.diagnostic.goto_next()
+    vim.diagnostic.jump({count=1})
   end, opts)
 
   vim.keymap.set("n", "<leader>ak", function()
-    vim.diagnostic.goto_prev()
+    vim.diagnostic.jump({count=-1})
   end, opts)
 
   vim.keymap.set("n", "K", function()
@@ -84,17 +96,6 @@ vim.diagnostic.config({
   },
   float = {
     border = "none",
-  },
-})
-
-require("conform").setup({
-  formatters_by_ft = {
-    ["*"] = { "trim_newlines" },
-    json = { "jq" },
-    yaml = { "yq" },
-    nix = { "nixfmt" },
-    sh = { "shfmt" },
-    astro = { "prettier" },
   },
 })
 

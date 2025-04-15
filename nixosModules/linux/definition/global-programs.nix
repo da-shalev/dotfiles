@@ -33,7 +33,7 @@
           (builtins.hashString "md5" config.networking.hostName));
       };
 
-      users.mutableUsers = lib.mkDefault false;
+      #users.mutableUsers = lib.mkDefault true;
 
       security = {
         polkit.enable = lib.mkForce true;
@@ -41,7 +41,7 @@
       };
 
       services = {
-        userborn.enable = true;
+        #userborn.enable = false;
         fstrim.enable = lib.mkForce true;
         pulseaudio.enable = lib.mkForce false;
         udisks2.enable = lib.mkForce true;

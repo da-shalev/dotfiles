@@ -14,7 +14,6 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = 1;
     NIXPKGS_ALLOW_UNFREE = 1;
-    NIXPKGS_ALLOW_BROKEN = 1;
   };
 
   fonts = {
@@ -26,9 +25,10 @@
       inputs.apple-emoji-linux.packages.${pkgs.system}.apple-emoji-linux
       nerd-fonts.symbols-only
       spleen
-      (google-fonts.override {
-        fonts = [ "CormorantGaramond" "DMSans" "Georgia" "BodoniModa" ];
-      })
+      # (google-fonts.override {
+      # # "Georgia" "BodoniModa" "CormorantGaramond" "DMSans"
+      #   fonts = [ "CormorantGaramond" "DMSans"  ];
+      # })
     ];
     fontconfig = {
       enable = true;

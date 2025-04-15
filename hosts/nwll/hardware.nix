@@ -11,9 +11,14 @@
       pkgs.alsa-ucm-conf.overrideAttrs (old: { src = inputs.alsa-ucm-conf; })
     }/share/alsa/ucm2";
 
-  # mount gaming drive if there
   fileSystems."/mnt/b" = {
-    device = "/dev/sda1";
+    device = "/dev/disk/by-partlabel/disk-foozilla-gaming";
+    fsType = "xfs";
+    options = [ "defaults" "nofail" ];
+  };
+
+  fileSystems."/mnt/c" = {
+    device = "/dev/disk/by-partlabel/disk-tomatoes-media";
     fsType = "xfs";
     options = [ "defaults" "nofail" ];
   };
@@ -22,6 +27,7 @@
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
   services = {
+    earlyoom.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
     blueman.enable = true;
     scx = {

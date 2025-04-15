@@ -87,7 +87,5 @@
     };
 
     hyprland = { url = "github:hyprwm/Hyprland"; };
-
-    affinity-nix.url = "github:mrshmllow/affinity-nix";
   };
 }
