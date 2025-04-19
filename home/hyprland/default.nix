@@ -39,7 +39,10 @@ in {
       portalPackage = null;
       extraConfig = "${config.h.hyprland.extraConfig}";
       settings = {
-        xwayland = { force_zero_scaling = true; };
+        xwayland = {
+          enabled = true;
+          force_zero_scaling = true;
+        };
         general = {
           gaps_in = 0;
           gaps_out = 0;
@@ -58,7 +61,8 @@ in {
           repeat_rate = 50;
         };
         misc = {
-          vfr = true;
+          # why did I have this enabled?
+          # vfr = true;
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
           background_color = "0x000000";
@@ -82,6 +86,9 @@ in {
         env = [
           "XCURSOR_SIZE,${builtins.toString config.h.wayland.cursorTheme.size}"
         ];
+        windowrule = [
+          "immediate, class:.*"
+        ];
         windowrulev2 = [
           "float, title:^(Picture-in-Picture)$"
           "pin, title:^(Picture-in-Picture)$"
@@ -94,7 +101,7 @@ in {
           "${mod}+Shift, L, resizeactive, 50 0"
           "${mod}+Shift, J, layoutmsg, swapnext"
           "${mod}+Shift, K, layoutmsg, swapprev"
-          "${mod}, Return, exec, ${pkgs.foot}/bin/footclient"
+          "${mod}, Return, exec, ${pkgs.foot}/bin/foot"
           "${mod},Q, killactive"
           "${mod},F, fullscreen, 0"
           "${mod},S, togglefloating"
@@ -115,7 +122,7 @@ in {
           ]) 9));
         bindm =
           [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
-        exec-once = [ "${pkgs.foot}/bin/foot --server --log-no-syslog" ];
+        # exec-once = [ "${pkgs.foot}/bin/foot --server --log-no-syslog" ];
         monitor = ",preferred,auto,1";
       };
     };

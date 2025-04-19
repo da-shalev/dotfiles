@@ -1,7 +1,7 @@
 { pkgs, lib, config, inputs, ... }: {
   environment.persistence."/nix/persist" = {
     directories = [
-      "/var/lib/bluetooth/"
+      # "/var/lib/bluetooth/"
       "/var/lib/NetworkManager/"
       "/etc/NetworkManager/"
     ];
@@ -27,9 +27,9 @@
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
   services = {
-    earlyoom.enable = true;
+    # earlyoom.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
-    blueman.enable = true;
+    # blueman.enable = true;
     scx = {
       enable = true;
       package = pkgs.scx-full_git;
@@ -45,18 +45,19 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   hardware = {
+    rasdaemon.enable = true;
     enableAllFirmware = lib.mkForce true;
     wirelessRegulatoryDatabase = true;
-    bluetooth = {
-      inherit (config.hardware.graphics) enable;
-      powerOnBoot = lib.mkDefault true;
-      settings = {
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-          Experimental = true;
-        };
-      };
-    };
+    # bluetooth = {
+    #   inherit (config.hardware.graphics) enable;
+    #   powerOnBoot = lib.mkDefault true;
+    #   settings = {
+    #     General = {
+    #       Enable = "Source,Sink,Media,Socket";
+    #       Experimental = true;
+    #     };
+    #   };
+    # };
 
     graphics = {
       enable = true;

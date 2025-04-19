@@ -62,7 +62,8 @@
       programs = {
         dconf = { inherit (config.hardware.graphics) enable; };
         direnv = {
-          enable = lib.mkForce true;
+          nix-direnv.enable = true;
+          enable = true;
           silent = true;
         };
         command-not-found.enable = lib.mkForce false;

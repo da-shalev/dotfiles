@@ -3,22 +3,10 @@ local M = {}
 require('lazydev').setup()
 require('Comment').setup()
 
-M.conform = require("conform")
-M.conform.setup({
-  formatters_by_ft = {
-    ["*"] = { "trim_newlines" },
-    json = { "jq" },
-    yaml = { "yq" },
-    nix = { "nixfmt" },
-    sh = { "shfmt" },
-    astro = { "prettier" },
-  },
-})
-
 M.capabilities = require("blink.cmp").get_lsp_capabilities()
-M.format = function(bufnr)
-  -- M.conform.format({lsp_format = "fallback"})
-  vim.lsp.buf.format({async=true})
+
+M.format = function()
+  vim.lsp.buf.format({ async = true })
 end
 
 M.keymaps = function(bufnr)
@@ -54,15 +42,15 @@ M.keymaps = function(bufnr)
   end, opts)
 
   vim.keymap.set("n", "<leader>af", function()
-    M.format(bufnr)
+    M.format()
   end, opts)
 
   vim.keymap.set("n", "<leader>aj", function()
-    vim.diagnostic.jump({count=1})
+    vim.diagnostic.jump({ count = 1 })
   end, opts)
 
   vim.keymap.set("n", "<leader>ak", function()
-    vim.diagnostic.jump({count=-1})
+    vim.diagnostic.jump({ count = -1 })
   end, opts)
 
   vim.keymap.set("n", "K", function()
@@ -81,7 +69,7 @@ M.on_attach = function(_, bufnr)
   M.keymaps(bufnr)
 
   vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-    M.format(bufnr)
+    M.format()
   end, { desc = "Format current buffer" })
 end
 
@@ -104,6 +92,13 @@ local lspconfig = require("lspconfig")
 lspconfig.nil_ls.setup({
   capabilities = M.capabilities,
   on_attach = M.on_attach,
+  settings = {
+    ['nil'] = {
+      formatting = {
+        command = { "nixfmt" },
+      },
+    }
+  }
 })
 
 lspconfig.jsonls.setup({

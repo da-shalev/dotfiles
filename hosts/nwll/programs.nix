@@ -1,7 +1,6 @@
 { pkgs, inputs, ... }: {
   services = {
-    # postgresql = { enable = false; };
-    mullvad-vpn = { enable = true; };
+    # mullvad-vpn = { enable = false; };
   };
 
   environment.persistence."/nix/persist" = {
@@ -33,19 +32,19 @@
         inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
     obs-studio = { enable = true; };
-    adb.enable = true;
+    # adb.enable = true;
     steam = {
       enable = true;
       extraCompatPackages = with pkgs; [ proton-ge-custom ];
-      gamescopeSession = {
-        enable = true;
-        args = [ "--rt" "--hdr-enabled" "-W 3840" "-H 2160" ];
-      };
+      # gamescopeSession = {
+      #   enable = true;
+      #   args = [ "--rt" "--hdr-enabled" "-W 3840" "-H 2160" ];
+      # };
     };
-    gamescope = {
-      enable = true;
-      # package = pkgs.gamescope_git;
-    };
+    # gamescope = {
+    #   enable = true;
+    #   # package = pkgs.gamescope_git;
+    # };
     nh = {
       enable = true;
       clean.enable = true;
@@ -55,11 +54,14 @@
     chromium = {
       enable = true;
       extensions = [
-        # "nngceckbapebfimnlniiiahkandclblb" # bitwarden
+        "nngceckbapebfimnlniiiahkandclblb" # bitwarden
         "faeadnfmdfamenfhaipofoffijhlnkif" # into the black hole
+        "occjjkgifpmdgodlplnacmkejpdionan" # autoscroll
       ];
       extraOpts = {
         "DefaultSearchProviderEnabled" = true;
+        "DefaultSearchProviderSearchURL" = "google.com/search?q={searchTerms}";
+        "DefaultSearchProviderSuggestURL" = null;
         "BrowserLabsEnabled" = false;
         "GenAiDefaultSettings" = 2;
         "BookmarkBarEnabled" = false;

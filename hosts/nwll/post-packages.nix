@@ -7,7 +7,7 @@
 
       mangohud
       torzu_git
-      ryujinx
+      cemu
       prismlauncher
       airshipper
     ];

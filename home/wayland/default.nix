@@ -99,7 +99,7 @@
         libnotify
         pulsemixer
         dconf-editor
-        xorg.xeyes
+        # xorg.xeyes
         imv
       ];
 

@@ -79,7 +79,7 @@ in {
             nvim-lspconfig
             nvim-ts-autotag
 
-            conform-nvim
+            # conform-nvim
 
             comment-nvim
             nvim-autopairs
