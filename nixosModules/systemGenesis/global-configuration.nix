@@ -8,4 +8,12 @@
 { config, ... }: {
   # LMAO
   networking = { inherit (config.systemGenesis) hostName; };
+
+  programs = {
+    direnv = {
+      nix-direnv.enable = true;
+      enable = true;
+      silent = true;
+    };
+  };
 }

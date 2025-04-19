@@ -61,11 +61,6 @@
 
       programs = {
         dconf = { inherit (config.hardware.graphics) enable; };
-        direnv = {
-          nix-direnv.enable = true;
-          enable = true;
-          silent = true;
-        };
         command-not-found.enable = lib.mkForce false;
         fuse.userAllowOther = true;
         git = {

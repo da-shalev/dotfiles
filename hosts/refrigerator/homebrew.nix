@@ -7,14 +7,19 @@
     };
     enable = true;
     casks = [
+      "mac-mouse-fix"
+      "vesktop"
       "ghostty"
       "signal"
       "figma"
       "firefox"
+      "zen-browser"
       "brave-browser"
       "affinity-designer"
       "affinity-photo"
       "obs"
+
+      "prismlauncher"
     ];
   };
 }
