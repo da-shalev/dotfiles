@@ -12,18 +12,21 @@
 
   programs = {
     mpv = {
+      # chaotic nyx
+      package = pkgs.mpv-vapoursynth;
       enable = true;
       config = {
-        hwdec = "nvdec";
-        vo = "gpu";
-        profile = "gpu-hq";
-        gpu-context = "wayland";
+        vo = "gpu-next";
+        gpu-api = "vulkan";
+        target-colorspace-hint = "yes";
+        gpu-context = "waylandvk";
+        fs = "yes";
       };
     };
   };
 
   xdg = {
-    mimeApps = let browser = "zen";
+    mimeApps = let browser = "brave-browser";
     in {
       enable = true;
       defaultApplications = {
@@ -44,89 +47,23 @@
     wayland.enable = true;
     dunst.enable = true;
 
-    wayland = { cursorTheme.size = 32; };
+    wayland = { cursorTheme.size = 32; scaling = 2; };
 
     hyprland = {
       enable = true;
       extraConfig = ''
         monitor=HDMI-A-1,highrr,auto,1
-        monitor=DP-0,highres@highrr,auto,1
-        monitor=DP-1,highres@highrr,auto,1
-        monitor=DP-2,highres@highrr,auto,1
-        monitor=DP-3,highres@highrr,auto,1
-        monitor=DP-4,highres@highrr,auto,1
-        env = LIBVA_DRIVER_NAME,nvidia
+        monitor=DP-0,highres@highrr,auto,1,bitdepth
+        monitor=DP-1,highres@highrr,auto,1,bitdepth
+        monitor=DP-2,highres@highrr,auto,1,bitdepth
+        monitor=DP-3,highres@highrr,auto,1,bitdepth
+        monitor=DP-4,highres@highrr,auto,1,bitdepth
+        env = LIBVA_DRIVER_NAME,nvidi
         env = NVD_BACKEND,direct
         env = __GLX_VENDOR_LIBRARY_NAME,nvidia
       '';
-
-      # monitor=HDMI-A-1,highrr,auto,1,bitdepth,10
-      # monitor=DP-0,highres@highrr,auto,1,bitdepth,10
-      # monitor=DP-1,highres@highrr,auto,1,bitdepth,10
-      # monitor=DP-2,highres@highrr,auto,1,bitdepth,10
-      # monitor=DP-3,highres@highrr,auto,1,bitdepth,10
-      # monitor=DP-4,highres@highrr,auto,1,bitdepth,10
-      # bitdepth,10
     };
-
-    # river = {
-    #   enable = true;
-    #   extraConfig = ''
-    #     pkill kanshi
-    #     riverctl spawn "${pkgs.kanshi}/bin/kanshi &"
-    #   '';
-    # };
 
     xdg.enable = true;
   };
-
-  # services = {
-  #   kanshi = {
-  #     enable = true;
-  #     settings = [
-  #       {
-  #         profile.outputs = [{
-  #           criteria = "HDMI-A-1";
-  #           status = "enable";
-  #           mode = "3840x2160@120Hz";
-  #         }];
-  #       }
-  #       {
-  #         profile.outputs = [{
-  #           criteria = "DP-4";
-  #           status = "enable";
-  #           mode = "3840x2160@165Hz";
-  #         }];
-  #       }
-  #       {
-  #         profile.outputs = [{
-  #           criteria = "DP-2";
-  #           status = "enable";
-  #           mode = "3840x2160@165Hz";
-  #         }];
-  #       }
-  #       {
-  #         profile.outputs = [{
-  #           criteria = "DP-3";
-  #           status = "enable";
-  #           mode = "3840x2160@165Hz";
-  #         }];
-  #       }
-  #       {
-  #         profile.outputs = [{
-  #           criteria = "DP-1";
-  #           status = "enable";
-  #           mode = "3840x2160@165Hz";
-  #         }];
-  #       }
-  #       {
-  #         profile.outputs = [{
-  #           criteria = "DP-0";
-  #           status = "enable";
-  #           mode = "3840x2160@165Hz";
-  #         }];
-  #       }
-  #     ];
-  #   };
-  # };
 }

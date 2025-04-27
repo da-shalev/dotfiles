@@ -11,18 +11,6 @@
       pkgs.alsa-ucm-conf.overrideAttrs (old: { src = inputs.alsa-ucm-conf; })
     }/share/alsa/ucm2";
 
-  fileSystems."/mnt/b" = {
-    device = "/dev/disk/by-partlabel/disk-foozilla-gaming";
-    fsType = "xfs";
-    options = [ "defaults" "nofail" ];
-  };
-
-  fileSystems."/mnt/c" = {
-    device = "/dev/disk/by-partlabel/disk-tomatoes-media";
-    fsType = "xfs";
-    options = [ "defaults" "nofail" ];
-  };
-
   networking.networkmanager = { enable = true; };
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 

@@ -2,7 +2,7 @@
   environment = {
     variables.NIXPKGS_CONFIG = lib.mkForce "${config.systemGenesis.configDir}";
     systemPackages = with pkgs; [
-      ffmpeg
+      ffmpeg-full
       wget
       unzip
       p7zip

@@ -1,19 +1,46 @@
 { config, lib, pkgs, ... }:
 let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
-    pkill wmenu || $(${pkgs.wtype}/bin/wtype "$(cat ~/.config/bookmarks | ${pkgs.wmenu}/bin/wmenu ${config.h.wmenu.config})")
+    pkill wmenu; ${pkgs.wtype}/bin/wtype "$(cat ~/.config/bookmarks | ${config.h.wmenu.pipe}/bin/wmenu)"
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
     line=$(tail -n1 ~/.config/bookmarks)
     sed -i '$d' ~/.config/bookmarks
-    ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Removed" -- "$line"
+    exec ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Removed" -- "$line"
   '';
 
-  bookmarkSet = pkgs.writeShellScriptBin "bookmark-set" ''
+  bookmarkAdded = pkgs.writeShellScriptBin "bookmark-add" ''
     wl-paste >> ~/.config/bookmarks
-    ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Set" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
+    exec ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
   '';
+
+  toggleHdr = pkgs.writeShellScriptBin "toggle-hdr" ''
+    hyprctl monitors -j | ${pkgs.jq}/bin/jq -c '.[]' | while read -r mon; do
+      name=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.name')
+      width=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.width')
+      height=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.height')
+      refresh=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.refreshRate' | cut -d'.' -f1)
+      x=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.x')
+      y=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.y')
+      scale=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.scale' | cut -d'.' -f1)
+      format=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.currentFormat')
+
+      config="''${name},''${width}x''${height}@''${refresh},''${x}x''${y},''${scale}"
+
+      case "''${format}" in
+        *2101010*)
+          hyprctl keyword monitor "''${config}"
+          ${pkgs.libnotify}/bin/notify-send "HDR Toggle" "Disabled HDR on ''${name}"
+          ;;
+        *)
+          hyprctl keyword monitor "''${config},bitdepth,10,cm,hdr"
+          ${pkgs.libnotify}/bin/notify-send "HDR Toggle" "Enabled HDR on ''${name}"
+          ;;
+      esac
+    done
+  '';
+
 in {
   options.h.hyprland = {
     enable = lib.mkEnableOption "Enables Hyprland WM." // { default = false; };
@@ -43,12 +70,12 @@ in {
           enabled = true;
           force_zero_scaling = true;
         };
+        cursor = { no_hardware_cursors = true; };
         general = {
           gaps_in = 0;
           gaps_out = 0;
           border_size = 0;
           layout = "master";
-          allow_tearing = true;
         };
         master = { mfact = 0.5; };
         decoration = {
@@ -67,10 +94,12 @@ in {
           disable_splash_rendering = true;
           background_color = "0x000000";
         };
+        # render = { cm_fs_passthrough = true; };
         animations = {
           enabled = false;
           first_launch_animation = false;
         };
+        experimental = { xx_color_management_v4 = true; };
         input = {
           kb_layout = "us";
           kb_variant = "";
@@ -86,9 +115,6 @@ in {
         env = [
           "XCURSOR_SIZE,${builtins.toString config.h.wayland.cursorTheme.size}"
         ];
-        windowrule = [
-          "immediate, class:.*"
-        ];
         windowrulev2 = [
           "float, title:^(Picture-in-Picture)$"
           "pin, title:^(Picture-in-Picture)$"
@@ -97,6 +123,7 @@ in {
         ];
         bind = [
           "${mod}+Shift, 0, pin"
+          "${mod}, F9, exec, ${toggleHdr}/bin/toggle-hdr"
           "${mod}+Shift, H, resizeactive, -50 0"
           "${mod}+Shift, L, resizeactive, 50 0"
           "${mod}+Shift, J, layoutmsg, swapnext"
@@ -110,10 +137,10 @@ in {
           "${mod}+Shift, S, exec, pkill grimshot || ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area"
           "${mod}+Shift, Q, exit"
           "${mod}, N, exec, pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000"
-          "${mod},Space, exec, pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run"
+          "${mod},Space, exec, pkill wmenu || ${config.h.wmenu.run}/bin/wmenu-run"
           "${mod}, V, exec, ${bookmarkPaste}/bin/bookmark-paste"
           "${mod}+Shift, C, exec, ${bookmarkRemove}/bin/bookmark-remove"
-          "${mod}, C, exec, ${bookmarkSet}/bin/bookmark-set"
+          "${mod}, C, exec, ${bookmarkAdded}/bin/bookmark-add"
         ] ++ (builtins.concatLists (builtins.genList (i:
           let ws = i + 1;
           in [

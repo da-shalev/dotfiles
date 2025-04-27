@@ -63,7 +63,6 @@
                 dunst
                 lsd
                 xdg
-                scripts
                 ghostty
                 nixCats
               ] ++ homeConfiguration;

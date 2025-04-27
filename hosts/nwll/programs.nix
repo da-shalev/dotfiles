@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }: {
   services = {
-    # mullvad-vpn = { enable = false; };
+    mullvad-vpn = { enable = true; };
   };
 
   environment.persistence."/nix/persist" = {
@@ -41,10 +41,10 @@
       #   args = [ "--rt" "--hdr-enabled" "-W 3840" "-H 2160" ];
       # };
     };
-    # gamescope = {
-    #   enable = true;
-    #   # package = pkgs.gamescope_git;
-    # };
+    gamescope = {
+      enable = true;
+      package = pkgs.gamescope_git;
+    };
     nh = {
       enable = true;
       clean.enable = true;

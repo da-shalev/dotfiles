@@ -2,7 +2,7 @@
   services = {
     jellyfin = {
       openFirewall = true;
-      enable = false;
+      enable = true;
       user = "dashalev";
     };
 

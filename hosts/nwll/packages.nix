@@ -4,12 +4,16 @@
       inputs.zen-browser.packages.${pkgs.system}.default
 
       chromium
+      delfin
       (brave.override {
         commandLineArgs =
           [ "--enable-features=WaylandLinuxDrmSyncobj,RustyPng" ];
       })
 
-      stable.aseprite
+      aseprite
+      vesktop
+      stable.wine64
+      blender
       krita
       onlyoffice-desktopeditors
       zathura

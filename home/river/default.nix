@@ -67,11 +67,8 @@ in {
           "${mod}+Shift H" = "swap next";
           "${mod}+Shift J" = "swap previous";
           "${mod}+Shift Q" = "exit";
-          "${mod} N" = "spawn 'pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000'"; 
-        } // lib.optionals config.h.river.sandbar.enable {
-          "${mod} U" =
-            "spawn 'pkill sandbar || ${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.config}'";
-        } // lib.optionals config.h.wmenu.enable {
+          "${mod} N" =
+            "spawn 'pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000'";
           # run an app:
           "${mod} Space" =
             "spawn 'pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run ${config.h.wmenu.config}'";
@@ -81,6 +78,9 @@ in {
           "${mod}+Shift C" = "spawn ${bookmarkRemove}/bin/bookmark-remove";
           # set a bookmark:
           "${mod} C" = "spawn ${bookmarkSet}/bin/bookmark-set";
+        } // lib.optionals config.h.river.sandbar.enable {
+          "${mod} U" =
+            "spawn 'pkill sandbar || ${pkgs.sandbar}/bin/sandbar ${config.h.river.sandbar.config}'";
         };
 
         map-pointer.normal = {

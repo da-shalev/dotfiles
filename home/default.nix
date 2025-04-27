@@ -17,7 +17,6 @@
     ghostty = import ./ghostty;
     wayland = import ./wayland;
     xdg = import ./xdg;
-    scripts = import ./scripts;
     nixCats = import ./nixCats;
   };
 }

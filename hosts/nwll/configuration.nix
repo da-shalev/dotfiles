@@ -14,6 +14,7 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = 1;
     NIXPKGS_ALLOW_UNFREE = 1;
+    ENABLE_HDR_WSI = 1;
   };
 
   fonts = {

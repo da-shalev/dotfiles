@@ -51,7 +51,6 @@
                 fd
                 fish
                 lsd
-                scripts
                 nixCats
               ] ++ homeConfiguration;
 

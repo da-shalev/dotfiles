@@ -50,6 +50,11 @@
         default = pkgs.adwaita-qt;
       };
     };
+
+    scaling = lib.mkOption {
+      type = with lib.types; number;
+      default = 1;
+    };
   };
 
   config = lib.mkIf config.h.wayland.enable {
@@ -114,6 +119,7 @@
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         cursor-theme = config.h.wayland.cursorTheme.name;
+        scaling-factor = config.h.wayland.scaling;
       };
       "org/gnome/desktop/wm/preferences" = { button-layout = ""; };
     };
