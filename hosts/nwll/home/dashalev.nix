@@ -1,15 +1,4 @@
 { pkgs, ... }: {
-  home.packages = with pkgs;
-    [
-      (writeShellApplication {
-        name = "cider";
-        runtimeInputs = [ appimage-run ];
-        text = ''
-          appimage-run ~/.local/bin/cider-linux-x64.AppImage
-        '';
-      })
-    ];
-
   programs = {
     mpv = {
       # chaotic nyx
@@ -47,7 +36,7 @@
     wayland.enable = true;
     dunst.enable = true;
 
-    wayland = { cursorTheme.size = 32; scaling = 2; };
+    wayland = { cursorTheme.size = 32; };
 
     hyprland = {
       enable = true;

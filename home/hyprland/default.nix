@@ -31,11 +31,11 @@ let
       case "''${format}" in
         *2101010*)
           hyprctl keyword monitor "''${config}"
-          ${pkgs.libnotify}/bin/notify-send "HDR Toggle" "Disabled HDR on ''${name}"
+          ${pkgs.libnotify}/bin/notify-send "HDR" "Disabled on ''${name}"
           ;;
         *)
-          hyprctl keyword monitor "''${config},bitdepth,10,cm,hdr"
-          ${pkgs.libnotify}/bin/notify-send "HDR Toggle" "Enabled HDR on ''${name}"
+          hyprctl keyword monitor "''${config},bitdepth,10,cm,auto"
+          ${pkgs.libnotify}/bin/notify-send "HDR" "Enabled on ''${name}"
           ;;
       esac
     done
@@ -68,7 +68,6 @@ in {
       settings = {
         xwayland = {
           enabled = true;
-          force_zero_scaling = true;
         };
         cursor = { no_hardware_cursors = true; };
         general = {

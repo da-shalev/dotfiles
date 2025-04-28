@@ -15,6 +15,7 @@
       stable.wine64
       blender
       krita
+      gimp3
       onlyoffice-desktopeditors
       zathura
 
