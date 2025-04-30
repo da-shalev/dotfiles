@@ -33,9 +33,12 @@
     };
 
     foot.enable = true;
-    wayland.enable = true;
+    wayland = {
+      enable = true;
+      cursorTheme.size = 32;
+    };
 
-    wayland = { cursorTheme.size = 32; };
+    # waybar.enable = true;
 
     hyprland = {
       enable = true;

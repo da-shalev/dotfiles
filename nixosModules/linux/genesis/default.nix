@@ -58,7 +58,7 @@
                 fish
                 wmenu
                 wayland
-                river
+                waybar
                 hyprland
                 dunst
                 lsd

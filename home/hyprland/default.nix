@@ -1,41 +1,47 @@
 { config, lib, pkgs, ... }:
 let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
-    pkill wmenu; ${pkgs.wtype}/bin/wtype "$(cat ~/.config/bookmarks | ${config.h.wmenu.pipe}/bin/wmenu)"
+    pkill wmenu; ${lib.getExe pkgs.wtype} "$(cat ~/.config/bookmarks | ${
+      lib.getExe config.h.wmenu.pipe
+    })"
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
     line=$(tail -n1 ~/.config/bookmarks)
     sed -i '$d' ~/.config/bookmarks
-    exec ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Removed" -- "$line"
+    exec ${lib.getExe pkgs.libnotify} "📖 Bookmark Removed" -- "$line"
   '';
 
   bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
     ${pkgs.wl-clipboard}/bin/wl-paste >> ~/.config/bookmarks
-    exec ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
+    exec ${
+      lib.getExe pkgs.libnotify
+    } "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
   '';
 
   toggleHdr = pkgs.writeShellScriptBin "toggle-hdr" ''
-    hyprctl monitors -j | ${pkgs.jq}/bin/jq -c '.[]' | while read -r mon; do
-      name=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.name')
-      width=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.width')
-      height=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.height')
-      refresh=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.refreshRate' | cut -d'.' -f1)
-      x=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.x')
-      y=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.y')
-      scale=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.scale' | cut -d'.' -f1)
-      format=$(echo "$mon" | ${pkgs.jq}/bin/jq -r '.currentFormat')
+    hyprctl monitors -j | ${lib.getExe pkgs.jq} -c '.[]' | while read -r mon; do
+      name=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.name')
+      width=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.width')
+      height=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.height')
+      refresh=$(echo "$mon" | ${
+        lib.getExe pkgs.jq
+      } -r '.refreshRate' | cut -d'.' -f1)
+      x=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.x')
+      y=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.y')
+      scale=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.scale' | cut -d'.' -f1)
+      format=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.currentFormat')
 
       config="''${name},''${width}x''${height}@''${refresh},''${x}x''${y},''${scale}"
 
       case "''${format}" in
         *2101010*)
           hyprctl keyword monitor "''${config}"
-          ${pkgs.libnotify}/bin/notify-send "HDR" "Disabled on ''${name}"
+          ${lib.getExe pkgs.libnotify} "HDR" "Disabled on ''${name}"
           ;;
         *)
           hyprctl keyword monitor "''${config},bitdepth,10,cm,hdr"
-          ${pkgs.libnotify}/bin/notify-send "HDR" "Enabled on ''${name}"
+          ${lib.getExe pkgs.libnotify} "HDR" "Enabled on ''${name}"
           ;;
       esac
     done
@@ -62,8 +68,6 @@ in {
         enable = true;
         variables = [ "--all" ];
       };
-      package = null;
-      portalPackage = null;
       extraConfig = "${config.h.hyprland.extraConfig}";
       settings = {
         xwayland = { enabled = true; };
@@ -125,33 +129,57 @@ in {
           "${mod}+Shift, L, resizeactive, 50 0"
           "${mod}+Shift, J, layoutmsg, swapnext"
           "${mod}+Shift, K, layoutmsg, swapprev"
-          "${mod}, Return, exec, ${pkgs.foot}/bin/foot"
+          "${mod}, Return, exec, ${lib.getExe pkgs.foot}"
           "${mod},Q, killactive"
           "${mod},F, fullscreen, 0"
           "${mod},S, togglefloating"
           "${mod},J, layoutmsg, cyclenext"
           "${mod},K, layoutmsg, cycleprev"
-          "${mod}+Shift, S, exec, pkill grimshot || ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area"
-          "${mod}+Shift, N, exec, pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000"
-          "${mod}+Shift, C, exec, pkill hyprpicker || ${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
-          "${mod},Space, exec, pkill wmenu || ${config.h.wmenu.run}/bin/wmenu-run"
-          "${mod}, Z, exec, ${bookmarkPaste}/bin/bookmark-paste"
-          "${mod}, X, exec, ${bookmarkAdd}/bin/bookmark-add"
-          "${mod}+Shift, X, exec, ${bookmarkRemove}/bin/bookmark-remove"
-          "${mod}, F9, exec, ${toggleHdr}/bin/toggle-hdr"
-        ] ++ (builtins.concatLists (builtins.genList (i:
-          let ws = i + 1;
-          in [
-            "${mod}, code:1${toString i}, workspace, ${toString ws}"
-            "${mod} SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-          ]) 9));
+          "${mod}+Shift, S, exec, pkill grimshot || ${
+            lib.getExe pkgs.sway-contrib.grimshot
+          } --notify copy area"
+          "${mod}+Shift, N, exec, pkill gammastep || ${
+            lib.getExe pkgs.gammastep
+          } -O 4000"
+          "${mod}+Shift, C, exec, pkill hyprpicker || ${
+            lib.getExe pkgs.hyprpicker
+          } | ${pkgs.wl-clipboard}/bin/wl-copy"
+          "${mod}, Space, exec, pkill wmenu || ${lib.getExe config.h.wmenu.run}"
+          "${mod}, Z, exec, ${lib.getExe bookmarkPaste}"
+          "${mod}, X, exec, ${lib.getExe bookmarkAdd}"
+          "${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}"
+          "${mod}, F9, exec, ${lib.getExe toggleHdr}"
+        ] ++ lib.optional config.h.waybar.enable
+          ("${mod}, U, exec, pkill waybar || ${lib.getExe pkgs.waybar}")
+          ++ (builtins.concatLists (builtins.genList (i:
+            let ws = i + 1;
+            in [
+              "${mod}, code:1${toString i}, workspace, ${toString ws}"
+              "${mod} SHIFT, code:1${toString i}, movetoworkspace, ${
+                toString ws
+              }"
+            ]) 9));
+
         bindm =
           [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
-        exec-once = [
-          # "${pkgs.foot}/bin/foot --server --log-no-syslog"
-          "${pkgs.hyprnotify}/bin/hyprnotify"
-        ];
-        monitor = ",preferred,auto,1";
+        exec-once = [ "${lib.getExe pkgs.hyprnotify}" ]
+          ++ lib.optional config.h.waybar.launch (lib.getExe pkgs.waybar);
+      };
+    };
+
+    programs.waybar = let
+      hyprctl = "${config.wayland.windowManager.hyprland.package}/bin/hyprctl";
+    in {
+      settings = {
+        mainBar = {
+          modules-center = [ "hyprland/workspaces" ];
+
+          "hyprland/workspaces" = {
+            format = "{name}";
+            on-scroll-up = "${hyprctl} dispatch workspace m-1";
+            on-scroll-down = "${hyprctl} dispatch workspace m+1";
+          };
+        };
       };
     };
   };

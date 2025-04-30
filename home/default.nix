@@ -12,8 +12,8 @@
     fish = import ./fish;
     bash = import ./bash;
     lsd = import ./lsd;
-    river = import ./river;
     hyprland = import ./hyprland;
+    waybar = import ./waybar;
     ghostty = import ./ghostty;
     wayland = import ./wayland;
     xdg = import ./xdg;

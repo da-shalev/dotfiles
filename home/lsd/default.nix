@@ -4,7 +4,7 @@
   };
 
   config = lib.mkIf config.h.lsd.enable {
-    home.shellAliases = { s = "${pkgs.lsd}/bin/lsd -lA"; };
+    home.shellAliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
 
     programs.lsd = {
       enable = true;
