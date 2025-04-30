@@ -34,7 +34,7 @@ let
           ${pkgs.libnotify}/bin/notify-send "HDR" "Disabled on ''${name}"
           ;;
         *)
-          hyprctl keyword monitor "''${config},bitdepth,10,cm,auto"
+          hyprctl keyword monitor "''${config},bitdepth,10,cm,hdr"
           ${pkgs.libnotify}/bin/notify-send "HDR" "Enabled on ''${name}"
           ;;
       esac
@@ -93,7 +93,7 @@ in {
           disable_splash_rendering = true;
           background_color = "0x000000";
         };
-        # render = { cm_fs_passthrough = true; };
+        render = { cm_fs_passthrough = true; };
         animations = {
           enabled = false;
           first_launch_animation = false;

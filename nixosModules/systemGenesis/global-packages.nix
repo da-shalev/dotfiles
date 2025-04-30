@@ -3,6 +3,7 @@
     variables.NIXPKGS_CONFIG = lib.mkForce "${config.systemGenesis.configDir}";
     systemPackages = with pkgs; [
       ffmpeg-full
+      yt-dlp
       wget
       unzip
       p7zip

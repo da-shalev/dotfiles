@@ -33,10 +33,10 @@
     ];
     fontconfig = {
       enable = true;
-      hinting.enable = false;
+      # hinting.enable = false;
       defaultFonts = {
-        serif = [ "Inter" "Symbols Nerd Font" ];
-        sansSerif = [ "Inter" "Symbols Nerd Font" ];
+        serif = [ "Inter" ];
+        sansSerif = [ "Inter" ];
         monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
         emoji = [ "Apple Color Emoji" ];
       };

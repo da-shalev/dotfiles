@@ -94,6 +94,11 @@ lspconfig.nil_ls.setup({
   on_attach = M.on_attach,
   settings = {
     ['nil'] = {
+      nix = {
+        flake = {
+          autoArchive = true,
+        },
+      },
       formatting = {
         command = { "nixfmt" },
       },
