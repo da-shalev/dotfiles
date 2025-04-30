@@ -34,7 +34,6 @@
 
     foot.enable = true;
     wayland.enable = true;
-    dunst.enable = true;
 
     wayland = { cursorTheme.size = 32; };
 

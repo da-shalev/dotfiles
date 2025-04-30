@@ -10,8 +10,8 @@ let
     exec ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Removed" -- "$line"
   '';
 
-  bookmarkAdded = pkgs.writeShellScriptBin "bookmark-add" ''
-    wl-paste >> ~/.config/bookmarks
+  bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
+    ${pkgs.wl-clipboard}/bin/wl-paste >> ~/.config/bookmarks
     exec ${pkgs.libnotify}/bin/notify-send "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
   '';
 
@@ -66,9 +66,7 @@ in {
       portalPackage = null;
       extraConfig = "${config.h.hyprland.extraConfig}";
       settings = {
-        xwayland = {
-          enabled = true;
-        };
+        xwayland = { enabled = true; };
         cursor = { no_hardware_cursors = true; };
         general = {
           gaps_in = 0;
@@ -121,8 +119,8 @@ in {
           "size 30% 30%, title:^(Picture-in-Picture)$"
         ];
         bind = [
+          "${mod}+Shift, Q, exit"
           "${mod}+Shift, 0, pin"
-          "${mod}, F9, exec, ${toggleHdr}/bin/toggle-hdr"
           "${mod}+Shift, H, resizeactive, -50 0"
           "${mod}+Shift, L, resizeactive, 50 0"
           "${mod}+Shift, J, layoutmsg, swapnext"
@@ -134,12 +132,13 @@ in {
           "${mod},J, layoutmsg, cyclenext"
           "${mod},K, layoutmsg, cycleprev"
           "${mod}+Shift, S, exec, pkill grimshot || ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area"
-          "${mod}+Shift, Q, exit"
-          "${mod}, N, exec, pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000"
+          "${mod}+Shift, N, exec, pkill gammastep || ${pkgs.gammastep}/bin/gammastep -O 4000"
+          "${mod}+Shift, C, exec, pkill hyprpicker || ${pkgs.hyprpicker}/bin/hyprpicker | ${pkgs.wl-clipboard}/bin/wl-copy"
           "${mod},Space, exec, pkill wmenu || ${config.h.wmenu.run}/bin/wmenu-run"
-          "${mod}, V, exec, ${bookmarkPaste}/bin/bookmark-paste"
-          "${mod}+Shift, C, exec, ${bookmarkRemove}/bin/bookmark-remove"
-          "${mod}, C, exec, ${bookmarkAdded}/bin/bookmark-add"
+          "${mod}, Z, exec, ${bookmarkPaste}/bin/bookmark-paste"
+          "${mod}, X, exec, ${bookmarkAdd}/bin/bookmark-add"
+          "${mod}+Shift, X, exec, ${bookmarkRemove}/bin/bookmark-remove"
+          "${mod}, F9, exec, ${toggleHdr}/bin/toggle-hdr"
         ] ++ (builtins.concatLists (builtins.genList (i:
           let ws = i + 1;
           in [
@@ -148,7 +147,10 @@ in {
           ]) 9));
         bindm =
           [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
-        # exec-once = [ "${pkgs.foot}/bin/foot --server --log-no-syslog" ];
+        exec-once = [
+          # "${pkgs.foot}/bin/foot --server --log-no-syslog"
+          "${pkgs.hyprnotify}/bin/hyprnotify"
+        ];
         monitor = ",preferred,auto,1";
       };
     };

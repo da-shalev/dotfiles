@@ -15,7 +15,6 @@
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 
   services = {
-    # earlyoom.enable = true;
     xserver.videoDrivers = [ "nvidia" ];
     # blueman.enable = true;
     scx = {
@@ -61,7 +60,6 @@
         enable = false;
         finegrained = false;
       };
-
       open = true;
       nvidiaSettings = false;
       package = config.boot.kernelPackages.nvidiaPackages.beta;

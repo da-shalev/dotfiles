@@ -3,7 +3,6 @@
 
   environment.persistence."/nix/persist" = {
     directories = [
-      # "/var/lib/logmein-hamachi"
       "/etc/mullvad-vpn"
       "/var/cache/mullvad-vpn"
     ];
@@ -22,7 +21,6 @@
   };
 
   programs = {
-    # haguichi.enable = true;
     hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -40,7 +38,6 @@
     };
     gamescope = {
       enable = true;
-      # package = pkgs.gamescope_git;
     };
     nh = {
       enable = true;
