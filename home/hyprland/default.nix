@@ -149,37 +149,16 @@ in {
           "${mod}, X, exec, ${lib.getExe bookmarkAdd}"
           "${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}"
           "${mod}, F9, exec, ${lib.getExe toggleHdr}"
-        ] ++ lib.optional config.h.waybar.enable
-          ("${mod}, U, exec, pkill waybar || ${lib.getExe pkgs.waybar}")
-          ++ (builtins.concatLists (builtins.genList (i:
-            let ws = i + 1;
-            in [
-              "${mod}, code:1${toString i}, workspace, ${toString ws}"
-              "${mod} SHIFT, code:1${toString i}, movetoworkspace, ${
-                toString ws
-              }"
-            ]) 9));
+        ] ++ (builtins.concatLists (builtins.genList (i:
+          let ws = i + 1;
+          in [
+            "${mod}, code:1${toString i}, workspace, ${toString ws}"
+            "${mod} SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+          ]) 9));
 
         bindm =
           [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
-        exec-once = [ "${lib.getExe pkgs.hyprnotify}" ]
-          ++ lib.optional config.h.waybar.launch (lib.getExe pkgs.waybar);
-      };
-    };
-
-    programs.waybar = let
-      hyprctl = "${config.wayland.windowManager.hyprland.package}/bin/hyprctl";
-    in {
-      settings = {
-        mainBar = {
-          modules-center = [ "hyprland/workspaces" ];
-
-          "hyprland/workspaces" = {
-            format = "{name}";
-            on-scroll-up = "${hyprctl} dispatch workspace m-1";
-            on-scroll-down = "${hyprctl} dispatch workspace m+1";
-          };
-        };
+        exec-once = [ "${lib.getExe pkgs.hyprnotify}" ];
       };
     };
   };

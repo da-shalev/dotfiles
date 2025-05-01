@@ -38,8 +38,6 @@
       cursorTheme.size = 32;
     };
 
-    # waybar.enable = true;
-
     hyprland = {
       enable = true;
       extraConfig = ''

@@ -1,6 +1,6 @@
 { config, lib, ... }: {
   options.h.foot = {
-    enable = lib.mkEnableOption "Enables Foot terminal." // {
+    enable = lib.mkEnableOption "Enables foot terminal." // {
       default = false;
     };
   };
