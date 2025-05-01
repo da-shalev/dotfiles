@@ -53,6 +53,5 @@
       '';
     };
 
-    xdg.enable = true;
   };
 }

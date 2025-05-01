@@ -26,7 +26,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.wrap = false
 vim.opt.title = true
 vim.opt.undofile = true
-vim.opt.undodir = os.getenv("HOME") .. "/.cache/vimundo"
+vim.opt.undodir = os.getenv("XDG_CACHE_HOME") .. "/vimundo"
 vim.opt.hlsearch = false
 
 vim.opt.scrolloff = 8

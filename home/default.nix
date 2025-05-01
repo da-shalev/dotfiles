@@ -15,7 +15,6 @@
     hyprland = import ./hyprland;
     ghostty = import ./ghostty;
     wayland = import ./wayland;
-    xdg = import ./xdg;
     nixCats = import ./nixCats;
   };
 }

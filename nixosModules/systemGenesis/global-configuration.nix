@@ -16,4 +16,9 @@
       silent = true;
     };
   };
+
+  environment.sessionVariables = {
+    CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
+    GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+  };
 }

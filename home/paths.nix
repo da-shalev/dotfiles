@@ -1,8 +1,8 @@
 { lib, pkgs, config, ... }: {
   options.h = {
-    homePath = lib.mkOption { type = with lib.types; nonEmptyStr; };
     userName = lib.mkOption { type = with lib.types; nonEmptyStr; };
     dataHome = lib.mkOption { type = with lib.types; nonEmptyStr; };
+    stateHome = lib.mkOption { type = with lib.types; nonEmptyStr; };
     configHome = lib.mkOption { type = with lib.types; nonEmptyStr; };
     cacheHome = lib.mkOption { type = with lib.types; nonEmptyStr; };
     shell = {
@@ -13,12 +13,6 @@
   };
 
   config = {
-    h = {
-      dataHome = "${config.h.homePath}/.local/share";
-      configHome = "${config.h.homePath}/.config";
-      cacheHome = "${config.h.homePath}/.cache";
-    };
-
     programs = {
       nix-index = { enable = false; };
 
@@ -31,6 +25,21 @@
       enable = true;
       configHome = "${config.h.configHome}";
       dataHome = "${config.h.dataHome}";
+      cacheHome = "${config.h.cacheHome}";
+      stateHome = "${config.h.stateHome}";
+
+      userDirs = {
+        enable = true;
+        createDirectories = true;
+        desktop = "${config.home.homeDirectory}/";
+        documents = "${config.home.homeDirectory}/dox";
+        download = "${config.home.homeDirectory}/dow";
+        videos = "${config.home.homeDirectory}/vid";
+        music = "${config.home.homeDirectory}/";
+        pictures = "${config.home.homeDirectory}/pix";
+        publicShare = "${config.home.homeDirectory}/media";
+        templates = "${config.home.homeDirectory}/";
+      };
     };
 
     home = {

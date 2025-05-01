@@ -32,10 +32,10 @@
       binfmt = true;
     };
     obs-studio = { enable = true; };
-    steam = {
-      enable = true;
-      extraCompatPackages = with pkgs; [ proton-ge-custom ];
-    };
+    # steam = {
+    #   enable = true;
+    #   extraCompatPackages = with pkgs; [ proton-ge-custom ];
+    # };
     gamescope = {
       enable = true;
     };

@@ -8,7 +8,7 @@
   config = lib.mkIf config.h.bash.enable {
     programs.bash = {
       enable = true;
-      historyFile = "~/.cache";
+      historyFile = "$XDG_CACHE_HOME/bash";
     };
   };
 }

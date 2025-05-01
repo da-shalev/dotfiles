@@ -1,19 +1,19 @@
 { config, lib, pkgs, ... }:
 let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
-    pkill wmenu; ${lib.getExe pkgs.wtype} "$(cat ~/.config/bookmarks | ${
+    pkill wmenu; ${lib.getExe pkgs.wtype} "$(cat ${config.h.configHome}/bookmarks | ${
       lib.getExe config.h.wmenu.pipe
     })"
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
-    line=$(tail -n1 ~/.config/bookmarks)
-    sed -i '$d' ~/.config/bookmarks
+    line=$(tail -n1 ${config.h.configHome}/bookmarks)
+    sed -i '$d' ${config.h.configHome}/bookmarks
     exec ${lib.getExe pkgs.libnotify} "📖 Bookmark Removed" -- "$line"
   '';
 
   bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
-    ${pkgs.wl-clipboard}/bin/wl-paste >> ~/.config/bookmarks
+    ${pkgs.wl-clipboard}/bin/wl-paste >> ${config.h.configHome}/bookmarks
     exec ${
       lib.getExe pkgs.libnotify
     } "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"

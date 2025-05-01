@@ -14,7 +14,7 @@
         depth = 5
 
         [[search_dirs]]
-        path = "${config.h.homePath}/media/"
+        path = "${config.home.homeDirectory}/media/"
         depth = 20
       '';
     };

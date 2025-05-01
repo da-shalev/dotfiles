@@ -8,7 +8,7 @@
     ./programs.nix
     ./packages.nix
     ./post-packages.nix
-    ./server
+    # ./server
     (linuxUser "dashalev" [ ./home/dashalev.nix ])
   ];
 }

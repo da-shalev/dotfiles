@@ -35,17 +35,34 @@
       };
 
     linuxUser = userName: homeConfiguration:
-      let homePath = "/home/${userName}";
+      let
+        dataRoot = "library";
+        homePath = "/home/${userName}";
+        dataHome = "${homePath}/${dataRoot}/local/share";
+        stateHome = "${homePath}/${dataRoot}/local/state";
+        configHome = "${homePath}/${dataRoot}/config";
+        cacheHome = "${homePath}/${dataRoot}/cache";
       in {
         imports = [ ./home-manager.nix ];
+
+        environment.sessionVariables = {
+          XDG_DATA_HOME = dataHome;
+          XDG_STATE_HOME = stateHome;
+          XDG_CONFIG_HOME = configHome;
+          XDG_CACHE_HOME = cacheHome;
+        };
+
         home-manager = {
           users.${userName} = {
             imports = with inputs.self.homeModules;
               [
                 {
                   h = {
-                    homePath = "${homePath}";
                     userName = "${userName}";
+                    dataHome = "${dataHome}";
+                    stateHome = "${stateHome}";
+                    configHome = "${configHome}";
+                    cacheHome = "${cacheHome}";
                   };
                 }
                 paths
@@ -61,7 +78,6 @@
                 hyprland
                 dunst
                 lsd
-                xdg
                 ghostty
                 nixCats
               ] ++ homeConfiguration;
