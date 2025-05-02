@@ -52,7 +52,7 @@
     };
   };
 
-  config.h = lib.mkIf config.h.wayland.enable {
+  config = lib.mkIf config.h.wayland.enable {
     # gtk = {
     #   enable = true;
     #   theme = {
@@ -81,33 +81,41 @@
     #   };
     # };
 
-    shell.variables = {
-      MOZ_ENABLE_WAYLAND = "1";
-      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      QT_QPA_PLATFORM = "wayland";
-      XCURSOR_THEME = config.h.wayland.cursorTheme.name;
-      XCURSOR_SIZE = "${toString config.h.wayland.cursorTheme.size}";
-      GTK_THEME = config.h.wayland.theme.name;
-      NIXOS_OZONE_WL = 1;
-      ENABLE_HDR_WSI = 1;
+    xdg.portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
 
-    extraPackages = with pkgs; [
-      wl-clipboard
-      pwvucontrol_git
-      nautilus
-      libnotify
-      pulsemixer
-      # dconf-editor
-      xorg.xeyes
-      imv
-    ];
+    h = {
+      shell.variables = {
+        MOZ_ENABLE_WAYLAND = "1";
+        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+        QT_QPA_PLATFORM = "wayland";
+        XCURSOR_THEME = config.h.wayland.cursorTheme.name;
+        XCURSOR_SIZE = "${toString config.h.wayland.cursorTheme.size}";
+        GTK_THEME = config.h.wayland.theme.name;
+        NIXOS_OZONE_WL = 1;
+        ENABLE_HDR_WSI = 1;
+      };
 
-    # pointerCursor = {
-    #   gtk.enable = true;
-    #   inherit (config.h.wayland.cursorTheme) name;
-    #   inherit (config.h.wayland.cursorTheme) package;
-    # };
+      extraPackages = with pkgs; [
+        wl-clipboard
+        pwvucontrol_git
+        nautilus
+        libnotify
+        pulsemixer
+        # dconf-editor
+        xorg.xeyes
+        imv
+      ];
+
+      # pointerCursor = {
+      #   gtk.enable = true;
+      #   inherit (config.h.wayland.cursorTheme) name;
+      #   inherit (config.h.wayland.cursorTheme) package;
+      # };
+    };
   };
 
   # dconf.settings = {

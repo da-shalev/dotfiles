@@ -9,7 +9,7 @@
     foot.enable = true;
     wayland = {
       enable = true;
-      cursorTheme.size = 32;
+      cursorTheme.size = 16;
     };
 
     hyprland = {

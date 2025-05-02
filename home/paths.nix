@@ -6,48 +6,48 @@
       description = "The users $HOME directory.";
     };
 
-    xdgRoot = lib.mkOption {
-      type = with lib.types; nonEmptyStr;
-      # I perfer a directory for all user-data
-      default = "library/";
-      description =
-        "Root directory for XDG-style configuration under the home directory. Normally set to '.', which results in paths like ~/.config and ~/.local/share.";
-    };
-    xdg = lib.mkOption {
-      type = with lib.types; path;
-      default = "/profiles/per-user/${config.h.userName}/etc/xdg";
-      description =
-        "Path to per user from xdg, can be set to any location always in /etc/";
+    xdg = {
+      root = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = ".";
+        description =
+          "Root directory for XDG-style configuration under the home directory. Defaults to '.', which results in paths like ~/.config and ~/.local/share.";
+      };
+      path = lib.mkOption {
+        type = with lib.types; path;
+        default = "/profiles/per-user/${config.h.userName}/etc/xdg";
+        description =
+          "Path to per user from xdg, can be set to any location always in /etc/";
+      };
+      dataHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}/local/share";
+      };
+      stateHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}/local/state";
+      };
+      configHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}/config";
+      };
+      cacheHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}/cache";
+      };
+      userDirs = lib.mkOption {
+        type = with lib.types; attrsOf (with lib.types; str);
+        default = { };
+        description = "User directory definitions.";
+      };
     };
 
-    # there should be no reason why you want to change these defaults
-    dataHome = lib.mkOption {
-      type = with lib.types; nonEmptyStr;
-      default = "${config.h.path}/${config.h.xdgRoot}/local/share";
-    };
-    stateHome = lib.mkOption {
-      type = with lib.types; nonEmptyStr;
-      default = "${config.h.path}/${config.h.xdgRoot}/local/state";
-    };
-    configHome = lib.mkOption {
-      type = with lib.types; nonEmptyStr;
-      default = "${config.h.path}/${config.h.xdgRoot}/config";
-    };
-    cacheHome = lib.mkOption {
-      type = with lib.types; nonEmptyStr;
-      default = "${config.h.path}/${config.h.xdgRoot}/cache";
-    };
-
-    userDirs = lib.mkOption {
-      type = with lib.types; attrsOf (with lib.types; str);
-      default = { };
-      description = "User directory definitions.";
-    };
     extraPackages = lib.mkOption {
       type = with lib.types; listOf package;
       default = [ ];
       description = "The packages for the user.";
     };
+
     shell = {
       package = lib.mkOption {
         type = with lib.types; package;
@@ -94,9 +94,43 @@
       echo 'exec ${lib.getExe config.h.shell.package}' >> $out/bin/${userShell}
       chmod +x $out/bin/${userShell}
     '';
+
+    userDirs = lib.concatStringsSep "\n"
+      (lib.mapAttrsToList (name: path: "mkdir -p ${lib.escapeShellArg path}")
+        config.h.xdg.userDirs);
+
+    shareXdg = ''
+      if [ -d "${config.h.path}" ]; then
+        mkdir -p "${config.h.xdg.configHome}"
+        cp -rf /etc/${config.h.xdg.path}/. "${config.h.xdg.configHome}/"
+        ${userDirs}
+      fi
+    '';
   in {
+    # share xdg on rebuild
+    system.activationScripts."config-${config.h.userName}".text = shareXdg;
+
+    # on first boot, the /etc/profiles/per-user/ xdg cfg needs to be copied over as well
+    systemd.services."config-${config.h.userName}" = {
+      description = "XDG-ifcation";
+      after = [ "multi-user.target" ];
+      serviceConfig = {
+        # Environment = [
+        #   "XDG_CONFIG_HOME=${config.h.xdg.configHome}"
+        #   "HOME=${config.h.path}"
+        # ];
+        ConditionFirstBoot = "yes";
+        Type = "oneshot";
+        User = config.h.userName;
+        ExecStart = "${pkgs.writeShellScript "xdg" ''
+          ${shareXdg}
+        ''}";
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
+
     h = {
-      userDirs = {
+      xdg.userDirs = {
         XDG_DESKTOP_DIR = lib.mkDefault "${config.h.path}/";
         XDG_DOCUMENTS_DIR = lib.mkDefault "${config.h.path}/dox";
         XDG_DOWNLOAD_DIR = lib.mkDefault "${config.h.path}/dow";
@@ -107,24 +141,36 @@
         XDG_VIDEOS_DIR = lib.mkDefault "${config.h.path}/vid";
       };
 
-      extraPackages = [ config.h.shell.sourceEnv ];
-
       # non overridable xdg dirs
-      shell.variables = config.h.userDirs // {
-        XDG_DATA_HOME = lib.mkForce "${config.h.dataHome}";
-        XDG_STATE_HOME = lib.mkForce "${config.h.stateHome}";
-        XDG_CONFIG_HOME = lib.mkForce "${config.h.configHome}";
-        XDG_CACHE_HOME = lib.mkForce "${config.h.cacheHome}";
+      shell.variables = config.h.xdg.userDirs // {
+        XDG_DATA_HOME = lib.mkForce "${config.h.xdg.dataHome}";
+        XDG_STATE_HOME = lib.mkForce "${config.h.xdg.stateHome}";
+        XDG_CONFIG_HOME = lib.mkForce "${config.h.xdg.configHome}";
+        XDG_CACHE_HOME = lib.mkForce "${config.h.xdg.cacheHome}";
         SHELL = "${lib.getExe config.h.shell.package}";
+        CUDA_CACHE_PATH = "${config.h.xdg.cacheHome}/nv";
+        GNUPGHOME = "${config.h.xdg.dataHome}/gnupg";
       };
     };
 
-    environment.etc."${config.h.xdg}/user-dirs.dirs".text = ''
-      ${lib.concatStringsSep "\n"
-      (lib.mapAttrsToList (k: v: ''${k}="${v}"'') config.h.userDirs)}
-    '';
+    environment.etc = {
+      "${config.h.xdg.path}/user-dirs.dirs".text = ''
+        ${lib.concatStringsSep "\n"
+        (lib.mapAttrsToList (k: v: ''${k}="${v}"'') config.h.xdg.userDirs)}
+      '';
+      "${config.h.xdg.path}/user-dirs.conf".text = ''
+        enabled=False
+      '';
+    };
 
-    users.users.${config.h.userName} = { inherit shell; };
+    users.users.${config.h.userName} = {
+      inherit shell;
+      packages = config.h.extraPackages;
+      name = "${config.h.userName}";
+      home = "${config.h.path}";
+      isNormalUser = true;
+    };
+
     environment.shells = [ shell ];
   };
 }

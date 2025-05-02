@@ -1,34 +1,60 @@
 { config, lib, pkgs, ... }: {
   options.h.tmux = {
     enable = lib.mkEnableOption "Enable tmux." // { default = true; };
+    plugins = lib.mkOption {
+      type = with lib.types; listOf package;
+      default = [ pkgs.tmuxPlugins.yank pkgs.tmuxPlugins.vim-tmux-navigator ];
+    };
   };
 
   config = lib.mkIf config.h.tmux.enable {
-    home.packages = with pkgs; [ tmux-sessionizer ];
-    xdg.configFile = {
-      "tms/config.toml".text = ''
+    h.extraPackages = with pkgs; [ tmux tmux-sessionizer ];
+    environment.etc = let
+      plugins = builtins.concatStringsSep "\n" (map (plugin:
+        "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")
+        config.h.tmux.plugins);
+    in {
+      "${config.h.xdg.path}/tms/config.toml".text = ''
         excluded_dirs = [".direnv"]
 
         [[search_dirs]]
-        path = "${config.h.configHome}/"
+        path = "${config.systemGenesis.config}/"
         depth = 5
 
         [[search_dirs]]
-        path = "${config.home.homeDirectory}/media/"
+        path = "${config.h.path}/media/"
         depth = 20
       '';
-    };
+      "${config.h.xdg.path}/tmux/tmux.conf".text = ''
+        set  -g base-index      1
+        setw -g pane-base-index 1
 
-    programs.tmux = {
-      enable = true;
-      keyMode = "vi";
-      mouse = true;
-      prefix = "C-b";
-      sensibleOnTop = false;
-      baseIndex = 1;
-      disableConfirmationPrompt = true;
-      customPaneNavigationAndResize = true;
-      extraConfig = ''
+        set -g status-keys vi
+        set -g mode-keys   vi
+
+        bind -N "Select pane to the left of the active pane" h select-pane -L
+        bind -N "Select pane below the active pane" j select-pane -D
+        bind -N "Select pane above the active pane" k select-pane -U
+        bind -N "Select pane to the right of the active pane" l select-pane -R
+
+        bind -r -N "Resize the pane left by 5" \
+          H resize-pane -L 5
+        bind -r -N "Resize the pane down by 5" \
+          J resize-pane -D 5
+        bind -r -N "Resize the pane up by 5" \
+          K resize-pane -U 5
+        bind -r -N "Resize the pane right by 5" \
+          L resize-pane -R 5
+
+        bind-key -N "Kill the current window" & kill-window
+        bind-key -N "Kill the current pane" x kill-pane
+
+        set  -g mouse             on
+        set  -g focus-events      off
+        setw -g aggressive-resize off
+        setw -g clock-mode-style  12
+        set  -s escape-time       500
+        set  -g history-limit     2000
         set -g @yank_with_mouse on
 
         set-option -g renumber-windows on
@@ -49,7 +75,7 @@
         set-window-option -g window-status-separator ""
         set-window-option -g window-status-current-format "#[fg=brightwhite,bg=magenta]  #I #W  "
         set-window-option -g window-status-format "#[fg=brightwhite]#[bg=default]  #I #W  "
-        # this is retarded
+
         set -g status-right-length 120
 
         bind-key -T copy-mode-vi 'C-h' select-pane -L
@@ -62,8 +88,9 @@
 
         # refresh every x seconds
         set-option -g status-interval 10
+
+        ${plugins}
       '';
-      plugins = with pkgs.tmuxPlugins; [ yank vim-tmux-navigator ];
     };
   };
 }

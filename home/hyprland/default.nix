@@ -3,19 +3,19 @@ let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
     pkill wmenu; ${
       lib.getExe pkgs.wtype
-    } "$(cat ${config.h.configHome}/bookmarks | 
+    } "$(cat ${config.h.xdg.configHome}/bookmarks | 
       ${pkgs.wmenu}/bin/wmenu
     )"
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
-    line=$(tail -n1 ${config.h.configHome}/bookmarks)
-    sed -i '$d' ${config.h.configHome}/bookmarks
+    line=$(tail -n1 ${config.h.xdg.configHome}/bookmarks)
+    sed -i '$d' ${config.h.xdg.configHome}/bookmarks
     exec ${lib.getExe pkgs.libnotify} "📖 Bookmark Removed" -- "$line"
   '';
 
   bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
-    ${pkgs.wl-clipboard}/bin/wl-paste >> ${config.h.configHome}/bookmarks
+    ${pkgs.wl-clipboard}/bin/wl-paste >> ${config.h.xdg.configHome}/bookmarks
     exec ${
       lib.getExe pkgs.libnotify
     } "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
@@ -63,13 +63,7 @@ in {
 
   config = lib.mkIf config.h.hyprland.enable {
     h.extraPackages = with pkgs; [ hyprland ];
-
-    xdg.portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      config = { hyprland.default = [ "hyprland" "gtk" ]; };
-    };
+    xdg.portal.config.hyprland.default = [ "hyprland" "gtk" ];
 
     programs.hyprland = {
       enable = true;
@@ -78,7 +72,7 @@ in {
         inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
-    environment.etc."${config.h.xdg}/hypr/hyprland.conf" =
+    environment.etc."${config.h.xdg.path}/hypr/hyprland.conf" =
       let mod = config.h.hyprland.mod;
       in {
         text = ''
@@ -197,10 +191,10 @@ in {
           bindm=${mod}, mouse:273, resizewindow
 
           exec-once=${lib.getExe pkgs.hyprnotify}
-          windowrulev2=float, title:^(Picture-in-Picture)$
-          windowrulev2=pin, title:^(Picture-in-Picture)$
-          windowrulev2=move 100%-30% 0, title:^(Picture-in-Picture)$
-          windowrulev2=size 30% 30%, title:^(Picture-in-Picture)$
+          windowrulev2=float, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
+          windowrulev2=pin, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
+          windowrulev2=move 100%-30% 0, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
+          windowrulev2=size 30% 30%, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
 
           ${config.h.hyprland.extraConfig}
         '';

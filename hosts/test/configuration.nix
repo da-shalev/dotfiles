@@ -1,6 +1,8 @@
 { ... }: {
-  users.users.testuser = {
+  users.users.test = {
     uid = 1001;
+    extraGroups = [ "wheel" "video" "networkmanager" ];
+    initialPassword = "boobs";
   };
 
   security.sudo.wheelNeedsPassword = false;

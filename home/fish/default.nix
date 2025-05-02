@@ -46,9 +46,9 @@
         '') config.h.fish.plugins}
       '';
     in {
-      "${config.h.xdg}/fish/themes/fishsticks.theme".source =
+      "${config.h.xdg.path}/fish/themes/fishsticks.theme".source =
         ./fishsticks.theme;
-      "${config.h.xdg}/fish/config.fish".text = ''
+      "${config.h.xdg.path}/fish/config.fish".text = ''
         set -q __fish_sourced; and exit
         set -g __fish_sourced 1
 
@@ -62,6 +62,21 @@
           fish_vi_key_bindings
 
           ${fishAliases}
+
+          function fzf_cmd
+            set -x fzfn (${lib.getExe pkgs.fd} . ~ --hidden | ${lib.getExe pkgs.fzf})
+            if test -z $fzfn
+              return
+            else if test -d $fzfn
+              cd $fzfn
+            else
+              cd $(dirname $fzfn)
+              nvim $(basename $fzfn)
+            end
+
+            echo -e ""
+            fish_prompt
+          end
 
           function fish_mode_prompt
           end
@@ -82,16 +97,3 @@
     };
   };
 }
-
-#
-#   plugins = [
-#     {
-#       name = "autopair";
-#       inherit (pkgs.fishPlugins.autopair) src;
-#     }
-#     {
-#       name = "puffer";
-#       inherit (pkgs.fishPlugins.puffer) src;
-#     }
-#   ];
-# };

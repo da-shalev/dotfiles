@@ -1,6 +1,6 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
   environment = {
-    variables.NIXPKGS_CONFIG = lib.mkForce "/etc/nixos";
+    variables.NIXPKGS_CONFIG = lib.mkForce config.systemGenesis.config;
     systemPackages = with pkgs; [
       ffmpeg-full
       yt-dlp

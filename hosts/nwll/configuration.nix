@@ -2,14 +2,10 @@
   users.users.dashalev = {
     uid = 1000;
     extraGroups = [ "wheel" "video" "networkmanager" ];
+    initialPassword = "boobs";
   };
 
   security.sudo.wheelNeedsPassword = false;
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
 
   fonts = {
     packages = with pkgs; [

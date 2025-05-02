@@ -18,10 +18,10 @@
     home = {
       sessionVariables = with pkgs; {
         GOPATH = "${config.h.dataHome}/go";
-        NPM_CONFIG_PREFIX = "${config.h.dataHome}/npm";
-        NPM_CONFIG_USERCONFIG = "${config.h.configHome}/npm/config";
-        YARN_RC_FILENAME = "${config.h.configHome}/yarn/config";
-        CARGO_HOME = "${config.h.dataHome}/cargo";
+        NPM_CONFIG_PREFIX = "${config.h.xdg.dataHome}/npm";
+        NPM_CONFIG_USERCONFIG = "${config.h.xdg.configHome}/npm/config";
+        YARN_RC_FILENAME = "${config.h.xdg.configHome}/yarn/config";
+        CARGO_HOME = "${config.h.xdg.dataHome}/cargo";
         LESSHISTFILE = "/dev/null";
         JAVA_HOME = "${jdk21}";
         JAVA_RUN = "${jdk21}/bin/java";

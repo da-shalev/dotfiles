@@ -39,21 +39,18 @@
               h = {
                 userName = "${userName}";
                 path = "${homePath}";
-                xdgRoot = "library/";
+                xdg.root = "library/";
               };
             }
             paths
             foot
+            tmux
             hyprland
             wayland
             fish
           ] ++ homeConfiguration;
 
         users.users.${userName} = {
-          name = "${userName}";
-          home = "${homePath}";
-          isNormalUser = true;
-          initialPassword = "boobs";
         };
       };
   };

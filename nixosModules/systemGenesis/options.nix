@@ -10,6 +10,12 @@
         type = with lib.types; nonEmptyStr;
         description = "Your systems architecture. Must be defined explicitly.";
       };
+
+      config = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "/etc/nixos";
+        description = "Systemwide configuration location.";
+      };
     };
   };
 }
