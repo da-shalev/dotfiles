@@ -32,8 +32,7 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   hardware = {
-    # debug
-    # rasdaemon.enable = true;
+    # rasdaemon.enable = true; # debug hardware
     enableAllFirmware = lib.mkForce true;
     wirelessRegulatoryDatabase = true;
     # bluetooth = {

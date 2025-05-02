@@ -1,6 +1,6 @@
-{ pkgs, config, lib, ... }: {
+{ pkgs, lib, ... }: {
   environment = {
-    variables.NIXPKGS_CONFIG = lib.mkForce "${config.systemGenesis.configDir}";
+    variables.NIXPKGS_CONFIG = lib.mkForce "/etc/nixos";
     systemPackages = with pkgs; [
       ffmpeg-full
       yt-dlp
@@ -20,6 +20,11 @@
       bat
       hyperfine
       neovim
+
+      asciiquarium-transparent
+      nyancat
+      cmatrix
+      sl
     ];
   };
 }

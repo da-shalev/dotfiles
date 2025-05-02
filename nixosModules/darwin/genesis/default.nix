@@ -12,12 +12,10 @@
         modules = [
           {
             nixpkgs = { hostPlatform = architecture; };
-            home-manager.extraSpecialArgs = specialArgs;
           }
 
           inputs.self.nixosModules.systemGenesis
           inputs.self.nixosModules.darwin
-          inputs.home-manager.darwinModules.home-manager
 
           {
             systemGenesis = {
@@ -31,32 +29,31 @@
     darwinUser = userName: homeConfiguration:
       let homePath = "/Users/${userName}";
       in {
-        imports = [ ./home-manager.nix ];
-        home-manager = {
-          users.${userName} = {
-            imports = with inputs.self.homeModules;
-              [
-                {
-                  h = {
-                    homePath = "${homePath}";
-                    userName = "${userName}";
-                  };
-                }
-                paths
-                dev
-                git
-                ghostty
-                tmux
-                fzf
-                fd
-                fish
-                lsd
-                nixCats
-              ] ++ homeConfiguration;
-
-            home.stateVersion = "25.05";
-          };
-        };
+        # home-manager = {
+        #   users.${userName} = {
+        #     imports = with inputs.self.homeModules;
+        #       [
+        #         {
+        #           h = {
+        #             homePath = "${homePath}";
+        #             userName = "${userName}";
+        #           };
+        #         }
+        #         paths
+        #         dev
+        #         git
+        #         ghostty
+        #         tmux
+        #         fzf
+        #         fd
+        #         fish
+        #         lsd
+        #         nixCats
+        #       ] ++ homeConfiguration;
+        #
+        #     home.stateVersion = "25.05";
+        #   };
+        # };
 
         users.users.${userName} = {
           name = "${userName}";

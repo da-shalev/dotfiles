@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
-    pkill wmenu; ${lib.getExe pkgs.wtype} "$(cat ${config.h.configHome}/bookmarks | ${
-      lib.getExe config.h.wmenu.pipe
-    })"
+    pkill wmenu; ${
+      lib.getExe pkgs.wtype
+    } "$(cat ${config.h.configHome}/bookmarks | 
+      ${pkgs.wmenu}/bin/wmenu
+    )"
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
@@ -46,10 +48,9 @@ let
       esac
     done
   '';
-
 in {
   options.h.hyprland = {
-    enable = lib.mkEnableOption "Enables Hyprland WM." // { default = false; };
+    enable = lib.mkEnableOption "Enables hyprland WM." // { default = false; };
     mod = lib.mkOption {
       type = lib.types.str;
       default = "SUPER";
@@ -61,105 +62,148 @@ in {
   };
 
   config = lib.mkIf config.h.hyprland.enable {
-    wayland.windowManager.hyprland = let mod = config.h.hyprland.mod;
-    in {
-      enable = true;
-      systemd = {
-        enable = true;
-        variables = [ "--all" ];
-      };
-      extraConfig = "${config.h.hyprland.extraConfig}";
-      settings = {
-        xwayland = { enabled = true; };
-        cursor = { no_hardware_cursors = true; };
-        general = {
-          gaps_in = 0;
-          gaps_out = 0;
-          border_size = 0;
-          layout = "master";
-        };
-        master = { mfact = 0.5; };
-        decoration = {
-          rounding = 0;
-          blur = { enabled = false; };
-          shadow = { enabled = false; };
-        };
-        input = {
-          repeat_delay = 300;
-          repeat_rate = 50;
-        };
-        misc = {
-          # why did I have this enabled?
-          # vfr = true;
-          disable_hyprland_logo = true;
-          disable_splash_rendering = true;
-          background_color = "0x000000";
-        };
-        render = { cm_fs_passthrough = true; };
-        animations = {
-          enabled = false;
-          first_launch_animation = false;
-        };
-        experimental = { xx_color_management_v4 = true; };
-        input = {
-          kb_layout = "us";
-          kb_variant = "";
-          kb_model = "";
-          kb_options = "";
-          kb_rules = "evdev";
-          follow_mouse = 0;
-          accel_profile = "flat";
-          mouse_refocus = false;
-          touchpad = { natural_scroll = true; };
-          sensitivity = 0;
-        };
-        env = [
-          "XCURSOR_SIZE,${builtins.toString config.h.wayland.cursorTheme.size}"
-        ];
-        windowrulev2 = [
-          "float, title:^(Picture-in-Picture)$"
-          "pin, title:^(Picture-in-Picture)$"
-          "move 100%-30% 0, title:^(Picture-in-Picture)$"
-          "size 30% 30%, title:^(Picture-in-Picture)$"
-        ];
-        bind = [
-          "${mod}+Shift, Q, exit"
-          "${mod}+Shift, 0, pin"
-          "${mod}+Shift, H, resizeactive, -50 0"
-          "${mod}+Shift, L, resizeactive, 50 0"
-          "${mod}+Shift, J, layoutmsg, swapnext"
-          "${mod}+Shift, K, layoutmsg, swapprev"
-          "${mod}, Return, exec, ${lib.getExe pkgs.foot}"
-          "${mod},Q, killactive"
-          "${mod},F, fullscreen, 0"
-          "${mod},S, togglefloating"
-          "${mod},J, layoutmsg, cyclenext"
-          "${mod},K, layoutmsg, cycleprev"
-          "${mod}+Shift, S, exec, pkill grimshot || ${
-            lib.getExe pkgs.sway-contrib.grimshot
-          } --notify copy area"
-          "${mod}+Shift, N, exec, pkill gammastep || ${
-            lib.getExe pkgs.gammastep
-          } -O 4000"
-          "${mod}+Shift, C, exec, pkill hyprpicker || ${
-            lib.getExe pkgs.hyprpicker
-          } | ${pkgs.wl-clipboard}/bin/wl-copy"
-          "${mod}, Space, exec, pkill wmenu || ${lib.getExe config.h.wmenu.run}"
-          "${mod}, Z, exec, ${lib.getExe bookmarkPaste}"
-          "${mod}, X, exec, ${lib.getExe bookmarkAdd}"
-          "${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}"
-          "${mod}, F9, exec, ${lib.getExe toggleHdr}"
-        ] ++ (builtins.concatLists (builtins.genList (i:
-          let ws = i + 1;
-          in [
-            "${mod}, code:1${toString i}, workspace, ${toString ws}"
-            "${mod} SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-          ]) 9));
+    h.extraPackages = with pkgs; [ hyprland ];
 
-        bindm =
-          [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
-        exec-once = [ "${lib.getExe pkgs.hyprnotify}" ];
-      };
+    xdg.portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      config = { hyprland.default = [ "hyprland" "gtk" ]; };
     };
+
+    programs.hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+    };
+
+    environment.etc."${config.h.xdg}/hypr/hyprland.conf" =
+      let mod = config.h.hyprland.mod;
+      in {
+        text = ''
+          animations {
+            enabled=false
+            first_launch_animation=false
+          }
+
+          cursor {
+            no_hardware_cursors=true
+          }
+
+          decoration {
+            blur {
+              enabled=false
+            }
+
+            shadow {
+              enabled=false
+            }
+            rounding=0
+          }
+
+          experimental {
+            xx_color_management_v4=true
+          }
+
+          general {
+            border_size=0
+            gaps_in=0
+            gaps_out=0
+            layout=master
+          }
+
+          input {
+            touchpad {
+              natural_scroll=true
+            }
+            accel_profile=flat
+            follow_mouse=0
+            kb_layout=us
+            kb_model=
+            kb_options=
+            kb_rules=evdev
+            kb_variant=
+            mouse_refocus=false
+            repeat_delay=300
+            repeat_rate=50
+            sensitivity=0
+          }
+
+          master {
+            mfact=0.500000
+          }
+
+          misc {
+            background_color=0x000000
+            disable_hyprland_logo=true
+            disable_splash_rendering=true
+          }
+
+          render {
+            cm_fs_passthrough=true
+          }
+
+          xwayland {
+            enabled=true
+          }
+
+          bind=${mod}+Shift, Q, exit
+          bind=${mod}+Shift, 0, pin
+          bind=${mod}+Shift, H, resizeactive, -50 0
+          bind=${mod}+Shift, L, resizeactive, 50 0
+          bind=${mod}+Shift, J, layoutmsg, swapnext
+          bind=${mod}+Shift, K, layoutmsg, swapprev
+          bind=${mod}, Return, exec, ${lib.getExe pkgs.foot}" 
+          bind=${mod}, Q, killactive
+          bind=${mod}, F, fullscreen, 0
+          bind=${mod}, S, togglefloating
+          bind=${mod}, J, layoutmsg, cyclenext
+          bind=${mod}, K, layoutmsg, cycleprev
+          bind=${mod}+Shift, S, exec, pkill grimshot || ${
+            lib.getExe pkgs.sway-contrib.grimshot
+          } --notify copy area
+          bind=${mod}+Shift, N, exec, pkill gammastep || ${
+            lib.getExe pkgs.gammastep
+          } -O 4000
+          bind=${mod}+Shift, C, exec, pkill hyprpicker || ${
+            lib.getExe pkgs.hyprpicker
+          } | ${pkgs.wl-clipboard}/bin/wl-copy
+          bind=${mod}, Space, exec, pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run
+          bind=${mod}, Z, exec, ${lib.getExe bookmarkPaste}
+          bind=${mod}, X, exec, ${lib.getExe bookmarkAdd}
+          bind=${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}
+          bind=${mod}, F9, exec, ${lib.getExe toggleHdr}
+
+          bind=${mod}, code:10, workspace, 1
+          bind=${mod} SHIFT, code:10, movetoworkspace, 1
+          bind=${mod}, code:11, workspace, 2
+          bind=${mod} SHIFT, code:11, movetoworkspace, 2
+          bind=${mod}, code:12, workspace, 3
+          bind=${mod} SHIFT, code:12, movetoworkspace, 3
+          bind=${mod}, code:13, workspace, 4
+          bind=${mod} SHIFT, code:13, movetoworkspace, 4
+          bind=${mod}, code:14, workspace, 5
+          bind=${mod} SHIFT, code:14, movetoworkspace, 5
+          bind=${mod}, code:15, workspace, 6
+          bind=${mod} SHIFT, code:15, movetoworkspace, 6
+          bind=${mod}, code:16, workspace, 7
+          bind=${mod} SHIFT, code:16, movetoworkspace, 7
+          bind=${mod}, code:17, workspace, 8
+          bind=${mod} SHIFT, code:17, movetoworkspace, 8
+          bind=${mod}, code:18, workspace, 9
+          bind=${mod} SHIFT, code:18, movetoworkspace, 9
+          bindm=${mod}, mouse:272, movewindow
+          bindm=${mod}, mouse:273, resizewindow
+
+          exec-once=${lib.getExe pkgs.hyprnotify}
+          windowrulev2=float, title:^(Picture-in-Picture)$
+          windowrulev2=pin, title:^(Picture-in-Picture)$
+          windowrulev2=move 100%-30% 0, title:^(Picture-in-Picture)$
+          windowrulev2=size 30% 30%, title:^(Picture-in-Picture)$
+
+          ${config.h.hyprland.extraConfig}
+        '';
+      };
   };
 }

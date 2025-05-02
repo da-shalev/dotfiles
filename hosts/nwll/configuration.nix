@@ -1,7 +1,7 @@
 { pkgs, inputs, ... }: {
   users.users.dashalev = {
-    shell = pkgs.fish;
     uid = 1000;
+    extraGroups = [ "wheel" "video" "networkmanager" ];
   };
 
   security.sudo.wheelNeedsPassword = false;
@@ -9,12 +9,6 @@
     enable = true;
     platformTheme = "gnome";
     style = "adwaita-dark";
-  };
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = 1;
-    NIXPKGS_ALLOW_UNFREE = 1;
-    ENABLE_HDR_WSI = 1;
   };
 
   fonts = {

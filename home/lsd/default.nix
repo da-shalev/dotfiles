@@ -1,10 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, ... }: {
   options.h.lsd = {
     enable = lib.mkEnableOption "Enable lsd." // { default = true; };
   };
 
   config = lib.mkIf config.h.lsd.enable {
-    home.shellAliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
+    # h.shell.aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
 
     programs.lsd = {
       enable = true;

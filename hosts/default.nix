@@ -4,5 +4,6 @@
     ../nixosModules/darwin/genesis
     ./nwll
     ./refrigerator
+    ./test
   ];
 }

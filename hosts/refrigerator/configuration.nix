@@ -6,7 +6,6 @@
     shells = [ pkgs.fish ];
     systemPackages = with pkgs; [ xcodes ];
   };
-  programs.fish.enable = true;
 
   system = {
     defaults = {

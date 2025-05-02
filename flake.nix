@@ -61,13 +61,6 @@
       inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
-    home-manager = {
-      type = "github";
-      owner = "nix-community";
-      repo = "home-manager";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
-    };
-
     impermanence = {
       type = "github";
       owner = "nix-community";

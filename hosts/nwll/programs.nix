@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }: {
+{ ... }: {
   services = { mullvad-vpn = { enable = true; }; };
 
   environment.persistence."/nix/persist" = {
@@ -8,25 +8,7 @@
     ];
   };
 
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config = {
-      common.default = [ "gtk" ];
-      river.default = [ "wlr" ];
-      hyprland.default = [ "hyprland" "gtk" ];
-    };
-  };
-
   programs = {
-    hyprland = {
-      enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-      portalPackage =
-        inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
-    };
     appimage = {
       enable = true;
       binfmt = true;

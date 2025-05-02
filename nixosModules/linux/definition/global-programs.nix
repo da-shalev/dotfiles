@@ -4,8 +4,13 @@
       environment.persistence."/nix/persist" = {
         enable = true;
         hideMounts = true;
-        directories =
-          [ "/var/lib/nixos" "/var/log" "/var/lib/systemd/coredump" "/tmp" ];
+        directories = [
+          "/var/lib/nixos"
+          "/var/log"
+          "/var/lib/systemd/coredump"
+          "/etc/nixos"
+          "/tmp"
+        ];
       };
     })
     {

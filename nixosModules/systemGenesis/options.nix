@@ -10,12 +10,6 @@
         type = with lib.types; nonEmptyStr;
         description = "Your systems architecture. Must be defined explicitly.";
       };
-
-      configDir = lib.mkOption {
-        type = with lib.types; nonEmptyStr;
-        default = "$HOME/library/nix";
-        description = "Configuration location for rebuild aliases.";
-      };
     };
   };
 }
