@@ -154,7 +154,7 @@ in {
           bind=${mod}+Shift, L, resizeactive, 50 0
           bind=${mod}+Shift, J, layoutmsg, swapnext
           bind=${mod}+Shift, K, layoutmsg, swapprev
-          bind=${mod}, Return, exec, ${lib.getExe pkgs.foot}" 
+          bind=${mod}, Return, exec, ${lib.getExe pkgs.foot}
           bind=${mod}, Q, killactive
           bind=${mod}, F, fullscreen, 0
           bind=${mod}, S, togglefloating

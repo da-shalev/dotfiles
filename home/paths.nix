@@ -66,11 +66,13 @@
 
       sourceEnv = lib.mkOption {
         type = lib.types.package;
-        default = pkgs.writeShellScript "source-env" (lib.concatStringsSep "\n"
-          ([ ''[ -n "$__env_sourced" ] && return'' "export __env_sourced=1" ]
-            ++ lib.mapAttrsToList
+        default = pkgs.writeShellScript "source-env" ''
+          [ -n "$__env_sourced" ] && return
+          export __env_sourced=1
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList
             (name: value: ''export ${name}="${builtins.toString value}"'')
-            config.h.shell.variables));
+            config.h.shell.variables)}
+        '';
       };
 
       aliases = lib.mkOption {
@@ -82,15 +84,15 @@
   };
 
   config = let
-    usershell = "${config.h.userName}-shell";
-    shell = pkgs.runCommand "${usershell}" {
-      passthru.shellPath = "/bin/${usershell}";
+    userShell = "${config.h.userName}-shell";
+    shell = pkgs.runCommand "${userShell}" {
+      passthru.shellPath = "/bin/${userShell}";
     } ''
       mkdir -p $out/bin
-      echo '#!${lib.getExe pkgs.dash}' > $out/bin/${usershell}
-      echo '. ${config.h.shell.sourceEnv}' >> $out/bin/${usershell}
-      echo 'exec ${lib.getExe config.h.shell.package}' >> $out/bin/${usershell}
-      chmod +x $out/bin/${usershell}
+      echo '#!${lib.getExe pkgs.dash}' > $out/bin/${userShell}
+      echo '. ${config.h.shell.sourceEnv}' >> $out/bin/${userShell}
+      echo 'exec ${lib.getExe config.h.shell.package}' >> $out/bin/${userShell}
+      chmod +x $out/bin/${userShell}
     '';
   in {
     h = {
@@ -105,7 +107,7 @@
         XDG_VIDEOS_DIR = lib.mkDefault "${config.h.path}/vid";
       };
 
-      # extraPackages = [ config.h.shell.sourceEnv ];
+      extraPackages = [ config.h.shell.sourceEnv ];
 
       # non overridable xdg dirs
       shell.variables = config.h.userDirs // {
@@ -113,8 +115,6 @@
         XDG_STATE_HOME = lib.mkForce "${config.h.stateHome}";
         XDG_CONFIG_HOME = lib.mkForce "${config.h.configHome}";
         XDG_CACHE_HOME = lib.mkForce "${config.h.cacheHome}";
-        XDG_RUNTIME_DIR = lib.mkForce
-          "/run/user/${toString config.users.users.${config.h.userName}.uid}";
         SHELL = "${lib.getExe config.h.shell.package}";
       };
     };
