@@ -3,7 +3,7 @@
     enable = lib.mkEnableOption "Enable tmux." // { default = false; };
     plugins = lib.mkOption {
       type = with lib.types; listOf package;
-      default = with pkgs.tmuxPlugins; [ yank vim-tmux-navigator ];
+      default = [ ];
     };
     config = lib.mkOption {
       type = lib.types.lines;

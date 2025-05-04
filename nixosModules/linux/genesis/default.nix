@@ -45,6 +45,7 @@
             foot
             tmux
             wmenu
+            steam
             git
             hyprland
             wayland

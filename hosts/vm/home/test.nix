@@ -3,16 +3,15 @@
     shell = {
       package = pkgs.fish;
       colour = "green";
-      icon = "🗿";
+      icon = "📦";
     };
 
+    dashalev.enable = true;
     foot.enable = true;
     wayland = {
       enable = true;
       cursorTheme.size = 16;
     };
-
-    lsd.enable = true;
 
     hyprland = {
       enable = true;

@@ -54,11 +54,6 @@
         #     home.stateVersion = "25.05";
         #   };
         # };
-
-        users.users.${userName} = {
-          name = "${userName}";
-          home = "${homePath}";
-        };
       };
   };
 }

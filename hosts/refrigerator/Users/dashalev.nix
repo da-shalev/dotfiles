@@ -6,7 +6,6 @@
       icon = "🍺";
     };
 
-    dev.enable = true;
-    tmux.enable = true;
+    dashalev.enable = true;
   };
 }

@@ -26,10 +26,11 @@
 
   config.h = {
     dashalev.enable = true;
+    steam.enable = true;
 
     shell = {
       package = pkgs.fish;
-      colour = "green";
+      colour = "magenta";
       icon = "🗿";
     };
 

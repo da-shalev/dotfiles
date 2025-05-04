@@ -10,5 +10,6 @@
     wmenu = import ./wmenu;
     fish = import ./fish;
     rebuild = import ./rebuild;
+    steam = import ./steam;
   };
 }

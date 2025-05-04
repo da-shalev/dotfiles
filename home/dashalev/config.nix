@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+{ packages, config, lib, pkgs, ... }: {
   h = {
     git = {
       enable = true;
@@ -40,11 +40,14 @@
       pinentry-tty
       imagemagick
       exiftool
+
+      packages.neovim
     ];
 
     tmux = {
       enable = true;
       config = "${builtins.readFile ./tmux.conf}";
+      plugins = with pkgs.tmuxPlugins; [ yank vim-tmux-navigator ];
     };
 
     foot = { config = "${builtins.readFile ./foot.ini}"; };
