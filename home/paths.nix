@@ -10,55 +10,60 @@
       # nixos sources these by default
       path = lib.mkOption {
         type = with lib.types; path;
-        default = "/profiles/per-user/${config.h.userName}";
-        readOnly = true;
-        description = "Profile path to per user";
+        default = "/users/per-user/${config.h.userName}";
+        description =
+          "Filesystem path for the per-user profile. Avoid using '/etc/profiles' as it is reserved for NixOS internals.";
       };
       config = lib.mkOption {
         type = with lib.types; path;
-        default = "${config.h.profile.path}/etc/xdg";
-        readOnly = true;
+        default = "${config.h.profile.path}/config";
         description = "Profile config path";
       };
       data = lib.mkOption {
         type = with lib.types; path;
         default = "${config.h.profile.path}/share";
-        readOnly = true;
         description = "Profile data path";
       };
     };
 
     xdg = {
-      root = lib.mkOption {
-        type = with lib.types; nonEmptyStr;
-        default = ".";
-        description =
-          "Root directory for XDG-style configuration under the home directory. Defaults to '.', which results in paths like ~/.config and ~/.local/share.";
-      };
-      dataHome = lib.mkOption {
-        type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}local/share";
-      };
-      stateHome = lib.mkOption {
-        type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}local/state";
-      };
-      configHome = lib.mkOption {
-        type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}config";
-      };
-      cacheHome = lib.mkOption {
-        type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}cache";
-      };
       userDirs = lib.mkOption {
         type = with lib.types; attrsOf (with lib.types; str);
         default = { };
         description = "User directory definitions.";
       };
+
+      # currently does not support customization 
+      root = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = ".";
+        description =
+          "Root directory for XDG-style configuration under the home directory. Defaults to '.', which results in paths like ~/.config and ~/.local/share.";
+        readOnly = true;
+      };
+      dataHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}local/share";
+        readOnly = true;
+      };
+      stateHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}local/state";
+        readOnly = true;
+      };
+      configHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}config";
+        readOnly = true;
+      };
+      cacheHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}cache";
+        readOnly = true;
+      };
     };
 
-    extraPackages = lib.mkOption {
+    packages = lib.mkOption {
       type = with lib.types; listOf package;
       default = [ ];
       description = "The packages for the user.";
@@ -107,12 +112,13 @@
         lib.escapeShellArg path
       }") config.h.xdg.userDirs);
   in {
-    # share xdg on rebuild
+    # share profile configuration on rebuild
     system.activationScripts."z-config-${config.h.userName}".text = ''
       if [ -d "${config.h.path}" ]; then
-        cp -rf "/etc/${config.h.profile.config}" "${config.h.xdg.configHome}"
+        cp -rf "/etc/${config.h.profile.config}"/. "${config.h.xdg.configHome}"
         chown -R "${userperm}" "${config.h.xdg.configHome}"
-
+        cp -rf "/etc/${config.h.profile.data}"/. "${config.h.xdg.dataHome}"
+        chown -R "${userperm}" "${config.h.xdg.dataHome}"
         ${createUserDirs}
       fi
     '';
@@ -154,7 +160,7 @@
     users.users.${config.h.userName} = {
       shell = config.h.shell.package;
       isNormalUser = true;
-      packages = config.h.extraPackages;
+      packages = config.h.packages;
     };
   };
 }

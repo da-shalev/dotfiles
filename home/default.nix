@@ -4,8 +4,8 @@
     foot = import ./foot;
     wayland = import ./wayland;
     hyprland = import ./hyprland;
-    # dev = import ./dev;
-    # git = import ./git;
+    dashalev = import ./dashalev;
+    git = import ./git;
     tmux = import ./tmux;
     # fzf = import ./fzf;
     # wmenu = import ./wmenu;

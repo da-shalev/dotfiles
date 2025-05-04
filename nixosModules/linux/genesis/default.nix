@@ -44,6 +44,8 @@
             paths
             foot
             tmux
+            git
+            dashalev
             hyprland
             wayland
             fish

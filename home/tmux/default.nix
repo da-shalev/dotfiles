@@ -8,7 +8,7 @@
   };
 
   config = lib.mkIf config.h.tmux.enable {
-    h.extraPackages = with pkgs; [ tmux tmux-sessionizer ];
+    h.packages = with pkgs; [ tmux tmux-sessionizer ];
     environment.etc = let
       plugins = builtins.concatStringsSep "\n" (map (plugin:
         "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")

@@ -53,34 +53,6 @@
   };
 
   config = lib.mkIf config.h.wayland.enable {
-    # gtk = {
-    #   enable = true;
-    #   theme = {
-    #     inherit (config.h.wayland.theme) name;
-    #     inherit (config.h.wayland.theme) package;
-    #   };
-    #
-    #   iconTheme = {
-    #     inherit (config.h.wayland.iconTheme) name;
-    #     inherit (config.h.wayland.iconTheme) package;
-    #   };
-    #
-    #   cursorTheme = {
-    #     inherit (config.h.wayland.cursorTheme) name;
-    #     inherit (config.h.wayland.cursorTheme) package;
-    #     inherit (config.h.wayland.cursorTheme) size;
-    #   };
-    # };
-    #
-    # qt = {
-    #   enable = true;
-    #   platformTheme.name = "qtct";
-    #   style = {
-    #     inherit (config.h.wayland.qt) package;
-    #     inherit (config.h.wayland.qt) name;
-    #   };
-    # };
-
     xdg.portal = {
       enable = true;
       xdgOpenUsePortal = true;
@@ -105,7 +77,7 @@
         XCURSOR_THEME = config.h.wayland.cursorTheme.name;
       };
 
-      extraPackages = with pkgs; [
+      packages = with pkgs; [
         wl-clipboard
         pwvucontrol_git
         nautilus

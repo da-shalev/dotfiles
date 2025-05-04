@@ -6,7 +6,7 @@
   config = lib.mkIf config.h.git.enable {
     environment.etc = {
       "${config.h.profile.config}/git/ignore".source = ./ignore;
-      "${config.h.profile.config}/git/conifg".source = ./config;
+      "${config.h.profile.config}/git/config".source = ./config;
     };
   };
 }

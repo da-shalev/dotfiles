@@ -4,7 +4,7 @@
   };
 
   config = lib.mkIf config.h.lsd.enable {
-    h.extraPackages = with pkgs; [ lsd ];
+    h.packages = with pkgs; [ lsd ];
     environment.etc."${config.h.profile.config}/lsd/config.yaml".text = ''
       blocks:
       - permission

@@ -25,6 +25,8 @@
   # };
 
   config.h = {
+    dashalev.enable = true;
+
     shell = {
       package = pkgs.fish;
       colour = "green";

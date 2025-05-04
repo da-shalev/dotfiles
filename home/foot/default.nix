@@ -6,7 +6,7 @@
   };
 
   config = lib.mkIf config.h.foot.enable {
-    h.extraPackages = with pkgs; [ foot ];
+    h.packages = with pkgs; [ foot ];
     environment.etc."${config.h.profile.config}/foot/foot.ini".text = ''
       [colors]
       alpha=1
