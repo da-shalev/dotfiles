@@ -11,9 +11,6 @@
     # wmenu = import ./wmenu;
     # fd = import ./fd;
     fish = import ./fish;
-    mnw = import ./mnw;
     lsd = import ./lsd;
-    ghostty = import ./ghostty;
-    # nixCats = import ./nixCats;
   };
 }

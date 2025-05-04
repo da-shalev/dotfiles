@@ -3,12 +3,20 @@
     enable = lib.mkEnableOption
       "Enables the fish shell. Fish should be enabled globally for this to work correctly."
       // {
-        default = true;
+        default = false;
       };
     plugins = lib.mkOption {
       type = with lib.types; listOf package;
       default = [ pkgs.fishPlugins.puffer pkgs.fishPlugins.autopair ];
       description = "Define the fish plugins you want to use.";
+    };
+    extraInteractive = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+    };
+    extraConfig = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
     };
   };
 
@@ -46,8 +54,6 @@
         '') config.h.fish.plugins}
       '';
     in {
-      "${config.h.profile.config}/fish/themes/fishsticks.theme".source =
-        ./fishsticks.theme;
       "${config.h.profile.config}/fish/config.fish".text = ''
         set -q __fish_sourced; and exit
         set -g __fish_sourced 1
@@ -55,47 +61,12 @@
         source "${lib.getExe config.h.shell.sourceEnv}"
 
         status is-interactive; and begin
-          set fish_greeting
-          set -x fish_prompt_pwd_dir_length 50
-          bind --erase --all
-          history merge
-          fish_vi_key_bindings
-          fish_config theme choose fishsticks
-
+          ${config.h.fish.extraInteractive}
           ${fishAliases}
-
-          function fzf_cmd
-            set -x fzfn (${lib.getExe pkgs.fd} . ~ --hidden | ${
-              lib.getExe pkgs.fzf
-            })
-            if test -z $fzfn
-              return
-            else if test -d $fzfn
-              cd $fzfn
-            else
-              cd $(dirname $fzfn)
-              nvim $(basename $fzfn)
-            end
-
-            echo -e ""
-            fish_prompt
-          end
-
-          function fish_mode_prompt
-          end
-
-          function fish_prompt
-            printf '%s%s%s %s%s%s\n%s ' \
-              (set_color "${config.h.shell.colour}")(whoami) \
-              (set_color "brwhite")@ \
-              (set_color "bryellow")(hostname) \
-              (set_color "brgreen") (prompt_pwd) \
-              (set_color "brred"; fish_git_prompt) \
-              ${config.h.shell.icon}
-          end
-
           ${plugins}
         end
+
+        ${config.h.fish.extraConfig}
       '';
     };
   };

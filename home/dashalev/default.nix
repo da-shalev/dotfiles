@@ -1,13 +1,14 @@
-{ config, lib, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   options.h.dashalev = {
     enable = lib.mkEnableOption
-      "Enables consistent personal preferences across all user accounts I own."
+      "Enables consistent personal settings across all user accounts I own."
       // {
         default = false;
       };
   };
 
-  config.h = lib.mkIf config.h.foot.enable {
-    shell.aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-  };
+  config = (lib.mkMerge [
+    (import ./config.nix { inherit config pkgs lib; })
+    (import ./hyprland { inherit config pkgs lib; })
+  ]);
 }

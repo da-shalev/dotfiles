@@ -139,10 +139,10 @@ lspconfig.psalm.setup({
   on_attach = M.on_attach,
 })
 
-lspconfig.intelephense.setup({
-  capabilities = M.capabilities,
-  on_attach = M.on_attach,
-})
+-- lspconfig.intelephense.setup({
+--   capabilities = M.capabilities,
+--   on_attach = M.on_attach,
+-- })
 
 lspconfig.pyright.setup({
   capabilities = M.capabilities,

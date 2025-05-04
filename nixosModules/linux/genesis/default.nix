@@ -50,7 +50,6 @@
             wayland
             fish
             lsd
-            ghostty
           ] ++ homeConfiguration;
 
         users.users.${userName} = {

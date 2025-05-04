@@ -83,7 +83,6 @@
         nautilus
         libnotify
         pulsemixer
-        # dconf-editor
         xorg.xeyes
         imv
       ];

@@ -33,7 +33,7 @@
         description = "User directory definitions.";
       };
 
-      # currently does not support customization 
+      # currently does not support customization
       root = lib.mkOption {
         type = with lib.types; nonEmptyStr;
         default = ".";

@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: {
+{ inputs, ... }: {
   perSystem = { pkgs, ... }: {
     packages.neovim = inputs.mnw.lib.wrap pkgs (import ./neovim pkgs);
   };
