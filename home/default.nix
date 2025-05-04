@@ -7,10 +7,9 @@
     dashalev = import ./dashalev;
     git = import ./git;
     tmux = import ./tmux;
-    # fzf = import ./fzf;
     # wmenu = import ./wmenu;
-    # fd = import ./fd;
     fish = import ./fish;
+    rebuild = import ./rebuild;
     lsd = import ./lsd;
   };
 }

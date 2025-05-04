@@ -45,15 +45,13 @@
             foot
             tmux
             git
-            dashalev
             hyprland
             wayland
             fish
+            rebuild
             lsd
+            dashalev
           ] ++ homeConfiguration;
-
-        users.users.${userName} = {
-        };
       };
   };
 }

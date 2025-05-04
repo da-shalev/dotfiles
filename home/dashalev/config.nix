@@ -6,39 +6,52 @@
       ignore = "${builtins.readFile ./git/ignore}";
     };
 
-    shell.aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
+    rebuild.enable = true;
 
-    packages = with pkgs; [ tmux-sessionizer ];
+    shell = {
+      aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
+      variables = rec {
+        FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
+        GOPATH = "${config.h.xdg.dataHome}/go";
+        NPM_CONFIG_PREFIX = "${config.h.xdg.dataHome}/npm";
+        NPM_CONFIG_USERCONFIG = "${config.h.xdg.configHome}/npm/config";
+        CARGO_HOME = "${config.h.xdg.dataHome}/cargo";
+        LESSHISTFILE = "/dev/null";
+        JAVA_HOME = "${pkgs.jdk21}";
+        JAVA_RUN = "${pkgs.jdk21}/bin/java";
+        JDK21 = pkgs.jdk21;
+        PATH = "${NPM_CONFIG_PREFIX}/bin:${CARGO_HOME}/bin:$PATH";
+      };
+    };
+
+    packages = with pkgs; [
+      tmux-sessionizer
+      woff2
+      ripgrep
+      jq
+      fd
+      fzf
+
+      nodePackages_latest.npm
+      nodejs
+
+      smartmontools
+      pinentry-tty
+      imagemagick
+      exiftool
+    ];
 
     tmux = {
       enable = true;
       extraConfig = "${builtins.readFile ./tmux.conf}";
     };
 
+    foot = { config = "${builtins.readFile ./foot.ini}"; };
+
     fish = {
       enable = true;
-      extraInteractive = ''
+      interactive = ''
         ${builtins.readFile ./config.fish}
-
-        function fzf_cmd
-          set -x fzfn (${lib.getExe pkgs.fd} . ~ --hidden | ${
-            lib.getExe pkgs.fzf
-          })
-          if test -z $fzfn
-            return
-          else if test -d $fzfn
-            cd $fzfn
-          else
-            cd $(dirname $fzfn)
-            nvim $(basename $fzfn)
-          end
-
-          echo -e ""
-          fish_prompt
-        end
-
-        function fish_mode_prompt
-        end
 
         function fish_prompt
           printf '%s%s%s %s%s%s\n%s ' \
@@ -53,20 +66,22 @@
     };
   };
 
-  environment.etc = {
-    "${config.h.profile.config}/ghostty/config".source = ./ghostty.conf;
-    "${config.h.profile.config}/fish/themes/fishsticks.theme".source =
-      ./fishsticks.theme;
-    "${config.h.profile.config}/tms/config.toml".text = ''
+  environment.etc = config.h.profile.addConfigs {
+    "ghostty/config".source = ./ghostty.conf;
+    "fish/themes/fishsticks.theme".source = ./fishsticks.theme;
+    "tms/config.toml".text = ''
       excluded_dirs = [".direnv"]
 
       [[search_dirs]]
-      path = "${config.systemGenesis.config}/"
+      path = "${config.systemGenesis.configPath}/"
       depth = 5
 
       [[search_dirs]]
       path = "${config.h.path}/media/"
       depth = 20
+    '';
+    "npm/config".text = ''
+      cache=${config.h.xdg.cacheHome}/npm
     '';
   };
 }

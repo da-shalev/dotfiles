@@ -10,7 +10,7 @@
       default = [ pkgs.fishPlugins.puffer pkgs.fishPlugins.autopair ];
       description = "Define the fish plugins you want to use.";
     };
-    extraInteractive = lib.mkOption {
+    interactive = lib.mkOption {
       type = lib.types.lines;
       default = "";
     };
@@ -53,15 +53,15 @@
           end
         '') config.h.fish.plugins}
       '';
-    in {
-      "${config.h.profile.config}/fish/config.fish".text = ''
+    in config.h.profile.addConfigs {
+      "fish/config.fish".text = ''
         set -q __fish_sourced; and exit
         set -g __fish_sourced 1
 
         source "${lib.getExe config.h.shell.sourceEnv}"
 
         status is-interactive; and begin
-          ${config.h.fish.extraInteractive}
+          ${config.h.fish.interactive}
           ${fishAliases}
           ${plugins}
         end

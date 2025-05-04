@@ -19,6 +19,16 @@
         default = "${config.h.profile.path}/config";
         description = "Profile config path";
       };
+
+      addConfigs = lib.mkOption {
+        type = lib.types.functionTo lib.types.attrs;
+        default = configs:
+          lib.mapAttrs' (name: value:
+            lib.nameValuePair "${config.h.profile.config}/${name}" value)
+          configs;
+        readOnly = true;
+      };
+
       data = lib.mkOption {
         type = with lib.types; path;
         default = "${config.h.profile.path}/share";
@@ -107,17 +117,17 @@
   config = let
     userperm =
       "${config.h.userName}:${config.users.users.${config.h.userName}.group}";
-    createUserDirs = lib.concatStringsSep "\n" (lib.mapAttrsToList (name: path:
-      "mkdir -p ${lib.escapeShellArg path} && chown -R ${userperm} ${
-        lib.escapeShellArg path
-      }") config.h.xdg.userDirs);
+    createUserDirs = lib.concatStringsSep "\n" (lib.mapAttrsToList (_: path:
+      "install -d -o ${config.h.userName} -g ${
+        config.users.users.${config.h.userName}.group
+      } ${lib.escapeShellArg path}") config.h.xdg.userDirs);
   in {
     # share profile configuration on rebuild
     system.activationScripts."z-config-${config.h.userName}".text = ''
       if [ -d "${config.h.path}" ]; then
-        cp -rf "/etc/${config.h.profile.config}"/. "${config.h.xdg.configHome}"
+        cp -rf "/etc${config.h.profile.config}"/. "${config.h.xdg.configHome}"
         chown -R "${userperm}" "${config.h.xdg.configHome}"
-        cp -rf "/etc/${config.h.profile.data}"/. "${config.h.xdg.dataHome}"
+        cp -rf "/etc${config.h.profile.data}"/. "${config.h.xdg.dataHome}"
         chown -R "${userperm}" "${config.h.xdg.dataHome}"
         ${createUserDirs}
       fi

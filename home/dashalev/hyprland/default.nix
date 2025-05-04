@@ -59,7 +59,7 @@ in {
     bind=${mod}+Shift, L, resizeactive, 50 0
     bind=${mod}+Shift, J, layoutmsg, swapnext
     bind=${mod}+Shift, K, layoutmsg, swapprev
-    bind=${mod}, Return, exec, ${lib.getExe pkgs.foot}
+    bind=${mod}, Return, exec, ${pkgs.foot}/bin/footclient
     bind=${mod}, Q, killactive
     bind=${mod}, F, fullscreen, 0
     bind=${mod}, S, togglefloating
@@ -101,7 +101,8 @@ in {
     bindm=${mod}, mouse:272, movewindow
     bindm=${mod}, mouse:273, resizewindow
 
-    exec-once=${lib.getExe pkgs.hyprnotify}
+    exec-once=${lib.getExe pkgs.mako}
+    exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
     windowrulev2=float, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
     windowrulev2=pin, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
     windowrulev2=move 100%-30% 0, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)

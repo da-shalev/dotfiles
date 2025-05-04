@@ -17,8 +17,8 @@
       plugins = builtins.concatStringsSep "\n" (map (plugin:
         "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")
         config.h.tmux.plugins);
-    in {
-      "${config.h.profile.config}/tmux/tmux.conf".text = ''
+    in config.h.profile.addConfigs {
+      "tmux/tmux.conf".text = ''
         ${config.h.tmux.extraConfig}
         ${plugins}
       '';

@@ -14,9 +14,9 @@
   };
 
   config = lib.mkIf config.h.git.enable {
-    environment.etc = {
-      "${config.h.profile.config}/git/ignore".text = config.h.git.ignore;
-      "${config.h.profile.config}/git/config".text = config.h.git.config;
+    environment.etc = config.h.profile.addConfigs {
+      "git/ignore".text = config.h.git.ignore;
+      "git/config".text = config.h.git.config;
     };
   };
 }

@@ -11,7 +11,7 @@
         description = "Your systems architecture. Must be defined explicitly.";
       };
 
-      config = lib.mkOption {
+      configPath = lib.mkOption {
         type = with lib.types; nonEmptyStr;
         default = "/etc/nixos";
         description = "Systemwide configuration location.";

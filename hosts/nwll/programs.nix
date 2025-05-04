@@ -21,10 +21,6 @@
     gamescope = {
       enable = true;
     };
-    nh = {
-      enable = true;
-      clean.enable = true;
-    };
     gnupg.agent = { enable = true; };
     fish.enable = true;
     chromium = {

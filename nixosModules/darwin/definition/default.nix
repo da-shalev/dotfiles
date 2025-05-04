@@ -1,5 +1,5 @@
 { ... }: {
-  imports = [ ./nix-settings.nix ./rebuild.nix ];
+  imports = [ ./nix-settings.nix ];
 
   security.pam.services.sudo_local.touchIdAuth = true;
   nix.enable = false;
