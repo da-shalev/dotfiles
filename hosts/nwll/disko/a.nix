@@ -1,4 +1,5 @@
-{
+{ ... }: {
+  systemGenesis.rootIsTmpfs = true;
   fileSystems = { "/".neededForBoot = true; };
   disko.devices = {
     nodev = {

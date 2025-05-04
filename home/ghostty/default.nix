@@ -7,7 +7,7 @@
 
   config = lib.mkIf config.h.ghostty.enable {
     environment.etc = {
-      "${config.h.xdg.path}/ghostty/config".text = ''
+      "${config.h.profile.config}/ghostty/config".text = ''
         theme = GruvboxDarkHard
         font-family = CaskaydiaCove Nerd Font Mono
         font-size = 32

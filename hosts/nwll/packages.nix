@@ -1,8 +1,6 @@
-{ pkgs, inputs, stable, ... }: {
+{ pkgs, stable, ... }: {
   environment = {
     systemPackages = with pkgs; [
-      inputs.zen-browser.packages.${pkgs.system}.default
-
       chromium
       delfin
       (brave.override {

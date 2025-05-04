@@ -39,7 +39,6 @@
               h = {
                 userName = "${userName}";
                 path = "${homePath}";
-                xdg.root = "library/";
               };
             }
             paths
@@ -48,6 +47,8 @@
             hyprland
             wayland
             fish
+            lsd
+            ghostty
           ] ++ homeConfiguration;
 
         users.users.${userName} = {

@@ -4,16 +4,9 @@
   };
 
   config = lib.mkIf config.h.git.enable {
-    programs.git = {
-      enable = true;
-      lfs.enable = true;
-      userName = "thefiredman";
-      userEmail = "haimovitzsh@gmail.com";
-      ignores = [ ".DS_Store" ];
-      extraConfig = {
-        init.defaultBranch = "master";
-        lfs.storage = "${config.h.dataHome}/lfs";
-      };
+    environment.etc = {
+      "${config.h.profile.config}/git/ignore".source = ./ignore;
+      "${config.h.profile.config}/git/conifg".source = ./config;
     };
   };
 }

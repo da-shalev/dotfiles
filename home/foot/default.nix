@@ -7,7 +7,7 @@
 
   config = lib.mkIf config.h.foot.enable {
     h.extraPackages = with pkgs; [ foot ];
-    environment.etc."${config.h.xdg.path}/foot/foot.ini".text = ''
+    environment.etc."${config.h.profile.config}/foot/foot.ini".text = ''
       [colors]
       alpha=1
       background=000000

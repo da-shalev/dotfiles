@@ -62,7 +62,6 @@ in {
   };
 
   config = lib.mkIf config.h.hyprland.enable {
-    h.extraPackages = with pkgs; [ hyprland ];
     xdg.portal.config.hyprland.default = [ "hyprland" "gtk" ];
 
     programs.hyprland = {
@@ -72,7 +71,7 @@ in {
         inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
-    environment.etc."${config.h.xdg.path}/hypr/hyprland.conf" =
+    environment.etc."${config.h.profile.config}/hypr/hyprland.conf" =
       let mod = config.h.hyprland.mod;
       in {
         text = ''

@@ -1,6 +1,6 @@
-{ config, pkgs, options, lib, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkMerge [
-    (lib.mkIf (options.environment ? persistence) {
+    (lib.mkIf (config.systemGenesis.rootIsTmpfs) {
       environment.persistence."/nix/persist" = {
         enable = true;
         hideMounts = true;
@@ -14,14 +14,15 @@
       };
     })
     {
+
       boot = {
         loader = {
           systemd-boot.enable = true;
           efi.canTouchEfiVariables = true;
         };
+
         initrd.systemd.enable = lib.mkDefault true;
       };
-
       time.timeZone = lib.mkDefault "Canada/Eastern";
 
       environment = {
@@ -46,7 +47,7 @@
       };
 
       services = {
-        userborn.enable = true;
+        userborn.enable = false;
         fstrim.enable = lib.mkForce true;
         pulseaudio.enable = lib.mkForce false;
         udisks2.enable = lib.mkForce true;
@@ -70,7 +71,7 @@
         fuse.userAllowOther = true;
         git = {
           enable = lib.mkForce true;
-          lfs.enable = lib.mkDefault true;
+          # lfs.enable = lib.mkDefault true;
         };
       };
 

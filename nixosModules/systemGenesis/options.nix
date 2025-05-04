@@ -16,6 +16,12 @@
         default = "/etc/nixos";
         description = "Systemwide configuration location.";
       };
+
+      rootIsTmpfs = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether the root filesystem (/) is tmpfs. If true the impermanence module activates.";
+      };
     };
   };
 }

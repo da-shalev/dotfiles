@@ -3,7 +3,7 @@
     enable = lib.mkEnableOption "Enable tmux." // { default = true; };
     plugins = lib.mkOption {
       type = with lib.types; listOf package;
-      default = [ pkgs.tmuxPlugins.yank pkgs.tmuxPlugins.vim-tmux-navigator ];
+      default = with pkgs.tmuxPlugins; [ yank vim-tmux-navigator ];
     };
   };
 
@@ -14,7 +14,7 @@
         "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")
         config.h.tmux.plugins);
     in {
-      "${config.h.xdg.path}/tms/config.toml".text = ''
+      "${config.h.profile.config}/tms/config.toml".text = ''
         excluded_dirs = [".direnv"]
 
         [[search_dirs]]
@@ -25,70 +25,8 @@
         path = "${config.h.path}/media/"
         depth = 20
       '';
-      "${config.h.xdg.path}/tmux/tmux.conf".text = ''
-        set  -g base-index      1
-        setw -g pane-base-index 1
-
-        set -g status-keys vi
-        set -g mode-keys   vi
-
-        bind -N "Select pane to the left of the active pane" h select-pane -L
-        bind -N "Select pane below the active pane" j select-pane -D
-        bind -N "Select pane above the active pane" k select-pane -U
-        bind -N "Select pane to the right of the active pane" l select-pane -R
-
-        bind -r -N "Resize the pane left by 5" \
-          H resize-pane -L 5
-        bind -r -N "Resize the pane down by 5" \
-          J resize-pane -D 5
-        bind -r -N "Resize the pane up by 5" \
-          K resize-pane -U 5
-        bind -r -N "Resize the pane right by 5" \
-          L resize-pane -R 5
-
-        bind-key -N "Kill the current window" & kill-window
-        bind-key -N "Kill the current pane" x kill-pane
-
-        set  -g mouse             on
-        set  -g focus-events      off
-        setw -g aggressive-resize off
-        setw -g clock-mode-style  12
-        set  -s escape-time       500
-        set  -g history-limit     2000
-        set -g @yank_with_mouse on
-
-        set-option -g renumber-windows on
-        set-option -sg escape-time 10
-        set-option -g focus-events on
-        set-option -gq allow-passthrough on
-
-        set -g default-terminal "tmux-256color"
-        set -ga terminal-overrides ",*256col*:Tc"
-        set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
-        set-environment -g COLORTERM "truecolor"
-
-        set-option -g pane-active-border-style "fg=magenta"
-        set-option -g pane-border-style "fg=default"
-        set-option -g status-style "bg=default,fg=brightwhite"
-        set-option -g status-right "  ⌚ %b %d  #( [ $(date +%H) -lt 12 ] && echo 🌙 || echo ☀️ ) %H:%M  #[bg=green,fg=brightwhite]#{?client_prefix,#[bg=yellow],}  #S  #[bg=cyan,fg=brightwhite]  #H  "
-        set-option -g status-left ""
-        set-window-option -g window-status-separator ""
-        set-window-option -g window-status-current-format "#[fg=brightwhite,bg=magenta]  #I #W  "
-        set-window-option -g window-status-format "#[fg=brightwhite]#[bg=default]  #I #W  "
-
-        set -g status-right-length 120
-
-        bind-key -T copy-mode-vi 'C-h' select-pane -L
-        bind-key -T copy-mode-vi 'C-j' select-pane -D
-        bind-key -T copy-mode-vi 'C-k' select-pane -U
-        bind-key -T copy-mode-vi 'C-l' select-pane -R
-
-        bind s display-popup -E "tms switch"
-        bind S display-popup -E "tms"
-
-        # refresh every x seconds
-        set-option -g status-interval 10
-
+      "${config.h.profile.config}/tmux/tmux.conf".text = ''
+        ${builtins.readFile ./tmux.conf}
         ${plugins}
       '';
     };

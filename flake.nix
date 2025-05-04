@@ -28,10 +28,7 @@
       flake = false;
     };
 
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
-    };
+    mnw.url = "github:Gerg-L/mnw";
 
     chaotic = {
       type = "github";

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, packages, lib, config, ... }: {
   environment = {
     variables.NIXPKGS_CONFIG = lib.mkForce config.systemGenesis.config;
     systemPackages = with pkgs; [
@@ -19,7 +19,7 @@
       dysk
       bat
       hyperfine
-      neovim
+      packages.neovim
 
       asciiquarium-transparent
       nyancat

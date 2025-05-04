@@ -12,6 +12,8 @@
       cursorTheme.size = 16;
     };
 
+    lsd.enable = true;
+
     hyprland = {
       enable = true;
       extraConfig = ''

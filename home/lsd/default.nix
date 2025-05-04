@@ -1,41 +1,36 @@
-{ config, lib, ... }: {
+{ config, pkgs, lib, ... }: {
   options.h.lsd = {
     enable = lib.mkEnableOption "Enable lsd." // { default = true; };
   };
 
   config = lib.mkIf config.h.lsd.enable {
-    # h.shell.aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-
-    programs.lsd = {
-      enable = true;
-      settings = {
-        classic = false;
-        sorting = {
-          column = "name";
-          reverse = false;
-          dir-grouping = "first";
-        };
-        blocks = [ "permission" "user" "group" "date" "name" ];
-        date = "+%b %d";
-        dereference = false;
-        display = "almost-all";
-        ignore-globs = [
-          # mac bs
-          "**/.DS_Store"
-          ".Trash"
-          ".cups"
-          ".localized"
-        ];
-        indicators = false;
-        layout = "grid";
-        size = "short";
-        permission = "rwx";
-        no-symlink = false;
-        total-size = false;
-        hyperlink = "never";
-        symlink-arrow = "⇒ ";
-        header = false;
-      };
-    };
+    h.extraPackages = with pkgs; [ lsd ];
+    environment.etc."${config.h.profile.config}/lsd/config.yaml".text = ''
+      blocks:
+      - permission
+      - user
+      - group
+      - date
+      - name
+      classic: false
+      date: +%b %d
+      dereference: false
+      display: almost-all
+      header: false
+      hyperlink: never
+      ignore-globs:
+      - '**/.DS_Store'
+      indicators: false
+      layout: grid
+      no-symlink: false
+      permission: rwx
+      size: short
+      sorting:
+        column: name
+        dir-grouping: first
+        reverse: false
+      symlink-arrow: '⇒ '
+      total-size: false
+    '';
   };
 }
