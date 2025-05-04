@@ -5,7 +5,7 @@
       type = with lib.types; listOf package;
       default = with pkgs.tmuxPlugins; [ yank vim-tmux-navigator ];
     };
-    extraConfig = lib.mkOption {
+    config = lib.mkOption {
       type = lib.types.lines;
       default = "";
     };
@@ -19,7 +19,7 @@
         config.h.tmux.plugins);
     in config.h.profile.addConfigs {
       "tmux/tmux.conf".text = ''
-        ${config.h.tmux.extraConfig}
+        ${config.h.tmux.config}
         ${plugins}
       '';
     };

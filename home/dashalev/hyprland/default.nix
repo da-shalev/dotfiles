@@ -5,7 +5,7 @@ let
     pkill wmenu; ${
       lib.getExe pkgs.wtype
     } "$(cat ${config.h.xdg.configHome}/bookmarks | 
-      ${pkgs.wmenu}/bin/wmenu
+      ${lib.getExe config.h.wmenu.pipe}
     )"
   '';
 
@@ -74,7 +74,7 @@ in {
     bind=${mod}+Shift, C, exec, pkill hyprpicker || ${
       lib.getExe pkgs.hyprpicker
     } | ${pkgs.wl-clipboard}/bin/wl-copy
-    bind=${mod}, Space, exec, pkill wmenu || ${pkgs.wmenu}/bin/wmenu-run
+    bind=${mod}, Space, exec, pkill wmenu || ${lib.getExe config.h.wmenu.run}
     bind=${mod}, Z, exec, ${lib.getExe bookmarkPaste}
     bind=${mod}, X, exec, ${lib.getExe bookmarkAdd}
     bind=${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}

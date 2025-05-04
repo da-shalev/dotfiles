@@ -44,12 +44,12 @@
             paths
             foot
             tmux
+            wmenu
             git
             hyprland
             wayland
             fish
             rebuild
-            lsd
             dashalev
           ] ++ homeConfiguration;
       };

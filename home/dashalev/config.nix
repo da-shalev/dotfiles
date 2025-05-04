@@ -25,6 +25,7 @@
     };
 
     packages = with pkgs; [
+      lsd
       tmux-sessionizer
       woff2
       ripgrep
@@ -43,7 +44,7 @@
 
     tmux = {
       enable = true;
-      extraConfig = "${builtins.readFile ./tmux.conf}";
+      config = "${builtins.readFile ./tmux.conf}";
     };
 
     foot = { config = "${builtins.readFile ./foot.ini}"; };
@@ -80,6 +81,7 @@
       path = "${config.h.path}/media/"
       depth = 20
     '';
+    "lsd/config.yaml".source = ./lsd.yaml;
     "npm/config".text = ''
       cache=${config.h.xdg.cacheHome}/npm
     '';
