@@ -7,12 +7,6 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
-
   fonts = {
     packages = with pkgs; [
       corefonts

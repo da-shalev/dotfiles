@@ -1,18 +1,27 @@
-{
+{ ... }: {
   disko.devices = {
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [ "size=1G" "defaults" "mode=755" ];
+      };
+    };
     disk = {
-      foozilla = {
-        device = "/dev/disk/by-id/nvme-eui.e8238fa6bf530001001b448b472e6a41";
+      rollwithit = {
+        # nveme0n1
+        # 1TB
+        device = "/dev/disk/by-id/nvme-eui.e8238fa6bf530001001b448b405e1623";
         type = "disk";
         content = {
           type = "gpt";
           partitions = {
-            gaming = {
-              start = "0";
+            home = {
               end = "-10G";
               content = {
                 type = "filesystem";
                 format = "xfs";
+                mountpoint = "/home";
+                mountOptions = [ "defaults" "pquota" "noatime" ];
               };
             };
           };

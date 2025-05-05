@@ -1,15 +1,15 @@
 {
   disko.devices = {
     disk = {
-      foozilla = {
-        # nveme2n1
-        # 1TB
-        device = "/dev/disk/by-id/nvme-eui.e8238fa6bf530001001b448b472e6a41";
+      tomatoes = {
+        # sda
+        # 2TB
+        device = "/dev/disk/by-id/usb-OWC_Express_1M2_2405264800A6-0:0";
         type = "disk";
         content = {
           type = "gpt";
           partitions = {
-            gaming = {
+            media = {
               start = "0";
               end = "-10G";
               content = {

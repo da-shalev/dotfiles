@@ -1,5 +1,4 @@
 { ... }: {
-  systemGenesis.rootIsTmpfs = true;
   fileSystems = { "/".neededForBoot = true; };
   disko.devices = {
     nodev = {
@@ -9,8 +8,10 @@
       };
     };
     disk = {
-      rollwithit = {
-        device = "/dev/disk/by-id/nvme-eui.e8238fa6bf530001001b448b405e1623";
+      namesareoverrated = {
+        # nveme1n1
+        # 512G
+        device = "/dev/disk/by-id/nvme-eui.002538b421b78a7d";
         type = "disk";
         content = {
           type = "gpt";
@@ -31,15 +32,6 @@
                 type = "swap";
                 discardPolicy = "both";
                 resumeDevice = true;
-              };
-            };
-            home = {
-              size = "750G";
-              content = {
-                type = "filesystem";
-                format = "xfs";
-                mountpoint = "/home";
-                mountOptions = [ "defaults" "pquota" "noatime" ];
               };
             };
             nix = {

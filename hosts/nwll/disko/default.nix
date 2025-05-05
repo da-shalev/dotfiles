@@ -1,13 +1,15 @@
 {
-  imports = [ ./a.nix ];
+  imports = [ ./a.nix ./b.nix ];
 
-  fileSystems."/mnt/b" = {
+  systemGenesis.rootIsTmpfs = true;
+
+  fileSystems."/mnt/a" = {
     device = "/dev/disk/by-partlabel/disk-foozilla-gaming";
     fsType = "xfs";
     options = [ "defaults" "nofail" ];
   };
 
-  fileSystems."/mnt/c" = {
+  fileSystems."/mnt/b" = {
     device = "/dev/disk/by-partlabel/disk-tomatoes-media";
     fsType = "xfs";
     options = [ "defaults" "nofail" ];
