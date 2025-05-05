@@ -7,6 +7,15 @@
 
   security.sudo.wheelNeedsPassword = false;
 
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    initrd.systemd.enable = true;
+  };
+
   fonts = {
     packages = with pkgs; [
       corefonts

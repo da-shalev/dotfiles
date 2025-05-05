@@ -14,15 +14,6 @@
       };
     })
     {
-
-      boot = {
-        loader = {
-          systemd-boot.enable = true;
-          efi.canTouchEfiVariables = true;
-        };
-
-        initrd.systemd.enable = lib.mkDefault true;
-      };
       time.timeZone = lib.mkDefault "Canada/Eastern";
 
       environment = {
@@ -35,8 +26,8 @@
       networking = {
         firewall.enable = lib.mkDefault false;
         useDHCP = lib.mkDefault true;
-        hostId = lib.mkForce (builtins.substring 0 8
-          (builtins.hashString "md5" config.networking.hostName));
+        # hostId = lib.mkDefault (builtins.substring 0 8
+        #   (builtins.hashString "md5" config.networking.hostName));
       };
 
       users.mutableUsers = lib.mkDefault true;

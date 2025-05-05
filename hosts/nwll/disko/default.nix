@@ -1,5 +1,5 @@
 {
-  imports = [ ./a.nix ./b.nix ];
+  imports = [ ./b.nix ];
 
   systemGenesis.rootIsTmpfs = true;
 

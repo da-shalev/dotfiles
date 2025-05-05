@@ -8,7 +8,7 @@
       };
     };
     disk = {
-      namesareoverrated = {
+      rollwithit = {
         # nveme1n1
         # 512G
         device = "/dev/disk/by-id/nvme-eui.002538b421b78a7d";
@@ -16,6 +16,15 @@
         content = {
           type = "gpt";
           partitions = {
+              home = {
+                end = "-10G";
+                content = {
+                  type = "filesystem";
+                  format = "xfs";
+                  mountpoint = "/home";
+                  mountOptions = [ "defaults" "pquota" "noatime" ];
+                };
+              };
             esp = {
               type = "EF00";
               size = "1G";
