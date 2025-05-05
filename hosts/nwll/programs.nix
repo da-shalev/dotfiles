@@ -1,11 +1,8 @@
 { ... }: {
-  services = { mullvad-vpn = { enable = true; }; };
+  # services = { mullvad-vpn = { enable = true; }; };
 
   environment.persistence."/nix/persist" = {
-    directories = [
-      "/etc/mullvad-vpn"
-      "/var/cache/mullvad-vpn"
-    ];
+    directories = [ "/etc/mullvad-vpn" "/var/cache/mullvad-vpn" ];
   };
 
   programs = {
@@ -14,13 +11,7 @@
       binfmt = true;
     };
     obs-studio = { enable = true; };
-    # steam = {
-    #   enable = true;
-    #   extraCompatPackages = with pkgs; [ proton-ge-custom ];
-    # };
-    gamescope = {
-      enable = true;
-    };
+    gamescope = { enable = true; };
     gnupg.agent = { enable = true; };
     fish.enable = true;
     chromium = {
@@ -29,6 +20,7 @@
         "nngceckbapebfimnlniiiahkandclblb" # bitwarden
         "faeadnfmdfamenfhaipofoffijhlnkif" # into the black hole
         "occjjkgifpmdgodlplnacmkejpdionan" # autoscroll
+        "fmkadmapgofadopljbjfkapdkoienihi" # react dev tools
       ];
       extraOpts = {
         "DefaultSearchProviderEnabled" = true;

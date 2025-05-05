@@ -11,32 +11,32 @@ pkgs: {
 
   initLua = builtins.readFile ./init.lua;
 
-  plugins = with pkgs.vimPlugins; [
-    ./.
+  plugins = {
+    start = with pkgs.vimPlugins; [
+      ./.
 
-    gruvbox-nvim
-    lualine-nvim
-    telescope-nvim
-    vim-tmux-navigator
+      gruvbox-nvim
+      lualine-nvim
+      telescope-nvim
+      vim-tmux-navigator
 
-    todo-comments-nvim
+      todo-comments-nvim
 
-    nvim-treesitter.withAllGrammars
+      nvim-treesitter.withAllGrammars
 
-    lazydev-nvim
-    nvim-lspconfig
-    nvim-ts-autotag
+      lazydev-nvim
+      nvim-lspconfig
+      nvim-ts-autotag
 
-    comment-nvim
-    nvim-autopairs
+      comment-nvim
+      nvim-autopairs
 
-    friendly-snippets
-    blink-cmp
+      friendly-snippets
+      blink-cmp
 
-    # undotree
-    # zen-mode-nvim
-    # trouble-nvim
-  ];
+    ];
+    opt = with pkgs.vimPlugins; [ undotree zen-mode-nvim ];
+  };
 
   extraBinPath = with pkgs; [
     ripgrep

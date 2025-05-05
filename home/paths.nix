@@ -103,7 +103,21 @@
           ${lib.concatStringsSep "\n" (lib.mapAttrsToList
             (name: value: ''export ${name}="${builtins.toString value}"'')
             config.h.shell.variables)}
+
+          ${lib.optionalString config.h.wayland.enable ''
+            ${lib.concatStringsSep "\n" (lib.mapAttrsToList
+              (key: val: ''${lib.getExe pkgs.dconf} write ${key} "'${val}'"'')
+              config.h.wayland.dconf)}
+          ''}
         '';
+
+        # ${lib.optionalString config.h.wayland.enable ''
+        #   ${lib.concatStringsSep "\n" (lib.flatten (lib.mapAttrsToList
+        #     (schema: keys:
+        #       lib.mapAttrsToList (key: val:
+        #         "${pkgs.glib}/bin/gsettings set ${schema} ${key} '${val}'")
+        #       keys) config.h.wayland.gsettings))}
+        # ''}
       };
 
       aliases = lib.mkOption {

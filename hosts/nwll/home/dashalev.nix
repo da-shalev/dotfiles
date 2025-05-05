@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, stable, ... }: {
   #   mpv = {
   #     # chaotic nyx
   #     package = pkgs.mpv-vapoursynth;
@@ -27,6 +27,39 @@
   config.h = {
     dashalev.enable = true;
     steam.enable = true;
+
+    packages = with pkgs; [
+      nautilus
+      pwvucontrol_git
+      chromium
+      (brave.override {
+        commandLineArgs =
+          [ "--enable-features=WaylandLinuxDrmSyncobj,RustyPng" ];
+      })
+
+      aseprite
+      vesktop
+      stable.wine64
+      blender
+      krita
+      gimp3
+      onlyoffice-desktopeditors
+      zathura
+
+      signal-desktop-bin
+      nvitop
+
+      mullvad-vpn
+      qbittorrent
+      mission-center
+
+      mangohud
+      torzu_git
+      heroic
+      cemu
+      prismlauncher
+      airshipper
+    ];
 
     shell = {
       package = pkgs.fish;

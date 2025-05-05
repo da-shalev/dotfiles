@@ -103,9 +103,5 @@ in {
 
     exec-once=${lib.getExe pkgs.mako}
     exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
-    windowrulev2=float, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
-    windowrulev2=pin, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
-    windowrulev2=move 100%-30% 0, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
-    windowrulev2=size 30% 30%, title:(?i:^(Picture)(?:[- ]in[- ]Picture)$)
   '';
 }

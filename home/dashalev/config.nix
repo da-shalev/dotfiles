@@ -8,6 +8,17 @@
 
     rebuild.enable = true;
 
+    wayland = {
+      dconf = {
+        "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
+        "/org/gnome/desktop/wm/preferences/button-layout" = "";
+      };
+      iconTheme = {
+        name = "WhiteSur-dark";
+        package = pkgs.whitesur-icon-theme;
+      };
+    };
+
     shell = {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
       variables = rec {
@@ -20,6 +31,10 @@
         JAVA_HOME = "${pkgs.jdk21}";
         JAVA_RUN = "${pkgs.jdk21}/bin/java";
         JDK21 = pkgs.jdk21;
+        MAVEN_OPTS =
+          "-Dmaven.repo.local=${config.h.xdg.dataHome}/maven/repository";
+        NUGET_PACKAGES = "${config.h.xdg.cacheHome}/NuGetPackages";
+        MAVEN_ARGS = "--settings ${config.h.xdg.configHome}/maven/settings.xml";
         PATH = "${NPM_CONFIG_PREFIX}/bin:${CARGO_HOME}/bin:$PATH";
       };
     };

@@ -9,18 +9,12 @@
     };
 
   inputs = {
-    nixpkgs = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
-      ref = "nixos-unstable";
-    };
-
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
 
     apple-emoji-linux = {
       url = "github:samuelngs/apple-emoji-linux";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     alsa-ucm-conf = {
@@ -29,53 +23,25 @@
     };
 
     mnw.url = "github:Gerg-L/mnw";
-
-    chaotic = {
-      type = "github";
-      owner = "chaotic-cx";
-      repo = "nyx";
-      ref = "nyxpkgs-unstable";
-    };
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     flake-parts = {
-      type = "github";
-      owner = "hercules-ci";
-      repo = "flake-parts";
-      inputs = { nixpkgs-lib.follows = "nixpkgs"; };
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
     disko = {
-      type = "github";
-      owner = "nix-community";
-      repo = "disko";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-darwin = {
-      type = "github";
-      owner = "LnL7";
-      repo = "nix-darwin";
-      inputs = { nixpkgs.follows = "nixpkgs"; };
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    impermanence = {
-      type = "github";
-      owner = "nix-community";
-      repo = "impermanence";
-    };
-
-    nixos-hardware = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixos-hardware";
-    };
-
-    nixCats = {
-      type = "github";
-      owner = "BirdeeHub";
-      repo = "nixCats-nvim";
-    };
-
-    hyprland = { url = "github:hyprwm/Hyprland"; };
+    impermanence.url = "github:nix-community/impermanence";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 }

@@ -7,7 +7,7 @@
         default = "Adwaita";
       };
       package = lib.mkOption {
-        type = lib.types.package;
+        type = lib.types.nullOr lib.types.package;
         default = pkgs.adwaita-icon-theme;
       };
     };
@@ -30,13 +30,19 @@
     theme = {
       name = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "adw-gtk3-dark";
+        default = "Adwaita";
       };
 
       package = lib.mkOption {
-        type = lib.types.package;
-        default = pkgs.adw-gtk3;
+        type = lib.types.nullOr lib.types.package;
+        default = null;
       };
+    };
+
+    dconf = lib.mkOption {
+      type = with lib.types; attrsOf str;
+      default = { };
+      description = "Key-value settings to apply per user.";
     };
 
     # qt = {
@@ -59,28 +65,70 @@
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
 
-    environment.etc = lib.mkIf (config.h.wayland.cursorTheme.package != null) {
-      "${config.h.profile.data}/icons/${config.h.wayland.cursorTheme.name}".source =
-        "${config.h.wayland.cursorTheme.package}/share/icons/${config.h.wayland.cursorTheme.name}";
+    environment.variables = {
+      GSETTINGS_SCHEMA_DIR =
+        "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
     };
+
+    environment.etc = lib.mkMerge [
+      (lib.mkIf (config.h.wayland.cursorTheme.package != null) {
+        "${config.h.profile.data}/icons/${config.h.wayland.cursorTheme.name}".source =
+          "${config.h.wayland.cursorTheme.package}/share/icons/${config.h.wayland.cursorTheme.name}";
+      })
+      (lib.mkIf (config.h.wayland.iconTheme.package != null) {
+        "${config.h.profile.data}/icons/${config.h.wayland.iconTheme.name}".source =
+          "${config.h.wayland.iconTheme.package}/share/icons/${config.h.wayland.iconTheme.name}";
+      })
+      (let
+        settings = lib.concatStringsSep "\n" (lib.filter (s: s != "") [
+          "[Settings]"
+          (lib.optionalString (config.h.wayland.cursorTheme.name != "")
+            "gtk-cursor-theme-name=${config.h.wayland.cursorTheme.name}")
+          (lib.optionalString true "gtk-cursor-theme-size=${
+              toString config.h.wayland.cursorTheme.size
+            }")
+          (lib.optionalString (config.h.wayland.iconTheme.package != null)
+            "gtk-icon-theme-name=${config.h.wayland.iconTheme.name}")
+          (lib.optionalString (config.h.wayland.theme.name != null
+            || config.h.wayland.theme.name == "")
+            "gtk-theme-name=${config.h.wayland.theme.name}")
+        ]);
+      in config.h.profile.addConfigs {
+        "gtk-3.0/settings.ini".text = settings;
+        "gtk-4.0/settings.ini".text = settings;
+      })
+    ];
 
     h = {
       shell.variables = {
         MOZ_ENABLE_WAYLAND = "1";
-        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
         QT_QPA_PLATFORM = "wayland";
-        XCURSOR_SIZE = "${toString config.h.wayland.cursorTheme.size}";
-        GTK_THEME = config.h.wayland.theme.name;
         NIXOS_OZONE_WL = 1;
         ENABLE_HDR_WSI = 1;
       } // lib.optionalAttrs (config.h.wayland.cursorTheme.package != null) {
         XCURSOR_THEME = config.h.wayland.cursorTheme.name;
+        XCURSOR_SIZE = "${toString config.h.wayland.cursorTheme.size}";
       };
+
+      wayland.dconf = lib.mkMerge [
+        (lib.optionalAttrs (config.h.wayland.iconTheme.package != null) {
+          "/org/gnome/desktop/interface/icon-theme" =
+            config.h.wayland.iconTheme.name;
+        })
+        (lib.optionalAttrs (config.h.wayland.cursorTheme.package != null) {
+          "/org/gnome/desktop/interface/cursor-theme" =
+            config.h.wayland.cursorTheme.name;
+          "/org/gnome/desktop/interface/cursor-size" =
+            toString config.h.wayland.cursorTheme.size;
+        })
+        (lib.optionalAttrs (config.h.wayland.theme.package != null) {
+          "/org/gnome/desktop/interface/gtk-theme" =
+            config.h.wayland.theme.name;
+        })
+      ];
 
       packages = with pkgs; [
         wl-clipboard
-        pwvucontrol_git
-        nautilus
         libnotify
         pulsemixer
         xorg.xeyes
@@ -88,12 +136,4 @@
       ];
     };
   };
-
-  # dconf.settings = {
-  #   "org/gnome/desktop/interface" = {
-  #     color-scheme = "prefer-dark";
-  #     cursor-theme = config.h.wayland.cursorTheme.name;
-  #   };
-  #   "org/gnome/desktop/wm/preferences" = { button-layout = ""; };
-  # };
 }

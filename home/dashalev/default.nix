@@ -7,7 +7,7 @@
       };
   };
 
-  config = (lib.mkMerge [
+  config = lib.mkIf config.h.dashalev.enable (lib.mkMerge [
     (import ./config.nix { inherit packages config pkgs lib; })
     (import ./hyprland { inherit config pkgs lib; })
   ]);
