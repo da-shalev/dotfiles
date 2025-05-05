@@ -13,6 +13,7 @@
         "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
         "/org/gnome/desktop/wm/preferences/button-layout" = "";
       };
+
       iconTheme = {
         name = "WhiteSur-dark";
         package = pkgs.whitesur-icon-theme;

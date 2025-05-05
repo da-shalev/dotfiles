@@ -1,16 +1,6 @@
 { lib, pkgs, config, ... }: {
   options.h.wayland = {
     enable = lib.mkEnableOption "Enables wayland." // { default = false; };
-    iconTheme = {
-      name = lib.mkOption {
-        type = lib.types.nonEmptyStr;
-        default = "Adwaita";
-      };
-      package = lib.mkOption {
-        type = lib.types.nullOr lib.types.package;
-        default = pkgs.adwaita-icon-theme;
-      };
-    };
 
     cursorTheme = {
       name = lib.mkOption {
@@ -27,15 +17,26 @@
       };
     };
 
+    iconTheme = {
+      name = lib.mkOption {
+        type = lib.types.nonEmptyStr;
+        default = "Adwaita";
+      };
+      package = lib.mkOption {
+        type = lib.types.nullOr lib.types.package;
+        default = pkgs.adwaita-icon-theme;
+      };
+    };
+
     theme = {
       name = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "Adwaita";
+        default = "adw-gtk3-dark";
       };
 
       package = lib.mkOption {
         type = lib.types.nullOr lib.types.package;
-        default = null;
+        default = pkgs.adw-gtk3;
       };
     };
 
@@ -44,18 +45,6 @@
       default = { };
       description = "Key-value settings to apply per user.";
     };
-
-    # qt = {
-    #   name = lib.mkOption {
-    #     type = with lib.types; nonEmptyStr;
-    #     default = "adwaita-dark";
-    #   };
-    #
-    #   package = lib.mkOption {
-    #     type = lib.types.package;
-    #     default = pkgs.adwaita-qt;
-    #   };
-    # };
   };
 
   config = lib.mkIf config.h.wayland.enable {
@@ -79,8 +68,12 @@
         "${config.h.profile.data}/icons/${config.h.wayland.iconTheme.name}".source =
           "${config.h.wayland.iconTheme.package}/share/icons/${config.h.wayland.iconTheme.name}";
       })
+      (lib.mkIf (config.h.wayland.theme.package != null) {
+        "${config.h.profile.data}/themes/${config.h.wayland.theme.name}".source =
+          "${config.h.wayland.theme.package}/share/themes/${config.h.wayland.theme.name}";
+      })
       (let
-        settings = lib.concatStringsSep "\n" (lib.filter (s: s != "") [
+        gtk = lib.concatStringsSep "\n" (lib.filter (s: s != "") [
           "[Settings]"
           (lib.optionalString (config.h.wayland.cursorTheme.name != "")
             "gtk-cursor-theme-name=${config.h.wayland.cursorTheme.name}")
@@ -94,8 +87,8 @@
             "gtk-theme-name=${config.h.wayland.theme.name}")
         ]);
       in config.h.profile.addConfigs {
-        "gtk-3.0/settings.ini".text = settings;
-        "gtk-4.0/settings.ini".text = settings;
+        "gtk-3.0/settings.ini".text = gtk;
+        "gtk-4.0/settings.ini".text = gtk;
       })
     ];
 

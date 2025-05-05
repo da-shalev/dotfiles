@@ -1,36 +1,11 @@
 { pkgs, stable, ... }: {
-  #   mpv = {
-  #     # chaotic nyx
-  #     package = pkgs.mpv-vapoursynth;
-  #     enable = true;
-  #     config = {
-  #       vo = "gpu-next";
-  #       gpu-api = "vulkan";
-  #       target-colorspace-hint = "yes";
-  #       gpu-context = "waylandvk";
-  #       fs = "yes";
-  #     };
-  #   };
-  # };
-
-  # xdg = {
-  #   mimeApps = let browser = "brave-browser";
-  #   in {
-  #     enable = true;
-  #     defaultApplications = {
-  #       "x-scheme-handler/http" = "${browser}.desktop";
-  #       "x-scheme-handler/https" = "${browser}.desktop";
-  #     };
-  #   };
-  # };
-
   config.h = {
     dashalev.enable = true;
     steam.enable = true;
 
     packages = with pkgs; [
-      nautilus
       pwvucontrol_git
+      nautilus
       chromium
       (brave.override {
         commandLineArgs =
