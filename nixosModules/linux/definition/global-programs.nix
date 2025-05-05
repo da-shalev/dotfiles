@@ -35,7 +35,7 @@
       networking = {
         firewall.enable = lib.mkDefault false;
         useDHCP = lib.mkDefault true;
-        hostId = lib.mkDefault (builtins.substring 0 8
+        hostId = lib.mkForce (builtins.substring 0 8
           (builtins.hashString "md5" config.networking.hostName));
       };
 

@@ -5,5 +5,6 @@
     ./nwll
     # ./refrigerator
     ./vm
+    ./iso
   ];
 }
