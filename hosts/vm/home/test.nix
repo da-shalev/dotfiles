@@ -7,7 +7,6 @@
     };
 
     dashalev.enable = true;
-    foot.enable = true;
     wayland = {
       enable = true;
       cursorTheme.size = 16;

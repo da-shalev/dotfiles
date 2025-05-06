@@ -21,34 +21,6 @@ let
       lib.getExe pkgs.libnotify
     } "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
   '';
-
-  toggleHdr = pkgs.writeShellScriptBin "toggle-hdr" ''
-    hyprctl monitors -j | ${lib.getExe pkgs.jq} -c '.[]' | while read -r mon; do
-      name=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.name')
-      width=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.width')
-      height=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.height')
-      refresh=$(echo "$mon" | ${
-        lib.getExe pkgs.jq
-      } -r '.refreshRate' | cut -d'.' -f1)
-      x=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.x')
-      y=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.y')
-      scale=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.scale' | cut -d'.' -f1)
-      format=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.currentFormat')
-
-      config="''${name},''${width}x''${height}@''${refresh},''${x}x''${y},''${scale}"
-
-      case "''${format}" in
-        *2101010*)
-          hyprctl keyword monitor "''${config}"
-          ${lib.getExe pkgs.libnotify} "HDR" "Disabled on ''${name}"
-          ;;
-        *)
-          hyprctl keyword monitor "''${config},bitdepth,10,cm,hdr"
-          ${lib.getExe pkgs.libnotify} "HDR" "Enabled on ''${name}"
-          ;;
-      esac
-    done
-  '';
 in {
   h.hyprland.config = ''
     ${builtins.readFile ./hyprland.conf}
@@ -78,7 +50,6 @@ in {
     bind=${mod}, Z, exec, ${lib.getExe bookmarkPaste}
     bind=${mod}, X, exec, ${lib.getExe bookmarkAdd}
     bind=${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}
-    bind=${mod}, F9, exec, ${lib.getExe toggleHdr}
 
     bind=${mod}, code:10, workspace, 1
     bind=${mod} SHIFT, code:10, movetoworkspace, 1

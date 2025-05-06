@@ -59,20 +59,23 @@
         "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
     };
 
-    environment.etc = lib.mkMerge [
-      (lib.mkIf (config.h.wayland.cursorTheme.package != null) {
-        "${config.h.profile.data}/icons/${config.h.wayland.cursorTheme.name}".source =
-          "${config.h.wayland.cursorTheme.package}/share/icons/${config.h.wayland.cursorTheme.name}";
-      })
-      (lib.mkIf (config.h.wayland.iconTheme.package != null) {
-        "${config.h.profile.data}/icons/${config.h.wayland.iconTheme.name}".source =
-          "${config.h.wayland.iconTheme.package}/share/icons/${config.h.wayland.iconTheme.name}";
-      })
-      (lib.mkIf (config.h.wayland.theme.package != null) {
-        "${config.h.profile.data}/themes/${config.h.wayland.theme.name}".source =
-          "${config.h.wayland.theme.package}/share/themes/${config.h.wayland.theme.name}";
-      })
-      (let
+    h.xdg = {
+      dataFiles = lib.mkMerge [
+        (lib.mkIf (config.h.wayland.cursorTheme.package != null) {
+          "icons/${config.h.wayland.cursorTheme.name}".source =
+            "${config.h.wayland.cursorTheme.package}/share/icons/${config.h.wayland.cursorTheme.name}";
+        })
+        (lib.mkIf (config.h.wayland.iconTheme.package != null) {
+          "icons/${config.h.wayland.iconTheme.name}".source =
+            "${config.h.wayland.iconTheme.package}/share/icons/${config.h.wayland.iconTheme.name}";
+        })
+        (lib.mkIf (config.h.wayland.theme.package != null) {
+          "themes/${config.h.wayland.theme.name}".source =
+            "${config.h.wayland.theme.package}/share/themes/${config.h.wayland.theme.name}";
+        })
+      ];
+
+      configFiles = let
         gtk = lib.concatStringsSep "\n" (lib.filter (s: s != "") [
           "[Settings]"
           (lib.optionalString (config.h.wayland.cursorTheme.name != "")
@@ -86,11 +89,11 @@
             || config.h.wayland.theme.name == "")
             "gtk-theme-name=${config.h.wayland.theme.name}")
         ]);
-      in config.h.profile.addConfigs {
+      in {
         "gtk-3.0/settings.ini".text = gtk;
         "gtk-4.0/settings.ini".text = gtk;
-      })
-    ];
+      };
+    };
 
     h = {
       shell.variables = {

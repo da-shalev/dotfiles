@@ -25,7 +25,7 @@
         inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
-    environment.etc = config.h.profile.addConfigs {
+    h.xdg.configFiles = {
       "hypr/hyprland.conf".text = ''
         ${config.h.hyprland.config}
         ${config.h.hyprland.extraConfig}

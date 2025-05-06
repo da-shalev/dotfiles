@@ -30,29 +30,20 @@
         ] ++ systemModules;
       };
 
-    linuxUser = userName: homeConfiguration:
-      let homePath = "/home/${userName}";
-      in {
-        imports = with inputs.self.homeModules;
-          [
-            {
-              h = {
-                userName = "${userName}";
-                path = "${homePath}";
-              };
-            }
-            paths
-            foot
-            tmux
-            wmenu
-            steam
-            git
-            hyprland
-            wayland
-            fish
-            rebuild
-            dashalev
-          ] ++ homeConfiguration;
-      };
+    linuxUser = userName: homeConfiguration: {
+      imports = with inputs.self.homeModules;
+        [
+          { h = { userName = "${userName}"; }; }
+          paths
+          tmux
+          wmenu
+          steam
+          hyprland
+          wayland
+          fish
+          rebuild
+          dashalev
+        ] ++ homeConfiguration;
+    };
   };
 }

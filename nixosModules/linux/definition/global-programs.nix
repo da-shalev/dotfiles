@@ -30,15 +30,14 @@
         #   (builtins.hashString "md5" config.networking.hostName));
       };
 
-      users.mutableUsers = lib.mkDefault true;
+      users.mutableUsers = lib.mkDefault false;
 
       security = {
-        polkit.enable = lib.mkForce true;
+        # polkit.enable = lib.mkForce true;
         rtkit.enable = lib.mkForce config.services.pipewire.enable;
       };
 
       services = {
-        userborn.enable = false;
         fstrim.enable = lib.mkForce true;
         pulseaudio.enable = lib.mkForce false;
         udisks2.enable = lib.mkForce true;
@@ -57,12 +56,11 @@
       };
 
       programs = {
-        dconf = { inherit (config.hardware.graphics) enable; };
+        # dconf = { inherit (config.hardware.graphics) enable; };
         command-not-found.enable = lib.mkForce false;
         fuse.userAllowOther = true;
         git = {
           enable = lib.mkForce true;
-          # lfs.enable = lib.mkDefault true;
         };
       };
 

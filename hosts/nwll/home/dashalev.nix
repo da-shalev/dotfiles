@@ -1,9 +1,14 @@
-{ pkgs, stable, ... }: {
+{ packages, pkgs, ... }: {
   config.h = {
     dashalev.enable = true;
     steam.enable = true;
 
+    xdg.configFiles = {
+      "mpv/mpv.conf".source = ./mpv.conf;
+    };
+
     packages = with pkgs; [
+      foot
       pwvucontrol_git
       nautilus
       chromium
@@ -12,21 +17,24 @@
           [ "--enable-features=WaylandLinuxDrmSyncobj,RustyPng" ];
       })
 
-      aseprite
-      vesktop
-      stable.wine64
+      # aseprite
+      # vesktop
+      wine64
       blender
-      krita
-      gimp3
+      # krita
+      # gimp3
       onlyoffice-desktopeditors
+
       zathura
 
       signal-desktop-bin
       nvitop
 
       mullvad-vpn
+      mpv
+      # hdr for mpv
+      vulkan-hdr-layer-kwin6
       qbittorrent
-      mission-center
 
       mangohud
       torzu_git
@@ -42,7 +50,6 @@
       icon = "🗿";
     };
 
-    foot.enable = true;
     wayland = {
       enable = true;
       cursorTheme.size = 32;
@@ -52,11 +59,11 @@
       enable = true;
       extraConfig = ''
         monitor=HDMI-A-1,highrr,auto,1
-        monitor=DP-0,highres@highrr,auto,1,bitdepth
-        monitor=DP-1,highres@highrr,auto,1,bitdepth
-        monitor=DP-2,highres@highrr,auto,1,bitdepth
-        monitor=DP-3,highres@highrr,auto,1,bitdepth
-        monitor=DP-4,highres@highrr,auto,1,bitdepth
+        monitor=DP-0,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-1,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-2,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-3,highres@highrr,auto,1,bitdepth,10
+        monitor=DP-4,highres@highrr,auto,1,bitdepth,10
         env = LIBVA_DRIVER_NAME,nvidia
         env = NVD_BACKEND,direct
         env = __GLX_VENDOR_LIBRARY_NAME,nvidia

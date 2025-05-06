@@ -1,5 +1,5 @@
 { ... }: {
-  # services = { mullvad-vpn = { enable = true; }; };
+  services = { mullvad-vpn = { enable = true; }; };
 
   environment.persistence."/nix/persist" = {
     directories = [ "/etc/mullvad-vpn" "/var/cache/mullvad-vpn" ];
@@ -13,7 +13,6 @@
     obs-studio = { enable = true; };
     gamescope = { enable = true; };
     gnupg.agent = { enable = true; };
-    fish.enable = true;
     chromium = {
       enable = true;
       extensions = [

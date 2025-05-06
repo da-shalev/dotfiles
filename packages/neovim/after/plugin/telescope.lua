@@ -36,7 +36,6 @@ M.telescope.setup({
       ".direnv",
       "target",
       ".git",
-      ".cache",
       "%.ase",
       "%.jpeg",
       "%.jpg",

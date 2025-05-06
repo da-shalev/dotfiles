@@ -19,20 +19,15 @@
   fonts = {
     packages = with pkgs; [
       corefonts
-      vistafonts
-      cascadia-code
       inter
       inputs.apple-emoji-linux.packages.${pkgs.system}.apple-emoji-linux
+      cascadia-code
       nerd-fonts.symbols-only
-      spleen
-      # (google-fonts.override {
-      # # "Georgia" "BodoniModa" "CormorantGaramond" "DMSans"
-      #   fonts = [ "CormorantGaramond" "DMSans"  ];
-      # })
     ];
+
     fontconfig = {
       enable = true;
-      # hinting.enable = false;
+      hinting.enable = false;
       defaultFonts = {
         serif = [ "Inter" ];
         sansSerif = [ "Inter" ];

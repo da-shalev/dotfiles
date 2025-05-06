@@ -12,16 +12,18 @@
   };
 
   config = lib.mkIf config.h.tmux.enable {
-    h.packages = with pkgs; [ tmux ];
-    environment.etc = let
-      plugins = builtins.concatStringsSep "\n" (map (plugin:
-        "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")
-        config.h.tmux.plugins);
-    in config.h.profile.addConfigs {
-      "tmux/tmux.conf".text = ''
-        ${config.h.tmux.config}
-        ${plugins}
-      '';
+    h = {
+      packages = with pkgs; [ tmux ];
+      xdg.configFiles = let
+        plugins = builtins.concatStringsSep "\n" (map (plugin:
+          "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")
+          config.h.tmux.plugins);
+      in {
+        "tmux/tmux.conf".text = ''
+          ${config.h.tmux.config}
+          ${plugins}
+        '';
+      };
     };
   };
 }
