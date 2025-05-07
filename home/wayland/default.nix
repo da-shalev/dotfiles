@@ -59,43 +59,41 @@
         "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
     };
 
-    h.xdg = {
-      dataFiles = lib.mkMerge [
-        (lib.mkIf (config.h.wayland.cursorTheme.package != null) {
-          "icons/${config.h.wayland.cursorTheme.name}".source =
-            "${config.h.wayland.cursorTheme.package}/share/icons/${config.h.wayland.cursorTheme.name}";
-        })
-        (lib.mkIf (config.h.wayland.iconTheme.package != null) {
-          "icons/${config.h.wayland.iconTheme.name}".source =
-            "${config.h.wayland.iconTheme.package}/share/icons/${config.h.wayland.iconTheme.name}";
-        })
-        (lib.mkIf (config.h.wayland.theme.package != null) {
-          "themes/${config.h.wayland.theme.name}".source =
-            "${config.h.wayland.theme.package}/share/themes/${config.h.wayland.theme.name}";
-        })
-      ];
-
-      configFiles = let
-        gtk = lib.concatStringsSep "\n" (lib.filter (s: s != "") [
-          "[Settings]"
-          (lib.optionalString (config.h.wayland.cursorTheme.name != "")
-            "gtk-cursor-theme-name=${config.h.wayland.cursorTheme.name}")
-          (lib.optionalString true "gtk-cursor-theme-size=${
-              toString config.h.wayland.cursorTheme.size
-            }")
-          (lib.optionalString (config.h.wayland.iconTheme.package != null)
-            "gtk-icon-theme-name=${config.h.wayland.iconTheme.name}")
-          (lib.optionalString (config.h.wayland.theme.name != null
-            || config.h.wayland.theme.name == "")
-            "gtk-theme-name=${config.h.wayland.theme.name}")
-        ]);
-      in {
-        "gtk-3.0/settings.ini".text = gtk;
-        "gtk-4.0/settings.ini".text = gtk;
-      };
-    };
-
     h = {
+      xdg = {
+        dataFiles = lib.mkMerge [
+          (lib.mkIf (config.h.wayland.cursorTheme.package != null) {
+            "icons/${config.h.wayland.cursorTheme.name}".source =
+              "${config.h.wayland.cursorTheme.package}/share/icons/${config.h.wayland.cursorTheme.name}";
+          })
+          (lib.mkIf (config.h.wayland.iconTheme.package != null) {
+            "icons/${config.h.wayland.iconTheme.name}".source =
+              "${config.h.wayland.iconTheme.package}/share/icons/${config.h.wayland.iconTheme.name}";
+          })
+          (lib.mkIf (config.h.wayland.theme.package != null) {
+            "themes/${config.h.wayland.theme.name}".source =
+              "${config.h.wayland.theme.package}/share/themes/${config.h.wayland.theme.name}";
+          })
+        ];
+
+        configFiles = {
+          "gtk-3.0/settings.ini".text = lib.concatStringsSep "\n"
+            (lib.filter (s: s != "") [
+              "[Settings]"
+              (lib.optionalString (config.h.wayland.cursorTheme.name != "")
+                "gtk-cursor-theme-name=${config.h.wayland.cursorTheme.name}")
+              (lib.optionalString true "gtk-cursor-theme-size=${
+                  toString config.h.wayland.cursorTheme.size
+                }")
+              (lib.optionalString (config.h.wayland.iconTheme.package != null)
+                "gtk-icon-theme-name=${config.h.wayland.iconTheme.name}")
+              (lib.optionalString (config.h.wayland.theme.name != null
+                || config.h.wayland.theme.name == "")
+                "gtk-theme-name=${config.h.wayland.theme.name}")
+            ]);
+        };
+      };
+
       shell.variables = {
         MOZ_ENABLE_WAYLAND = "1";
         QT_QPA_PLATFORM = "wayland";

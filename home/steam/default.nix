@@ -7,13 +7,14 @@
       };
   };
 
-  config = lib.mkIf config.h.steam.enable {
+  config = let path = "/var/lib/${config.h.profile.path}/steam";
+  in lib.mkIf config.h.steam.enable {
     users = {
       groups.steam = { };
       users = {
         steam = {
           isSystemUser = true;
-          home = "/var/lib/steam";
+          home = path;
           group = "steam";
           extraGroups = [ "wheel" "video" ];
         };
@@ -23,7 +24,7 @@
 
     environment.persistence."/nix/persist" = {
       directories = [{
-        directory = "/var/lib/steam";
+        directory = path;
         user = "steam";
         group = "steam";
         mode = "0775";
@@ -32,8 +33,7 @@
 
     programs.steam = {
       enable = true;
-      package =
-        pkgs.steam.override { extraEnv = { HOME = "/var/lib/steam"; }; };
+      package = pkgs.steam.override { extraEnv = { HOME = path; }; };
       extraCompatPackages = [ pkgs.proton-ge-custom ];
     };
   };
