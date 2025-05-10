@@ -8,7 +8,6 @@
     enable = true;
     casks = [
       "mac-mouse-fix"
-      "vesktop"
       "ghostty"
       "signal"
       "figma"

@@ -16,10 +16,39 @@ let
   '';
 
   bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
-    ${pkgs.wl-clipboard}/bin/wl-paste >> ${config.h.xdg.configHome}/bookmarks
-    exec ${
-      lib.getExe pkgs.libnotify
-    } "📖 Bookmark Added" "$(${pkgs.wl-clipboard}/bin/wl-paste)"
+    ${
+      lib.getExe' pkgs.wl-clipboard "wl-paste"
+    } >> ${config.h.xdg.configHome}/bookmarks
+    exec ${lib.getExe pkgs.libnotify} "📖 Bookmark Added" "$(${
+      lib.getExe' pkgs.wl-clipboard "wl-paste"
+    })"
+  '';
+
+  toggleBitdepth = pkgs.writeShellScriptBin "toggle-hdr" ''
+    hyprctl monitors -j | ${lib.getExe pkgs.jq} -c '.[]' | while read -r mon; do
+      name=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.name')
+      width=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.width')
+      height=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.height')
+      refresh=$(echo "$mon" | ${
+        lib.getExe pkgs.jq
+      } -r '.refreshRate' | cut -d'.' -f1)
+      x=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.x')
+      y=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.y')
+      scale=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.scale' | cut -d'.' -f1)
+      format=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.currentFormat')
+      config="''${name},''${width}x''${height}@''${refresh},''${x}x''${y},''${scale}"
+
+      case "''${format}" in
+        *2101010*)
+          hyprctl keyword monitor "''${config}"
+          ${lib.getExe pkgs.libnotify} "HDR bitdepth 10" "Disabled on ''${name}"
+          ;;
+        *)
+          hyprctl keyword monitor "''${config},bitdepth,10"
+          ${lib.getExe pkgs.libnotify} "HDR bitdepth 10" "Enabled on ''${name}"
+          ;;
+      esac
+    done
   '';
 in {
   h = {
@@ -33,7 +62,7 @@ in {
       bind=${mod}+Shift, L, resizeactive, 50 0
       bind=${mod}+Shift, J, layoutmsg, swapnext
       bind=${mod}+Shift, K, layoutmsg, swapprev
-      bind=${mod}, Return, exec, ${pkgs.foot}/bin/footclient
+      bind=${mod}, Return, exec, ${lib.getExe' pkgs.foot "footclient"}
       bind=${mod}, Q, killactive
       bind=${mod}, F, fullscreen, 0
       bind=${mod}, S, togglefloating
@@ -47,7 +76,7 @@ in {
       } -O 4000
       bind=${mod}+Shift, C, exec, pkill hyprpicker || ${
         lib.getExe pkgs.hyprpicker
-      } | ${pkgs.wl-clipboard}/bin/wl-copy
+      } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
       bind=${mod}, Space, exec, pkill wmenu || ${lib.getExe config.h.wmenu.run}
       bind=${mod}, Z, exec, ${lib.getExe bookmarkPaste}
       bind=${mod}, X, exec, ${lib.getExe bookmarkAdd}
@@ -73,6 +102,7 @@ in {
       bind=${mod} SHIFT, code:18, movetoworkspace, 9
       bindm=${mod}, mouse:272, movewindow
       bindm=${mod}, mouse:273, resizewindow
+      bind=${mod}, F9, exec, ${lib.getExe toggleBitdepth}
 
       exec-once=${lib.getExe pkgs.mako}
       exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog

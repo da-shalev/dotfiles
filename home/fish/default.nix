@@ -57,7 +57,6 @@
         status --is-login; and begin
           source "${lib.getExe config.h.shell.sourceEnv}"
           # fish leftovers -- cache actually at ~/.local/cache
-          rm -rf ~/.cache
         end
 
         status is-interactive; and begin

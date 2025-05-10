@@ -8,14 +8,14 @@
     pipe = lib.mkOption {
       type = lib.types.package;
       default = pkgs.writeShellScriptBin "wmenu" ''
-        exec ${pkgs.wmenu}/bin/wmenu ${config.h.wmenu.config}
+        exec ${lib.getExe' pkgs.wmenu "wmenu"} ${config.h.wmenu.config}
       '';
     };
 
     run = lib.mkOption {
       type = lib.types.package;
       default = pkgs.writeShellScriptBin "wmenu-run" ''
-        exec ${pkgs.wmenu}/bin/wmenu-run ${config.h.wmenu.config}
+        exec ${lib.getExe' pkgs.wmenu "wmenu-run"} ${config.h.wmenu.config}
       '';
     };
   };

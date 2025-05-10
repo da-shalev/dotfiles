@@ -20,6 +20,7 @@
           inputs.self.nixosModules.linux
           inputs.disko.nixosModules.disko
           inputs.impermanence.nixosModules.impermanence
+          inputs.chaotic.nixosModules.default
 
           {
             systemGenesis = {

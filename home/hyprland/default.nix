@@ -25,11 +25,16 @@
         inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
-    h.xdg.configFiles = {
-      "hypr/hyprland.conf".text = ''
-        ${config.h.hyprland.config}
-        ${config.h.hyprland.extraConfig}
-      '';
+    xdg.portal = { config.common = { hyprland = [ "hyprland" ]; }; };
+
+    h = {
+      packages = with pkgs; [ grim slurp ];
+      xdg.configFiles = {
+        "hypr/hyprland.conf".text = ''
+          ${config.h.hyprland.config}
+          ${config.h.hyprland.extraConfig}
+        '';
+      };
     };
   };
 }

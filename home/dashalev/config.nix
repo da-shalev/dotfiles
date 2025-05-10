@@ -7,6 +7,12 @@
         "/org/gnome/desktop/wm/preferences/button-layout" = "";
       };
 
+      cursorTheme = {
+        name = "macOS";
+        package = pkgs.apple-cursor;
+        size = 40;
+      };
+
       # iconTheme = {
       #   name = "WhiteSur-dark";
       #   package = pkgs.whitesur-icon-theme;
@@ -50,22 +56,20 @@
     shell = {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
       variables = rec {
-        EDTIOR = "nvim";
+        EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
         GOPATH = "${config.h.xdg.dataHome}/go";
         CARGO_HOME = "${config.h.xdg.dataHome}/cargo";
         JAVA_HOME = "${pkgs.jdk21}";
-        JAVA_RUN = "${pkgs.jdk21}/bin/java";
+        JAVA_RUN = "${lib.getExe' pkgs.jdk21 "java"}";
         JDK21 = pkgs.jdk21;
-        NPM_CONFIG_PREFIX = "${config.h.xdg.configHome}/npmrc";
-        NPM_CONFIG_USERCONFIG = "${config.h.xdg.configHome}/npm/config";
+        NPM_CONFIG_PREFIX = "${config.h.xdg.dataHome}/npm";
+        NPM_CONFIG_USERCONFIG = "${config.h.xdg.configHome}/npm/npmrc";
         LESSHISTFILE = "/dev/null";
         PATH = "${NPM_CONFIG_PREFIX}/bin:${CARGO_HOME}/bin:$PATH";
 
         # XDG compliance
-        # _JAVA_OPTIONS =
-        #   ''-Djava.util.prefs.userRoot="${config.h.xdg.configHome}/java"'';
         WINEPREFIX = "${config.h.xdg.dataHome}/wineprefixes/default";
         HISTFILE = "${config.h.xdg.stateHome}/bash/history";
         WGETRC = "${config.h.xdg.configHome}/wgetrc";
@@ -74,6 +78,9 @@
           "-Dmaven.repo.local=${config.h.xdg.dataHome}/maven/repository";
         MAVEN_ARGS = "--settings ${config.h.xdg.configHome}/maven/settings.xml";
         NUGET_PACKAGES = "${config.h.xdg.cacheHome}/NuGetPackages";
+        # java fonts
+        _JAVA_OPTIONS =
+          "-Djava.util.prefs.userRoot=${config.h.xdg.configHome}/java";
       };
     };
 

@@ -10,9 +10,9 @@
   config = let path = "/var/lib/${config.h.profile.path}/steam";
   in lib.mkIf config.h.steam.enable {
     users = {
-      groups.steam = { };
+      groups."steam" = { };
       users = {
-        steam = {
+        "steam-${config.h.userName}" = {
           isSystemUser = true;
           home = path;
           group = "steam";
@@ -25,7 +25,7 @@
     environment.persistence."/nix/persist" = {
       directories = [{
         directory = path;
-        user = "steam";
+        user = "steam-${config.h.userName}";
         group = "steam";
         mode = "0775";
       }];

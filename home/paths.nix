@@ -99,7 +99,7 @@
       };
       cacheHome = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}local/cache";
+        default = "${config.h.path}/${config.h.xdg.root}cache";
         readOnly = true;
       };
     };
@@ -129,9 +129,6 @@
       sourceEnv = lib.mkOption {
         type = lib.types.package;
         default = pkgs.writeShellScriptBin "source-env" ''
-          [ -n "$__env_sourced" ] && return
-          export __env_sourced=1
-
           ${lib.concatStringsSep "\n" (lib.mapAttrsToList
             (name: value: ''export ${name}="${builtins.toString value}"'')
             config.h.shell.variables)}
@@ -187,6 +184,8 @@
         GNUPGHOME = "${config.h.xdg.dataHome}/gnupg";
       };
 
+      packages = [ config.h.shell.sourceEnv ];
+
       xdg = {
         userDirs = {
           XDG_DESKTOP_DIR = lib.mkDefault "${config.h.path}/";
@@ -212,20 +211,18 @@
     };
 
     environment.etc = let
-      mkFileEntry = basePath: name: cfg:
-        lib.nameValuePair "${basePath}/${name}" (if cfg.source != null then {
-          source = cfg.source;
-        } else if cfg.text != null then {
-          text = cfg.text;
-        } else
-          throw
-          "Invalid entry '${name}': must define either 'source' or 'text', got ${
-            toString (builtins.attrNames cfg)
-          }");
-    in (lib.mapAttrs' (mkFileEntry config.h.profile.config)
-      config.h.xdg.configFiles)
-    // (lib.mapAttrs' (mkFileEntry config.h.profile.data)
-      config.h.xdg.dataFiles);
+      makeEntries = prefix: files:
+        lib.mapAttrs' (name: cfg:
+          lib.nameValuePair "${prefix}/${name}" (if cfg.source != null then {
+            source = cfg.source;
+          } else if cfg.text != null then {
+            text = cfg.text;
+          } else
+            throw
+            "Invalid entry '${name}': must define either 'source' or 'text'"))
+        files;
+    in makeEntries config.h.profile.config config.h.xdg.configFiles
+    // makeEntries config.h.profile.data config.h.xdg.dataFiles;
 
     users.users.${config.h.userName} = {
       shell = config.h.shell.package;
