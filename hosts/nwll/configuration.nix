@@ -17,8 +17,9 @@
   };
 
   fonts = {
+    enableDefaultPackages = false;
     packages = with pkgs; [
-      corefonts
+      liberation_ttf
       inter
       inputs.apple-emoji-linux.packages.${pkgs.system}.apple-emoji-linux
       cascadia-code

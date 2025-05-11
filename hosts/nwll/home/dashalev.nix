@@ -10,7 +10,7 @@
       pwvucontrol_git
       nautilus
 
-      (pkgs.firefox-beta.override {
+      (pkgs.firefox_nightly.override {
         nativeMessagingHosts =
           [ inputs.pipewire-screenaudio.packages.${pkgs.system}.default ];
         extraPrefs = ''

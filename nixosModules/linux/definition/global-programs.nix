@@ -33,7 +33,7 @@
       users.mutableUsers = lib.mkDefault false;
 
       security = {
-        polkit = { inherit (config.hardware.graphics) enable; };
+        # polkit = { inherit (config.hardware.graphics) enable; };
         rtkit = { inherit (config.services.pipewire) enable; };
       };
 
@@ -41,10 +41,7 @@
         fstrim.enable = lib.mkForce true;
         pulseaudio.enable = lib.mkForce false;
         udisks2.enable = lib.mkForce true;
-        dbus = {
-          enable = true;
-          implementation = lib.mkForce "broker";
-        };
+        dbus.implementation = lib.mkForce "broker";
         openssh.enable = true;
         rsyncd.enable = true;
         pipewire = {
@@ -59,7 +56,7 @@
       };
 
       programs = {
-        dconf = { inherit (config.hardware.graphics) enable; };
+        # dconf = { inherit (config.hardware.graphics) enable; };
         command-not-found.enable = lib.mkForce false;
         fuse.userAllowOther = true;
         git = { enable = lib.mkForce true; };

@@ -35,6 +35,6 @@
       enable = true;
       package = pkgs.steam.override { extraEnv = { HOME = path; }; };
       extraCompatPackages = [ pkgs.proton-ge-custom ];
-    };
+   };
   };
 }
