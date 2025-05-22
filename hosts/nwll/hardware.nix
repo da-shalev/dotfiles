@@ -25,7 +25,8 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_cachyos;
+    kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
+    kernelPackages = pkgs.linuxPackages_cachyos-hardened;
     tmp.cleanOnBoot = true;
   };
 

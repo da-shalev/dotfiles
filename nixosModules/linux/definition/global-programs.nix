@@ -19,7 +19,6 @@
       environment = {
         # override all default packages from nix
         defaultPackages = [ ];
-        localBinInPath = true;
         systemPackages = with pkgs; [ usbutils pciutils file libva-utils ];
       };
 
@@ -32,10 +31,7 @@
 
       users.mutableUsers = lib.mkDefault false;
 
-      security = {
-        # polkit = { inherit (config.hardware.graphics) enable; };
-        rtkit = { inherit (config.services.pipewire) enable; };
-      };
+      security = { rtkit = { inherit (config.services.pipewire) enable; }; };
 
       services = {
         fstrim.enable = lib.mkForce true;
@@ -56,10 +52,9 @@
       };
 
       programs = {
-        # dconf = { inherit (config.hardware.graphics) enable; };
         command-not-found.enable = lib.mkForce false;
         fuse.userAllowOther = true;
-        git = { enable = lib.mkForce true; };
+        git = { enable = true; };
       };
 
       documentation = {

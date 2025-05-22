@@ -4,7 +4,7 @@
     ../nixosModules/darwin/genesis
     ./nwll
     # ./refrigerator
-    ./vm
-    ./iso
+    # ./vm
+    # ./iso
   ];
 }

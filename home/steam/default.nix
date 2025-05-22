@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   options.h.steam = {
     enable =
       lib.mkEnableOption "Enables steam and gives you permission to run it."
@@ -34,7 +34,9 @@
     programs.steam = {
       enable = true;
       package = pkgs.steam.override { extraEnv = { HOME = path; }; };
-      extraCompatPackages = [ pkgs.proton-ge-custom ];
-   };
+      extraCompatPackages = [
+        pkgs.proton-ge-custom
+      ];
+    };
   };
 }

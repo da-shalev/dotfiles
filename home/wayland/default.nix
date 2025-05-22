@@ -95,7 +95,9 @@
       };
 
       shell.variables = {
-        MOZ_ENABLE_WAYLAND = "1";
+        MOZ_ENABLE_WAYLAND = 1;
+        PROTON_ENABLE_WAYLAND = 1;
+        DXVK_HDR = 1;
         QT_QPA_PLATFORM = "wayland";
         NIXOS_OZONE_WL = 1;
         ENABLE_HDR_WSI = 1;

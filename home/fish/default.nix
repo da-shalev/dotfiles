@@ -56,7 +56,6 @@
       "fish/config.fish".text = ''
         status --is-login; and begin
           source "${lib.getExe config.h.shell.sourceEnv}"
-          # fish leftovers -- cache actually at ~/.local/cache
         end
 
         status is-interactive; and begin

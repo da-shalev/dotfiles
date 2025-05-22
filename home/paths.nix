@@ -82,14 +82,19 @@
           "Root directory for XDG-style configuration under the home directory. Defaults to '.', which results in paths like ~/.config and ~/.local/share.";
         readOnly = true;
       };
+      localHome = lib.mkOption {
+        type = with lib.types; nonEmptyStr;
+        default = "${config.h.path}/${config.h.xdg.root}local";
+        readOnly = true;
+      };
       dataHome = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}local/share";
+        default = "${config.h.xdg.localHome}/share";
         readOnly = true;
       };
       stateHome = lib.mkOption {
         type = with lib.types; nonEmptyStr;
-        default = "${config.h.path}/${config.h.xdg.root}local/state";
+        default = "${config.h.xdg.localHome}/state";
         readOnly = true;
       };
       configHome = lib.mkOption {
@@ -119,6 +124,12 @@
 
       colour = lib.mkOption { type = with lib.types; nonEmptyStr; };
       icon = lib.mkOption { type = with lib.types; nonEmptyStr; };
+
+      paths = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        description = "List of paths to prepend to PATH";
+      };
 
       variables = lib.mkOption {
         type = with lib.types; attrsOf anything;
@@ -174,14 +185,16 @@
 
     h = {
       # non overridable xdg dirs
-      shell.variables = config.h.xdg.userDirs // {
-        XDG_DATA_HOME = lib.mkForce "${config.h.xdg.dataHome}";
-        XDG_STATE_HOME = lib.mkForce "${config.h.xdg.stateHome}";
-        XDG_CONFIG_HOME = lib.mkForce "${config.h.xdg.configHome}";
-        XDG_CACHE_HOME = lib.mkForce "${config.h.xdg.cacheHome}";
-        SHELL = "${lib.getExe config.h.shell.package}";
-        CUDA_CACHE_PATH = "${config.h.xdg.cacheHome}/nv";
-        GNUPGHOME = "${config.h.xdg.dataHome}/gnupg";
+      shell = {
+        paths = [ "${config.h.xdg.localHome}/bin" ];
+        variables = config.h.xdg.userDirs // {
+          XDG_DATA_HOME = lib.mkForce "${config.h.xdg.dataHome}";
+          XDG_STATE_HOME = lib.mkForce "${config.h.xdg.stateHome}";
+          XDG_CONFIG_HOME = lib.mkForce "${config.h.xdg.configHome}";
+          XDG_CACHE_HOME = lib.mkForce "${config.h.xdg.cacheHome}";
+          SHELL = "${lib.getExe config.h.shell.package}";
+          PATH = lib.concatStringsSep ":" (config.h.shell.paths ++ [ "$PATH" ]);
+        };
       };
 
       packages = [ config.h.shell.sourceEnv ];
@@ -210,19 +223,22 @@
       };
     };
 
-    environment.etc = let
-      makeEntries = prefix: files:
-        lib.mapAttrs' (name: cfg:
-          lib.nameValuePair "${prefix}/${name}" (if cfg.source != null then {
-            source = cfg.source;
-          } else if cfg.text != null then {
-            text = cfg.text;
-          } else
-            throw
-            "Invalid entry '${name}': must define either 'source' or 'text'"))
-        files;
-    in makeEntries config.h.profile.config config.h.xdg.configFiles
-    // makeEntries config.h.profile.data config.h.xdg.dataFiles;
+    environment = {
+      localBinInPath = lib.mkForce false;
+      etc = let
+        makeEntries = prefix: files:
+          lib.mapAttrs' (name: cfg:
+            lib.nameValuePair "${prefix}/${name}" (if cfg.source != null then {
+              source = cfg.source;
+            } else if cfg.text != null then {
+              text = cfg.text;
+            } else
+              throw
+              "Invalid entry '${name}': must define either 'source' or 'text'"))
+          files;
+      in makeEntries config.h.profile.config config.h.xdg.configFiles
+      // makeEntries config.h.profile.data config.h.xdg.dataFiles;
+    };
 
     users.users.${config.h.userName} = {
       shell = config.h.shell.package;

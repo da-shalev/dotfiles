@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, lib, inputs, ... }: {
   users.users.dashalev = {
     uid = 1000;
     extraGroups = [ "wheel" "video" "networkmanager" ];
@@ -16,10 +16,16 @@
     initrd.systemd.enable = true;
   };
 
+  systemd.targets =
+    lib.genAttrs [ "sleep" "suspend" "hibernate" "hybrid-sleep" ]
+    (_: { enable = lib.mkForce false; });
+
   fonts = {
     enableDefaultPackages = false;
     packages = with pkgs; [
       liberation_ttf
+      # luculent
+      iosevka
       inter
       inputs.apple-emoji-linux.packages.${pkgs.system}.apple-emoji-linux
       cascadia-code
@@ -32,7 +38,8 @@
       defaultFonts = {
         serif = [ "Inter" ];
         sansSerif = [ "Inter" ];
-        monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
+        monospace = [ "Iosevka" "Symbols Nerd Font Mono" ];
+        # monospace = [ "Cascadia Code" "Symbols Nerd Font Mono" ];
         emoji = [ "Apple Color Emoji" ];
       };
     };

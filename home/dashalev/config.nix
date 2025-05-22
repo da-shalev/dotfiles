@@ -10,7 +10,7 @@
       cursorTheme = {
         name = "macOS";
         package = pkgs.apple-cursor;
-        size = 40;
+        size = lib.mkDefault 40;
       };
 
       # iconTheme = {
@@ -53,9 +53,14 @@
         };
     };
 
-    shell = {
+    shell = rec {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-      variables = rec {
+      paths = [
+        "${variables.NPM_CONFIG_PREFIX}/bin"
+        "${variables.CARGO_HOME}/bin"
+      ];
+      variables = {
+        MOZ_CRASHREPORTER_DISABLE = "1";
         EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
@@ -67,7 +72,6 @@
         NPM_CONFIG_PREFIX = "${config.h.xdg.dataHome}/npm";
         NPM_CONFIG_USERCONFIG = "${config.h.xdg.configHome}/npm/npmrc";
         LESSHISTFILE = "/dev/null";
-        PATH = "${NPM_CONFIG_PREFIX}/bin:${CARGO_HOME}/bin:$PATH";
 
         # XDG compliance
         WINEPREFIX = "${config.h.xdg.dataHome}/wineprefixes/default";
@@ -81,6 +85,8 @@
         # java fonts
         _JAVA_OPTIONS =
           "-Djava.util.prefs.userRoot=${config.h.xdg.configHome}/java";
+        CUDA_CACHE_PATH = "${config.h.xdg.cacheHome}/nv";
+        GNUPGHOME = "${config.h.xdg.dataHome}/gnupg";
       };
     };
 
@@ -94,6 +100,7 @@
       fzf
 
       nodePackages_latest.npm
+      bun
       nodejs
 
       smartmontools

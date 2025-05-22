@@ -31,6 +31,7 @@
       packages = with pkgs; [ grim slurp ];
       xdg.configFiles = {
         "hypr/hyprland.conf".text = ''
+          exec = ${lib.getExe' pkgs.dbus "dbus-update-activation-environment"} --systemd --all
           ${config.h.hyprland.config}
           ${config.h.hyprland.extraConfig}
         '';

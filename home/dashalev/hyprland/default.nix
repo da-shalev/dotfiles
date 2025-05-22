@@ -104,7 +104,7 @@ in {
       bindm=${mod}, mouse:273, resizewindow
       bind=${mod}, F9, exec, ${lib.getExe toggleBitdepth}
 
-      exec-once=${lib.getExe pkgs.mako}
+      exec=${lib.getExe pkgs.mako}
       exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
     '';
   };

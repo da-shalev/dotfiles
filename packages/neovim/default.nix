@@ -34,8 +34,9 @@ pkgs: {
       friendly-snippets
       blink-cmp
 
+      undotree
+      zen-mode-nvim
     ];
-    opt = with pkgs.vimPlugins; [ undotree zen-mode-nvim ];
   };
 
   extraBinPath = with pkgs; [
