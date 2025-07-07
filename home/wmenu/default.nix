@@ -2,7 +2,7 @@
   options.h.wmenu = {
     config = lib.mkOption {
       type = lib.types.str;
-      default = "-f 'monospace 21' -s '#ffffff' -S '#b16286' -N '#000000'";
+      default = "-f 'monospace 24' -s '#ffffff' -S '#b16286' -N '#000000'";
     };
 
     pipe = lib.mkOption {

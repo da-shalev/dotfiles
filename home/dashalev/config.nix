@@ -1,6 +1,5 @@
-{ packages, config, lib, pkgs, ... }: {
+{ self', config, lib, pkgs, ... }: {
   h = {
-    rebuild.enable = true;
     wayland = {
       dconf = {
         "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
@@ -43,7 +42,7 @@
             excluded_dirs = [".direnv"]
 
             [[search_dirs]]
-            path = "${config.systemGenesis.configPath}/"
+            path = "$NIXPKGS_CONFIG/"
             depth = 5
 
             [[search_dirs]]
@@ -55,10 +54,8 @@
 
     shell = rec {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-      paths = [
-        "${variables.NPM_CONFIG_PREFIX}/bin"
-        "${variables.CARGO_HOME}/bin"
-      ];
+      paths =
+        [ "${variables.NPM_CONFIG_PREFIX}/bin" "${variables.CARGO_HOME}/bin" ];
       variables = {
         MOZ_CRASHREPORTER_DISABLE = "1";
         EDITOR = "nvim";
@@ -96,6 +93,7 @@
       woff2
       ripgrep
       jq
+      yq
       fd
       fzf
 
@@ -108,7 +106,7 @@
       imagemagick
       exiftool
 
-      packages.neovim
+      self'.packages.neovim
     ];
 
     tmux = {

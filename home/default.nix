@@ -1,5 +1,5 @@
 {
-  flake.homeModules = {
+  flake.modules.nixosModules = {
     paths = import ./paths.nix;
     wayland = import ./wayland;
     hyprland = import ./hyprland;
@@ -8,6 +8,5 @@
     wmenu = import ./wmenu;
     fish = import ./fish;
     rebuild = import ./rebuild;
-    steam = import ./steam;
   };
 }

@@ -4,15 +4,16 @@ let
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
     pkill wmenu; ${
       lib.getExe pkgs.wtype
-    } "$(cat ${config.h.xdg.configHome}/bookmarks | 
-      ${lib.getExe config.h.wmenu.pipe}
-    )"
+    } "$(cat ${config.h.xdg.configHome}/bookmarks | ${
+      lib.getExe config.h.wmenu.pipe
+    })"
   '';
 
   bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
-    line=$(tail -n1 ${config.h.xdg.configHome}/bookmarks)
     sed -i '$d' ${config.h.xdg.configHome}/bookmarks
-    exec ${lib.getExe pkgs.libnotify} "📖 Bookmark Removed" -- "$line"
+    exec ${
+      lib.getExe pkgs.libnotify
+    } "📖 Bookmark Removed" -- "$(tail -n1 ${config.h.xdg.configHome}/bookmarks)"
   '';
 
   bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
@@ -24,7 +25,7 @@ let
     })"
   '';
 
-  toggleBitdepth = pkgs.writeShellScriptBin "toggle-hdr" ''
+  toggleBitdepth = pkgs.writeShellScriptBin "toggle-bitdepth" ''
     hyprctl monitors -j | ${lib.getExe pkgs.jq} -c '.[]' | while read -r mon; do
       name=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.name')
       width=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.width')
@@ -68,9 +69,9 @@ in {
       bind=${mod}, S, togglefloating
       bind=${mod}, J, layoutmsg, cyclenext
       bind=${mod}, K, layoutmsg, cycleprev
-      bind=${mod}+Shift, S, exec, pkill grimshot || ${
-        lib.getExe pkgs.sway-contrib.grimshot
-      } --notify copy area
+      bind=${mod}+Shift, S, exec, ${
+        lib.getExe pkgs.hyprshot
+      } -m region --clipboard-only
       bind=${mod}+Shift, N, exec, pkill gammastep || ${
         lib.getExe pkgs.gammastep
       } -O 4000

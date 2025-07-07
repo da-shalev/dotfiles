@@ -166,7 +166,8 @@
     createUserDirs = lib.concatStringsSep "\n" (lib.mapAttrsToList (_: path:
       "install -d -o ${config.h.userName} -g ${
         config.users.users.${config.h.userName}.group
-      } ${lib.escapeShellArg path}") config.h.xdg.userDirs);
+      } ${lib.escapeShellArg path}")
+      (lib.filterAttrs (_: path: path != "${config.h.path}/") config.h.xdg.userDirs));
     createXdgDirs = lib.concatStringsSep "\n" (builtins.map (path:
       "install -d -o ${config.h.userName} -g ${
         config.users.users.${config.h.userName}.group
