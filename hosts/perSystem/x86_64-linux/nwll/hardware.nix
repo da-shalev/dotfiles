@@ -1,15 +1,17 @@
 { pkgs, lib, config, inputs, ... }: {
-  environment.persistence."/nix/persist" = {
-    directories = [
-      "/var/lib/bluetooth/"
-      "/var/lib/NetworkManager/"
-      "/etc/NetworkManager/"
-    ];
-  };
+  environment = {
+    persistence."/nix/persist" = {
+      directories = [
+        "/var/lib/bluetooth/"
+        "/var/lib/NetworkManager/"
+        "/etc/NetworkManager/"
+      ];
+    };
 
-  environment.variables.ALSA_CONFIG_UCM2 = "${
-      pkgs.alsa-ucm-conf.overrideAttrs (old: { src = inputs.alsa-ucm-conf; })
-    }/share/alsa/ucm2";
+    variables.ALSA_CONFIG_UCM2 = "${
+        pkgs.alsa-ucm-conf.overrideAttrs (old: { src = inputs.alsa-ucm-conf; })
+      }/share/alsa/ucm2";
+  };
 
   networking.networkmanager = {
     enable = true;
@@ -57,7 +59,7 @@
 
     kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
     # kernelPackages = pkgs.linuxPackages_cachyos;
-    kernelPackages = pkgs.linuxPackages_6_13;
+    kernelPackages = pkgs.linuxPackages_6_12;
     tmp.cleanOnBoot = true;
   };
 

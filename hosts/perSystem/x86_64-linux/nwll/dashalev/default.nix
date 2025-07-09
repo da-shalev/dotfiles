@@ -28,9 +28,9 @@
 
       mpv
       # hdr for mpv
-      vulkan-hdr-layer-kwin6
+      # vulkan-hdr-layer-kwin6
 
-      mangohud_git
+      mangohud
       # mullvad-vpn
       # qbittorrent
       # vesktop

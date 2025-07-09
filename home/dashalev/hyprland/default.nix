@@ -9,22 +9,6 @@ let
     })"
   '';
 
-  bookmarkRemove = pkgs.writeShellScriptBin "bookmark-remove" ''
-    sed -i '$d' ${config.h.xdg.configHome}/bookmarks
-    exec ${
-      lib.getExe pkgs.libnotify
-    } "📖 Bookmark Removed" -- "$(tail -n1 ${config.h.xdg.configHome}/bookmarks)"
-  '';
-
-  bookmarkAdd = pkgs.writeShellScriptBin "bookmark-add" ''
-    ${
-      lib.getExe' pkgs.wl-clipboard "wl-paste"
-    } >> ${config.h.xdg.configHome}/bookmarks
-    exec ${lib.getExe pkgs.libnotify} "📖 Bookmark Added" "$(${
-      lib.getExe' pkgs.wl-clipboard "wl-paste"
-    })"
-  '';
-
   toggleBitdepth = pkgs.writeShellScriptBin "toggle-bitdepth" ''
     hyprctl monitors -j | ${lib.getExe pkgs.jq} -c '.[]' | while read -r mon; do
       name=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.name')
@@ -72,16 +56,14 @@ in {
       bind=${mod}+Shift, S, exec, ${
         lib.getExe pkgs.hyprshot
       } -m region --clipboard-only
-      bind=${mod}+Shift, N, exec, pkill gammastep || ${
-        lib.getExe pkgs.gammastep
-      } -O 4000
+      bind=${mod}+Shift, N, exec, pkill hyprsunset || ${
+        lib.getExe pkgs.hyprsunset
+      } -t 4000
       bind=${mod}+Shift, C, exec, pkill hyprpicker || ${
         lib.getExe pkgs.hyprpicker
       } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
       bind=${mod}, Space, exec, pkill wmenu || ${lib.getExe config.h.wmenu.run}
       bind=${mod}, Z, exec, ${lib.getExe bookmarkPaste}
-      bind=${mod}, X, exec, ${lib.getExe bookmarkAdd}
-      bind=${mod}+Shift, X, exec, ${lib.getExe bookmarkRemove}
 
       bind=${mod}, code:10, workspace, 1
       bind=${mod} SHIFT, code:10, movetoworkspace, 1
@@ -105,7 +87,7 @@ in {
       bindm=${mod}, mouse:273, resizewindow
       bind=${mod}, F9, exec, ${lib.getExe toggleBitdepth}
 
-      exec=${lib.getExe pkgs.mako}
+      exec-once=${lib.getExe pkgs.mako}
       exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
     '';
   };

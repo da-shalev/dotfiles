@@ -16,19 +16,18 @@
   };
 
   config = lib.mkIf config.h.hyprland.enable {
-    xdg.portal.config.hyprland.default = [ "hyprland" "gtk" ];
 
     programs.hyprland = {
       enable = true;
+      withUWSM = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       portalPackage =
         inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
-    xdg.portal = { config.common = { hyprland = [ "hyprland" ]; }; };
+    xdg.portal = { config.common = { hyprland = [ "hyprland" "gtk" ]; }; };
 
     h = {
-      packages = with pkgs; [ grim slurp ];
       xdg.configFiles = {
         # WARN: testing with this removed, testing if env propagates correctly without
         # exec = ${lib.getExe' pkgs.dbus "dbus-update-activation-environment"} --systemd --all
