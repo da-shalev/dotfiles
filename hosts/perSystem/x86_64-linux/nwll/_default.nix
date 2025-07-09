@@ -3,6 +3,7 @@
     ./hardware.nix
     ./fileSystems.nix
     ./disko/a.nix
+    ./steam.nix
     {
       imports = with inputs.self.modules.nixosModules;
         [
@@ -24,7 +25,7 @@
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" ];
+    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
     initialPassword = "boobs";
   };
 
