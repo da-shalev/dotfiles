@@ -1,4 +1,4 @@
-{ pkgs, inputs, self', ... }: {
+{ pkgs, self', ... }: {
   config.h = {
     dashalev.enable = true;
     xdg.configFiles = { "mpv/mpv.conf".source = ./mpv.conf; };
@@ -8,16 +8,13 @@
       pwvucontrol_git
       nautilus
 
-      self'.packages.firefox
-      (inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev.override {
-        # enableWideVine = true;
-        # proprietaryCodecs = true;
+      self'.packages.zen-browser
+      (brave.override {
         commandLineArgs =
           [ "--enable-features=WaylandLinuxDrmSyncobj,RustyPng" ];
       })
 
       # aseprite
-      # legcord
       blender
       # krita
       # gimp3
@@ -27,13 +24,9 @@
       nvitop
 
       mpv
-      # hdr for mpv
-      # vulkan-hdr-layer-kwin6
-
       mangohud
       # mullvad-vpn
       # qbittorrent
-      # vesktop
       # heroic
     ];
 

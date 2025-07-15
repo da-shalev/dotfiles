@@ -20,16 +20,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    browser-previews = {
-      url = "github:nix-community/browser-previews";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     mnw.url = "github:Gerg-L/mnw";
     hyprland.url = "github:hyprwm/Hyprland";
+
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     alsa-ucm-conf = {
       url = "github:geoffreybennett/alsa-ucm-conf";

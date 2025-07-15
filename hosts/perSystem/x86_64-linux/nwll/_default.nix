@@ -1,9 +1,9 @@
 { lib, inputs, pkgs, ... }: {
   imports = [
     ./hardware.nix
-    ./fileSystems.nix
-    ./disko/a.nix
-    ./steam.nix
+    ./disko
+    ./programs
+    ./vm.nix
     {
       imports = with inputs.self.modules.nixosModules;
         [
@@ -51,7 +51,6 @@
       corefonts
       iosevka
       inter
-      cascadia-code
       nerd-fonts.symbols-only
       twitter-color-emoji
     ];

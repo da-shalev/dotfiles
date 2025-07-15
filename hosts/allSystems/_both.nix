@@ -1,5 +1,5 @@
 { inputs, lib, pkgs, config, ... }:
-let cfgLocation = "/etc/nixos";
+let cfgLocation = "/etc/dotfiles";
 in {
   imports = [
     inputs.disko.nixosModules.disko
@@ -114,6 +114,7 @@ in {
       nyancat
       cmatrix
       sl
+      nix-tree
     ];
     persistence."/nix/persist" = {
       hideMounts = true;

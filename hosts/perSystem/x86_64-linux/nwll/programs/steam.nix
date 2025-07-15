@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let path = "/var/lib/steam";
 in {
   users = {

@@ -1,5 +1,3 @@
--- vim.api.nvim_command("packadd nvim-jdtls")
---
 -- vim.opt.shiftwidth = 4
 -- vim.opt.tabstop = 4
 --

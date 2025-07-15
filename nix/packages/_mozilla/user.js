@@ -1,5 +1,12 @@
+lockPref("network.trr.mode", 2);
+// lockPref("network.trr.uri", "https://adblock.dns.mullvad.net/dns-query");
+lockPref("privacy.donottrackheader.enabled", true);
+
 lockPref("dom.disable_beforeunload", true);
 lockPref("dom.enable_performance", true);
+lockPref("media.webspeech.synth.enabled", false);
+lockPref("browser.uitour.enabled", false);
+lockPref("apps.update.auto", false);
 lockPref("browser.tabs.unloadOnLowMemory", false);
 lockPref("browser.startup.homepage_override.mstone", "ignore");
 lockPref("browser.tabs.groups.smart.enabled", false);
@@ -35,6 +42,10 @@ lockPref("browser.urlbar.mdn.featureGate", false);
 lockPref("browser.urlbar.pocket.featureGate", false);
 lockPref("browser.urlbar.weather.featureGate", false);
 lockPref("browser.urlbar.yelp.featureGate", false);
+lockPref("browser.search.suggest.enabled", false);
+lockPref("browser.urlbar.suggest.searches", false);
+lockPref("browser.urlbar.suggest.history", true);
+lockPref("browser.urlbar.suggest.engines", false);
 lockPref("browser.urlbar.suggest.bookmark", false);
 lockPref("browser.urlbar.suggest.openpage", false);
 lockPref("browser.urlbar.suggest.topsites", false);
@@ -62,7 +73,6 @@ lockPref("browser.newtabpage.activity-stream.section.highlights.includeDownloads
 lockPref("browser.newtabpage.activity-stream.section.highlights.includeVisited", false);
 lockPref("browser.newtabpage.activity-stream.showWeather", false);
 lockPref("browser.urlbar.showSearchHistory", true);
-lockPref("browser.urlbar.suggest.history", true);
 lockPref("browser.newtabpage.activity-stream.showSponsored", false);
 lockPref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 lockPref("browser.newtabpage.activity-stream.default.sites", "");
@@ -79,9 +89,7 @@ lockPref("browser.region.update.enabled", false); // [FF79+]
 lockPref("browser.shell.checkDefaultBrowser", false);
 lockPref("browser.shell.skipDefaultBrowserCheckOnFirstRun", true);
 lockPref("browser.urlbar.trending.featureGate", false);
-lockPref("browser.urlbar.suggest.searches", false);
 lockPref("browser.urlbar.clipboard.featureGate", false);
-lockPref("browser.urlbar.suggest.engines", false);
 lockPref("browser.search.separatePrivateDefault", true); // [FF70+]
 lockPref("browser.urlbar.merino.enabled", false);
 lockPref("browser.search.separatePrivateDefault.ui.enabled", true);
@@ -90,7 +98,6 @@ lockPref("browser.urlbar.trimHttps", true);
 lockPref("browser.urlbar.trimURLs", false);
 lockPref("browser.urlbar.untrimOnUserInteraction.featureGate", true);
 lockPref("browser.urlbar.update2.engineAliasRefresh", true);
-lockPref("browser.search.suggest.enabled", false);
 lockPref("browser.urlbar.quicksuggest.enabled", false);
 lockPref("browser.urlbar.groupLabels.enabled", false);
 lockPref("browser.formfill.enable", false);
@@ -199,10 +206,12 @@ lockPref("browser.safebrowsing.allowOverride", false);
 lockPref("browser.safebrowsing.downloads.enabled", false);
 lockPref("browser.safebrowsing.downloads.remote.enabled", false);
 lockPref("browser.safebrowsing.downloads.remote.url", "");
-lockPref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", false);
-lockPref("browser.safebrowsing.downloads.remote.block_uncommon", false);
-lockPref("browser.safebrowsing.downloads.remote.block_dangerous", false);
-lockPref("browser.safebrowsing.downloads.remote.block_dangerous_host", false);
+
+lockPref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", true);
+lockPref("browser.safebrowsing.downloads.remote.block_uncommon", true);
+lockPref("browser.safebrowsing.downloads.remote.block_dangerous", true);
+lockPref("browser.safebrowsing.downloads.remote.block_dangerous_host", true);
+
 lockPref("browser.safebrowsing.provider.google.updateURL", "");
 lockPref("browser.safebrowsing.provider.google.gethashURL", "");
 lockPref("browser.safebrowsing.provider.google4.updateURL", "");

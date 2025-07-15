@@ -3,6 +3,7 @@
     persistence."/nix/persist" = {
       directories = [
         "/var/lib/bluetooth/"
+        # "/var/lib/iwd/"
         "/var/lib/NetworkManager/"
         "/etc/NetworkManager/"
       ];
@@ -13,9 +14,22 @@
       }/share/alsa/ucm2";
   };
 
-  networking.networkmanager = {
-    enable = true;
-    wifi.powersave = false;
+  # networking.wireless.iwd = {
+  #   enable = true;
+  #   settings = {
+  #     IPv6 = { Enabled = true; };
+  #     Settings = { AutoConnect = true; };
+  #   };
+  # };
+
+  networking = {
+    networkmanager = {
+      enable = true;
+      wifi = {
+        powersave = false;
+        # backend = "iwd";
+      };
+    };
   };
 
   systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
@@ -59,7 +73,8 @@
 
     kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
     # kernelPackages = pkgs.linuxPackages_cachyos;
-    kernelPackages = pkgs.linuxPackages_6_12;
+    kernelPackages = pkgs.linuxPackages_cachyos-rc;
+    # kernelPackages = pkgs.linuxPackages_6_12;
     tmp.cleanOnBoot = true;
   };
 

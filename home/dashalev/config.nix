@@ -31,6 +31,7 @@
         '';
         "git/ignore".source = ./git/ignore;
         "git/config".source = ./git/config;
+        "mimeapps.list".source = ./mimeapps.list;
       } // lib.optionalAttrs (builtins.elem pkgs.foot config.h.packages) {
         "foot/foot.ini".source = ./foot.ini;
       } // lib.optionalAttrs (builtins.elem pkgs.lsd config.h.packages) {

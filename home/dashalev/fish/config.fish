@@ -36,7 +36,3 @@ end
 
 function fish_mode_prompt
 end
-
-if status is-login; and test (tty) = /dev/tty1; and uwsm check may-start
-   exec uwsm start hyprland-uwsm.desktop
-end
