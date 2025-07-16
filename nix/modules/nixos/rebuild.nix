@@ -1,7 +1,7 @@
 {
   flake.modules.nixos.rebuild = { lib, config, pkgs, ... }: {
     options.rebuild = {
-      enable = lib.mkEnableOption "installs switch & boot & update tools";
+      enable = lib.mkEnableOption "installs switch, boot, update tools";
       path = lib.mkOption {
         type = lib.types.path;
         description = "Path to the flake-based NIXPKGS_CONFIG directory.";

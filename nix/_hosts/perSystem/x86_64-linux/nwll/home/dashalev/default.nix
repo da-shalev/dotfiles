@@ -1,4 +1,4 @@
-{ pkgs, self', inputs, inputs', ... }: {
+{ pkgs, self', self, inputs', ... }: {
   programs.fish.enable = true;
   xdg.portal = {
     enable = true;
@@ -23,11 +23,11 @@
 
     maid = {
       imports = [
-        inputs.self.homeModules.shell
-        inputs.self.homeModules.wayland
-        inputs.self.homeModules.tmux
-        inputs.self.homeModules.fish
-        inputs.self.homeModules.dashalev
+        self.modules.maid.shell
+        self.modules.maid.wayland
+        self.modules.maid.tmux
+        self.modules.maid.fish
+        self.modules.maid.dashalev
       ];
 
       packages = with pkgs; [
@@ -79,6 +79,7 @@
           env = __GL_GSYNC_ALLOWED,true
         '';
       };
+
       wayland = { enable = true; };
     };
   };

@@ -10,10 +10,6 @@ bind -M default \cf fzf_cmd
 bind -M insert \cf fzf_cmd
 bind -M visual \cf fzf_cmd
 
-bind -M insert \cl ''
-bind -M visual \cl ''
-bind -M default \cl ''
-
 set -x fish_clear 'clear; commandline -f repaint'
 bind -M insert \cs $fish_clear
 bind -M visual \cs $fish_clear
@@ -35,4 +31,14 @@ function fzf_cmd
 end
 
 function fish_mode_prompt
+end
+
+function fish_prompt
+  printf '%s%s%s %s%s%s\n%s ' \
+    (set_color "$SHELL_COLOUR")(whoami) \
+    (set_color "brwhite")@ \
+    (set_color "bryellow")(hostname) \
+    (set_color "brgreen") (prompt_pwd) \
+    (set_color "brred"; fish_git_prompt) \
+    $SHELL_ICON
 end

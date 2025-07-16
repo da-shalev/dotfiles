@@ -4,6 +4,7 @@
     ./disko
     ./programs
     ./home/dashalev
+    ./home/test
     self.modules.nixos.disable-sleep
   ];
 

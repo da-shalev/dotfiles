@@ -40,15 +40,6 @@
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        (inputs.import-tree ./nix)
-        inputs.mcsimw.modules.flake.compootuers
-        ./home
-      ];
-
-      compootuers = {
-        perSystem = ./hosts/perSystem;
-        allSystems = ./hosts/allSystems;
-      };
+      imports = [ (inputs.import-tree ./nix) ];
     };
 }

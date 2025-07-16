@@ -18,7 +18,6 @@ pkgs: {
       gruvbox-nvim
       lualine-nvim
       telescope-nvim
-      vim-tmux-navigator
 
       todo-comments-nvim
 
@@ -52,7 +51,7 @@ pkgs: {
     svelte-language-server
     typescript-language-server
     typescript
-    mdx-language-server
+    # mdx-language-server
     astro-language-server
     emmet-ls
 

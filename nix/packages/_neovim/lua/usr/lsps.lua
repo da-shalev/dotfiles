@@ -178,10 +178,10 @@ lspconfig.cssls.setup({
   on_attach = M.on_attach,
 })
 
-lspconfig.mdx_analyzer.setup {
-  capabilities = M.capabilities,
-  on_attach = M.on_attach,
-}
+-- lspconfig.mdx_analyzer.setup {
+--   capabilities = M.capabilities,
+--   on_attach = M.on_attach,
+-- }
 
 lspconfig.emmet_ls.setup({
   capabilities = M.capabilities,
