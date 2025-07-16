@@ -29,30 +29,26 @@
       XDG_PUBLICSHARE_DIR = lib.mkDefault "$HOME/media";
       XDG_TEMPLATES_DIR = lib.mkDefault "$HOME/";
       XDG_VIDEOS_DIR = lib.mkDefault "$HOME/vid";
+
+      WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
     };
 
     # XDG compliance
-    file = {
-      xdg_config = {
-        "npm/npmrc".text = ''
-          cache=$XDG_CACHE_HOME/npm
-        '';
-        "git/ignore".source = ./_git/ignore;
-        "git/config".source = ./_git/config;
-        "mimeapps.list".source = ./mimeapps.list;
-      } // lib.optionalAttrs (builtins.elem pkgs.foot config.packages) {
-        "foot/foot.ini".source = ./foot.ini;
-      } // lib.optionalAttrs (builtins.elem pkgs.lsd config.packages) {
-        "lsd/config.yaml".source = ./lsd.yaml;
-      } // lib.optionalAttrs
-        (builtins.elem pkgs.tmux-sessionizer config.packages) {
-          "tms/config.toml".source = ./tms.toml;
-        } // lib.optionalAttrs (builtins.elem pkgs.mpv config.packages) {
-          "mpv/mpv.conf".source = ./mpv.conf;
-        };
+    file.xdg_config = {
+      "npm/npmrc".text = ''
+        cache=$XDG_CACHE_HOME/npm
+      '';
+      "git/ignore".source = ./git/ignore;
+      "git/config".source = ./git/config;
+      "mimeapps.list".source = ./mimeapps.list;
+      "mako/config".source = ./mako;
+      "foot/foot.ini".source = ./foot.ini;
+      "lsd/config.yaml".source = ./lsd.yaml;
+      "tms/config.toml".source = ./tms.toml;
+      "mpv/mpv.conf".source = ./mpv.conf;
     };
 
-    dirs = [ "$XDG_DATA_HOME/wineprefixes" "$XDG_STATE_HOME/bash" ];
+    dirs = [ "$XDG_STATE_HOME/bash" ];
     shell = rec {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
       paths =
@@ -74,13 +70,12 @@
         LESSHISTFILE = "/dev/null";
 
         # XDG compliance
-        WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
         HISTFILE = "$XDG_STATE_HOME/bash/history";
         WGETRC = "$XDG_CONFIG_HOME/wgetrc";
-        OMNISHARPHOME = "$XDG_CONFIG_HOME/omnisharp";
         MAVEN_OPTS = "-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository";
         MAVEN_ARGS = "--settings $XDG_CONFIG_HOME/maven/settings.xml";
         NUGET_PACKAGES = "$XDG_CACHE_HOME/NuGetPackages";
+        OMNISHARPHOME = "$XDG_CONFIG_HOME/omnisharp";
         # java fonts
         _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
         CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
@@ -107,7 +102,6 @@
       imagemagick
       exiftool
 
-      # self'.packages.neovim
       mpv
     ];
 
@@ -121,13 +115,13 @@
       enable = true;
       themes = [{
         name = "fishsticks";
-        source = ./_fish/fishsticks.theme;
+        source = ./fish/fishsticks.theme;
       }];
 
       plugins = with pkgs.fishPlugins; [ puffer autopair ];
 
       interactive = ''
-        ${builtins.readFile ./_fish/config.fish}
+        ${builtins.readFile ./fish/config.fish}
       '';
     };
   };

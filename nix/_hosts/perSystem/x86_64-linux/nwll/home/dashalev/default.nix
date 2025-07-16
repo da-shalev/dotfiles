@@ -27,6 +27,7 @@
         self.modules.maid.wayland
         self.modules.maid.tmux
         self.modules.maid.fish
+        self.modules.maid.hyprland
         self.modules.maid.dashalev
       ];
 

@@ -2,7 +2,7 @@
   flake.modules.maid.fish = { config, lib, pkgs, ... }: {
     options.fish = {
       enable = lib.mkEnableOption
-        "Enables the fish shell. Fish will be enabled globally for this to work correctly."
+        "Configures the fish shell."
         // {
           default = false;
         };
