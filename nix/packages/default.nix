@@ -1,5 +1,5 @@
-{ inputs, ... }: {
-  perSystem = { system, pkgs, ... }: {
+{ inputs,  ... }: {
+  perSystem = { system, pkgs, inputs', ... }: {
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
@@ -8,8 +8,8 @@
 
     packages = {
       neovim = inputs.mnw.lib.wrap pkgs (import ./_neovim pkgs);
-      firefox = import ./_mozilla/firefox.nix { inherit inputs pkgs; };
-      zen-browser = import ./_mozilla/zen-browser.nix { inherit inputs pkgs; };
+      firefox = import ./_mozilla/firefox.nix { inherit inputs' pkgs; };
+      zen-browser = import ./_mozilla/zen-browser.nix { inherit inputs' pkgs; };
     };
   };
 }

@@ -1,15 +1,19 @@
-{ inputs, lib, pkgs, config, ... }:
-let cfgLocation = "/etc/dotfiles";
-in {
+{ inputs, lib, pkgs, config, self, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.impermanence.nixosModules.impermanence
-    ./genesis.nix
+    inputs.nix-maid.nixosModules.default
+    self.modules.nixos.rebuild
   ];
 
   environment = {
     sessionVariables = { NIXPKGS_ALLOW_UNFREE = "1"; };
-    variables.NIXPKGS_CONFIG = lib.mkOverride 3 cfgLocation;
+    localBinInPath = true;
+  };
+
+  rebuild = {
+    enable = true;
+    path = "/etc/dotfiles";
   };
 
   documentation = {
@@ -21,7 +25,6 @@ in {
   };
 
   time.timeZone = lib.mkDefault "Canada/Eastern";
-
   nix = {
     package = pkgs.nixVersions.latest;
     registry.nixpkgs.flake = lib.mkOverride 3 inputs.nixpkgs;
@@ -116,15 +119,11 @@ in {
       sl
       nix-tree
     ];
+
     persistence."/nix/persist" = {
       hideMounts = true;
-      directories = [
-        "/var/lib/nixos"
-        "/var/log"
-        "/var/lib/systemd/coredump"
-        cfgLocation
-        "/tmp"
-      ];
+      directories =
+        [ "/var/lib/nixos" "/var/log" "/var/lib/systemd/coredump" "/tmp" ];
     };
   };
 

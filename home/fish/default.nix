@@ -1,5 +1,5 @@
-{ config, pkgs, lib, ... }: {
-  options.h.fish = {
+{ config, lib, ... }: {
+  options.fish = {
     enable = lib.mkEnableOption
       "Enables the fish shell. Fish will be enabled globally for this to work correctly."
       // {
@@ -7,7 +7,7 @@
       };
     plugins = lib.mkOption {
       type = with lib.types; listOf package;
-      default = [ pkgs.fishPlugins.puffer pkgs.fishPlugins.autopair ];
+      default = [ ];
       description = "Define the fish plugins you want to use.";
     };
     interactive = lib.mkOption {
@@ -38,28 +38,27 @@
     };
   };
 
-  config = lib.mkIf config.h.fish.enable {
-    programs.fish.enable = true;
-    h.xdg.configFiles = let
+  config = lib.mkIf config.fish.enable {
+    file.xdg_config = let
       fishAliases = lib.concatStringsSep "\n"
         (lib.mapAttrsToList (name: value: "alias ${name} '${value}'")
-          config.h.shell.aliases);
+          config.shell.aliases);
       plugins = ''
         ${lib.concatMapStringsSep "\n\n" (plugin: ''
           load_plugin_dir ${plugin.src}
-        '') config.h.fish.plugins}
+        '') config.fish.plugins}
       '';
     in ((builtins.listToAttrs (map (theme: {
       name = "fish/themes/${theme.name}.theme";
       value = { source = theme.source; };
-    }) config.h.fish.themes))) // {
+    }) config.fish.themes))) // {
       "fish/config.fish".text = ''
         status --is-login; and begin
-          source "${lib.getExe config.h.shell.sourceEnv}"
+          source "${lib.getExe config.shell.source_env}"
         end
 
         status is-interactive; and begin
-          ${config.h.fish.interactive}
+          ${config.fish.interactive}
           ${fishAliases}
 
           function load_plugin_dir
@@ -85,7 +84,7 @@
           ${plugins}
         end
 
-        ${config.h.fish.extraConfig}
+        ${config.fish.extraConfig}
       '';
     };
   };

@@ -20,6 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-maid.url = "github:viperML/nix-maid";
     impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
@@ -41,8 +42,8 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         (inputs.import-tree ./nix)
-        ./home
         inputs.mcsimw.modules.flake.compootuers
+        ./home
       ];
 
       compootuers = {

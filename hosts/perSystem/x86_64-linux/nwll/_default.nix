@@ -1,34 +1,13 @@
-{ lib, inputs, pkgs, ... }: {
+{ self, pkgs, ... }: {
   imports = [
     ./hardware.nix
     ./disko
     ./programs
-    ./vm.nix
-    {
-      imports = with inputs.self.modules.nixosModules;
-        [
-          { h = { userName = "dashalev"; }; }
-          paths
-          tmux
-          wmenu
-          hyprland
-          wayland
-          fish
-          rebuild
-          dashalev
-          ./dashalev
-        ];
-    }
+    ./home/dashalev
+    self.modules.nixos.disable-sleep
   ];
 
   environment.persistence."/nix/persist" = { enable = true; };
-
-  users.users.dashalev = {
-    uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
-    initialPassword = "boobs";
-  };
-
   security.sudo.wheelNeedsPassword = false;
   networking.firewall = { allowedTCPPorts = [ 4321 8096 8097 ]; };
 
@@ -40,10 +19,6 @@
 
     initrd.systemd.enable = true;
   };
-
-  systemd.targets =
-    lib.genAttrs [ "sleep" "suspend" "hibernate" "hybrid-sleep" ]
-    (_: { enable = lib.mkForce false; });
 
   fonts = {
     enableDefaultPackages = false;

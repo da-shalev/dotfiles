@@ -3,7 +3,6 @@
     persistence."/nix/persist" = {
       directories = [
         "/var/lib/bluetooth/"
-        # "/var/lib/iwd/"
         "/var/lib/NetworkManager/"
         "/etc/NetworkManager/"
       ];
@@ -14,21 +13,10 @@
       }/share/alsa/ucm2";
   };
 
-  # networking.wireless.iwd = {
-  #   enable = true;
-  #   settings = {
-  #     IPv6 = { Enabled = true; };
-  #     Settings = { AutoConnect = true; };
-  #   };
-  # };
-
   networking = {
     networkmanager = {
       enable = true;
-      wifi = {
-        powersave = false;
-        # backend = "iwd";
-      };
+      wifi = { powersave = false; };
     };
   };
 
@@ -37,10 +25,10 @@
   services = {
     xserver.videoDrivers = [ "nvidia" ];
     blueman.enable = true;
-    scx = {
-      enable = true;
-      scheduler = "scx_lavd";
-    };
+    # scx = {
+    #   enable = true;
+    #   scheduler = "scx_lavd";
+    # };
 
     pipewire.wireplumber.extraConfig."zz-device-profiles" = {
       "monitor.alsa.rules" = [

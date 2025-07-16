@@ -1,12 +1,9 @@
 {
-  flake.modules.nixosModules = {
-    paths = import ./paths.nix;
+  flake.homeModules = {
+    shell = import ./shell;
     wayland = import ./wayland;
-    hyprland = import ./hyprland;
     dashalev = import ./dashalev;
     tmux = import ./tmux;
-    wmenu = import ./wmenu;
     fish = import ./fish;
-    rebuild = import ./rebuild;
   };
 }

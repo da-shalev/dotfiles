@@ -1,0 +1,9 @@
+excluded_dirs = [".direnv"]
+
+[[search_dirs]]
+path = "$NIXPKGS_CONFIG/"
+depth = 5
+
+[[search_dirs]]
+path = "$HOME/media/"
+depth = 20
