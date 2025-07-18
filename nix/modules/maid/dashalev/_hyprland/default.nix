@@ -10,10 +10,12 @@ let
       exec ${lib.getExe' pkgs.wmenu "wmenu-run"} ${menu.config}
     '');
   };
+
   bookmarkPaste = pkgs.writeShellScriptBin "bookmark-paste" ''
     pkill wmenu; ${lib.getExe pkgs.wtype} "$(cat $XDG_CONFIG_HOME/bookmarks | ${
       lib.getExe menu.pipe
     })"'';
+
   toggleBitdepth = pkgs.writeShellScriptBin "toggle-bitdepth" ''
     hyprctl monitors -j | ${lib.getExe pkgs.jq} -c '.[]' | while read -r mon; do
       name=$(echo "$mon" | ${lib.getExe pkgs.jq} -r '.name')
@@ -42,8 +44,6 @@ let
   '';
 in {
   hyprland.config = ''
-    $mod=SUPER
-
     ${builtins.readFile ./hyprland.conf}
 
     bind=$mod, Return, exec, ${lib.getExe' pkgs.foot "footclient"}

@@ -16,7 +16,7 @@
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
+    extraGroups = [ "wheel" "video" "networkmanager" "steam" "libvirt" ];
     isNormalUser = true;
     shell = pkgs.fish;
     initialPassword = "boobs";
@@ -74,10 +74,12 @@
           monitor=DP-2,highres@highrr,auto,1
           monitor=DP-3,highres@highrr,auto,1
           monitor=DP-4,highres@highrr,auto,1
+          monitor=Virtual-1,highres@highrr,auto,1
           env = GBM_BACKEND,nvidia-drm
           env = LIBVA_DRIVER_NAME,nvidia
           env = __GLX_VENDOR_LIBRARY_NAME,nvidia
           env = __GL_GSYNC_ALLOWED,true
+          env = AQ_DRM_DEVICES,/dev/dri/card0
         '';
       };
 

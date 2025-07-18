@@ -1,27 +1,4 @@
-{ pkgs, lib, config, inputs, ... }: {
-  environment = {
-    persistence."/nix/persist" = {
-      directories = [
-        "/var/lib/bluetooth/"
-        "/var/lib/NetworkManager/"
-        "/etc/NetworkManager/"
-      ];
-    };
-
-    variables.ALSA_CONFIG_UCM2 = "${
-        pkgs.alsa-ucm-conf.overrideAttrs (old: { src = inputs.alsa-ucm-conf; })
-      }/share/alsa/ucm2";
-  };
-
-  networking = {
-    networkmanager = {
-      enable = true;
-      wifi = { powersave = false; };
-    };
-  };
-
-  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
-
+{ pkgs, lib, config, ... }: {
   services = {
     xserver.videoDrivers = [ "nvidia" ];
     blueman.enable = true;
@@ -57,12 +34,23 @@
       "nowatchdog"
       # https://www.phoronix.com/news/Linux-Splitlock-Hurts-Gaming
       "split_lock_detect=off"
+      # Input–Output Memory Management Unit, grants VM exclusive DMA access to igpu
+      # "amd_iommu=on"
+      # "iommu=pt"
     ];
 
+    # # Load KVM and VFIO modules so QEMU can use hardware acceleration and pass the AMD iGPU
+    # kernelModules = [ "kvm_amd" "vfio-pci" ];
+    # prevent amdgpu drivers from being loaded, disable igpu
+    blacklistedKernelModules = [ "amdgpu" ];
+
+    # # vfio-pci only binds ID 1002:13c0
+    # extraModprobeConfig = ''
+    #   options vfio-pci ids=1002:13c0
+    # '';
+
     kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
-    # kernelPackages = pkgs.linuxPackages_cachyos;
     kernelPackages = pkgs.linuxPackages_cachyos-rc;
-    # kernelPackages = pkgs.linuxPackages_6_12;
     tmp.cleanOnBoot = true;
   };
 
@@ -71,16 +59,7 @@
   hardware = {
     enableAllFirmware = lib.mkForce true;
     wirelessRegulatoryDatabase = true;
-    bluetooth = {
-      inherit (config.hardware.graphics) enable;
-      powerOnBoot = lib.mkDefault true;
-      settings = {
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-          Experimental = true;
-        };
-      };
-    };
+    bluetooth = { inherit (config.hardware.graphics) enable; };
 
     graphics = {
       enable = true;

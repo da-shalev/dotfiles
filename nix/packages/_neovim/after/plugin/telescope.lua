@@ -35,7 +35,7 @@ M.telescope.setup({
     file_ignore_patterns = {
       ".direnv",
       "target",
-      ".git",
+      "%.git",
       "%.ase",
       "%.jpeg",
       "%.jpg",

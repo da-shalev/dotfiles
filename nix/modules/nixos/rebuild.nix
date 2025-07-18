@@ -1,15 +1,21 @@
 {
   flake.modules.nixos.rebuild = { lib, config, pkgs, ... }: {
     options.rebuild = {
-      enable = lib.mkEnableOption "installs switch, boot, update tools";
+      dir = lib.mkOption {
+        type = lib.types.str;
+        description =
+          "Path in /etc/ to the flake-based NIXPKGS_CONFIG directory, usually '/etc/nixos'";
+        default = "nixos";
+      };
+
       path = lib.mkOption {
         type = lib.types.path;
-        description = "Path to the flake-based NIXPKGS_CONFIG directory.";
-        example = "/etc/dotfiles";
+        readOnly = true;
+        default = "/etc/${config.rebuild.dir}";
       };
     };
 
-    config = lib.mkIf config.rebuild.enable {
+    config = {
       environment = {
         persistence."/nix/persist".directories = [ config.rebuild.path ];
         variables.NIXPKGS_CONFIG = lib.mkOverride 3 config.rebuild.path;

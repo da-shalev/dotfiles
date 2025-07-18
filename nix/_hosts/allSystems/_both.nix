@@ -1,27 +1,19 @@
 { inputs, lib, pkgs, config, self, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
-    inputs.impermanence.nixosModules.impermanence
     inputs.nix-maid.nixosModules.default
+    inputs.impermanence.nixosModules.impermanence
     self.modules.nixos.rebuild
+    self.modules.nixos.environment
   ];
 
-  environment = {
-    sessionVariables = { NIXPKGS_ALLOW_UNFREE = "1"; };
-    localBinInPath = true;
-  };
-
-  rebuild = {
-    enable = true;
-    path = "/etc/dotfiles";
-  };
-
+  rebuild.dir = "dotfiles";
   documentation = {
-    enable = lib.mkForce true;
-    man.enable = lib.mkForce true;
-    doc.enable = lib.mkForce false;
-    nixos.enable = lib.mkForce false;
-    info.enable = lib.mkForce false;
+    enable = true;
+    man.enable = true;
+    doc.enable = false;
+    nixos.enable = false;
+    info.enable = false;
   };
 
   time.timeZone = lib.mkDefault "Canada/Eastern";
@@ -31,8 +23,6 @@
     channel.enable = false;
     settings = {
       nix-path = "nixpkgs=flake:nixpkgs";
-      builders-use-substitutes = lib.mkOverride 3 true;
-      http-connections = lib.mkOverride 3 128;
       max-substitution-jobs = 128;
       download-buffer-size = 134217728;
       substituters = [
@@ -79,7 +69,7 @@
       silent = true;
     };
 
-    command-not-found.enable = lib.mkForce false;
+    command-not-found.enable = false;
     fuse.userAllowOther = true;
     git = { enable = true; };
   };
@@ -112,6 +102,7 @@
       dysk
       bat
       hyperfine
+      neovim
 
       asciiquarium-transparent
       nyancat
@@ -119,12 +110,6 @@
       sl
       nix-tree
     ];
-
-    persistence."/nix/persist" = {
-      hideMounts = true;
-      directories =
-        [ "/var/lib/nixos" "/var/log" "/var/lib/systemd/coredump" "/tmp" ];
-    };
   };
 
   users.mutableUsers = lib.mkDefault false;

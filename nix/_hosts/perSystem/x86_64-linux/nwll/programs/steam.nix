@@ -1,4 +1,5 @@
 { pkgs, ... }:
+# HACK: 'sandbox' steam by any means necessary, to keep the home dir clean
 let path = "/var/lib/steam";
 in {
   users = {
