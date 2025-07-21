@@ -11,13 +11,12 @@
       cursor_theme = {
         name = "macOS";
         package = pkgs.apple-cursor;
-        size = lib.mkDefault 40;
       };
 
-      icon_theme = {
-        name = "WhiteSur-dark";
-        package = pkgs.whitesur-icon-theme;
-      };
+      # icon_theme = {
+      #   name = "WhiteSur-dark";
+      #   package = pkgs.whitesur-icon-theme;
+      # };
     };
 
     user_dirs = {
@@ -29,15 +28,13 @@
       XDG_PUBLICSHARE_DIR = lib.mkDefault "$HOME/media";
       XDG_TEMPLATES_DIR = lib.mkDefault "$HOME/";
       XDG_VIDEOS_DIR = lib.mkDefault "$HOME/vid";
-
-      WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
     };
 
     # XDG compliance
     file.xdg_config = {
-      "npm/npmrc".text = ''
-        cache=$XDG_CACHE_HOME/npm
-      '';
+      # "npm/npmrc".text = ''
+      #   cache=$XDG_CACHE_HOME/npm
+      # '';
       "git/ignore".source = ./git/ignore;
       "git/config".source = ./git/config;
       "mimeapps.list".source = ./mimeapps.list;
@@ -48,11 +45,10 @@
       "mpv/mpv.conf".source = ./mpv.conf;
     };
 
-    dirs = [ "$XDG_STATE_HOME/bash" ];
+    dirs = [ "$XDG_STATE_HOME/bash" "$XDG_DATA_HOME/wineprefixes" ];
     shell = rec {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-      paths =
-        [ "${variables.NPM_CONFIG_PREFIX}/bin" "${variables.CARGO_HOME}/bin" ];
+      paths = [ "${variables.CARGO_HOME}/bin" ];
       variables = {
         JAVA_HOME = "${pkgs.jdk21}";
         JAVA_RUN = "${lib.getExe' pkgs.jdk21 "java"}";
@@ -65,8 +61,8 @@
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
         GOPATH = "$XDG_DATA_HOME/go";
         CARGO_HOME = "$XDG_DATA_HOME/cargo";
-        NPM_CONFIG_PREFIX = "$XDG_DATA_HOME/npm";
-        NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+        # NPM_CONFIG_PREFIX = "$XDG_DATA_HOME/npm";
+        # NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
         LESSHISTFILE = "/dev/null";
 
         # XDG compliance
@@ -80,6 +76,7 @@
         _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
         CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
         GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+        WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
       };
     };
 
@@ -93,7 +90,7 @@
       fd
       fzf
 
-      nodePackages_latest.npm
+      # nodePackages_latest.npm
       bun
       nodejs
 

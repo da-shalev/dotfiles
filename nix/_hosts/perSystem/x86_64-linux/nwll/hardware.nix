@@ -50,7 +50,8 @@
     # '';
 
     kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
-    kernelPackages = pkgs.linuxPackages_cachyos-rc;
+    # kernelPackages = pkgs.linuxPackages_cachyos-rc;
+    kernelPackages = pkgs.linuxPackages_6_12;
     tmp.cleanOnBoot = true;
   };
 

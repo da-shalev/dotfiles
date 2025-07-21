@@ -3,10 +3,14 @@
   flake.modules.nixos.environment = { lib, config, pkgs, inputs, ... }: {
     systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
     environment = {
-      variables.ALSA_CONFIG_UCM2 = "${
-          pkgs.alsa-ucm-conf.overrideAttrs
-          (old: { src = inputs.alsa-ucm-conf; })
-        }/share/alsa/ucm2";
+      variables = {
+        ALSA_CONFIG_UCM2 = "${
+            pkgs.alsa-ucm-conf.overrideAttrs
+            (old: { src = inputs.alsa-ucm-conf; })
+          }/share/alsa/ucm2";
+        GSETTINGS_SCHEMA_DIR =
+          "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
+      };
 
       persistence."/nix/persist" = {
         enable = lib.mkDefault false;

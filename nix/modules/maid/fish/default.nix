@@ -1,11 +1,9 @@
 {
   flake.modules.maid.fish = { config, lib, pkgs, ... }: {
     options.fish = {
-      enable = lib.mkEnableOption
-        "Configures the fish shell."
-        // {
-          default = false;
-        };
+      enable = lib.mkEnableOption "Configures the fish shell." // {
+        default = false;
+      };
       plugins = lib.mkOption {
         type = with lib.types; listOf package;
         default = [ ];

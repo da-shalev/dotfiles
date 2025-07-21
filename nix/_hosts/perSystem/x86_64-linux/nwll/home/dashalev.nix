@@ -1,4 +1,4 @@
-{ pkgs, self', self, inputs', ... }: {
+{ pkgs, lib, self', self, inputs', ... }: {
   programs.fish.enable = true;
   xdg.portal = {
     enable = true;
@@ -53,7 +53,7 @@
         nvitop
 
         mangohud
-        # mullvad-vpn
+        mullvad-vpn
         # nicotine-plus
         # qbittorrent
         # heroic
@@ -83,7 +83,10 @@
         '';
       };
 
-      wayland = { enable = true; };
+      wayland = {
+        enable = true;
+        cursor_theme.size = lib.mkDefault 40;
+      };
     };
   };
 }

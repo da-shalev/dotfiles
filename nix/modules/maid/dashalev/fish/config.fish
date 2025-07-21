@@ -23,7 +23,7 @@ function fzf_cmd
     cd $fzfn
   else
     cd $(dirname $fzfn)
-    nvim $(basename $fzfn)
+    $EDITOR $(basename $fzfn)
   end
 
   echo -e ""

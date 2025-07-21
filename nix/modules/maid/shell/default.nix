@@ -15,12 +15,15 @@
         source_env = lib.mkOption {
           type = lib.types.package;
           default = pkgs.writeShellScriptBin "source-env" ''
+            ${lib.concatStringsSep "\n"
+            (map (path: "mkdir -p ${builtins.toString path}")
+              (lib.attrValues config.user_dirs))}
+            ${lib.concatStringsSep "\n" (lib.mapAttrsToList
+              (name: value: ''export ${name}="${builtins.toString value}"'')
+              config.shell.xdg_variables)}
             ${lib.concatStringsSep "\n" (lib.mapAttrsToList
               (name: value: ''export ${name}="${builtins.toString value}"'')
               config.shell.variables)}
-            ${lib.concatStringsSep "\n" (lib.mapAttrsToList
-              (name: path: "mkdir -p ${builtins.toString path}")
-              config.user_dirs)}
             ${lib.concatStringsSep "\n"
             (map (path: "mkdir -p ${builtins.toString path}") config.dirs)}
           '';
@@ -30,6 +33,12 @@
           type = lib.types.listOf lib.types.str;
           default = [ ];
           description = "List of paths to prepend to PATH";
+        };
+
+        xdg_variables = lib.mkOption {
+          type = with lib.types; attrsOf anything;
+          default = { };
+          description = "The xdg variables for the user.";
         };
 
         variables = lib.mkOption {
@@ -63,11 +72,14 @@
       packages = [ config.shell.source_env ];
       # non overridable xdg dirs
       shell = {
-        variables = config.user_dirs // {
+        xdg_variables = {
           XDG_DATA_HOME = "$HOME/.local/share";
           XDG_STATE_HOME = "$HOME/.local/state";
           XDG_CONFIG_HOME = "$HOME/.config";
           XDG_CACHE_HOME = "$HOME/.cache";
+        } // config.user_dirs;
+
+        variables = {
           # canada btw
           SHELL_COLOUR = "${config.shell.colour}";
           SHELL_ICON = "${config.shell.icon}";
