@@ -36,8 +36,6 @@
         pwvucontrol_git
         nautilus
 
-        self'.packages.zen-browser
-        self'.packages.neovim
         (brave.override {
           commandLineArgs =
             [ "--enable-features=WaylandLinuxDrmSyncobj,RustyPng" ];

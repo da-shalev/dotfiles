@@ -14,7 +14,7 @@
         };
         size = lib.mkOption {
           type = with lib.types; number;
-          default = 18;
+          default = 24;
         };
       };
 
@@ -92,7 +92,7 @@
           "/org/gnome/desktop/interface/cursor-theme" =
             config.wayland.cursor_theme.name;
           "/org/gnome/desktop/interface/cursor-size" =
-            toString config.wayland.cursor_theme.size;
+            config.wayland.cursor_theme.size;
         })
         (lib.optionalAttrs (config.wayland.theme.package != null) {
           "/org/gnome/desktop/interface/gtk-theme" = config.wayland.theme.name;

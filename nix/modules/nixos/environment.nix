@@ -8,8 +8,6 @@
             pkgs.alsa-ucm-conf.overrideAttrs
             (old: { src = inputs.alsa-ucm-conf; })
           }/share/alsa/ucm2";
-        GSETTINGS_SCHEMA_DIR =
-          "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas";
       };
 
       persistence."/nix/persist" = {

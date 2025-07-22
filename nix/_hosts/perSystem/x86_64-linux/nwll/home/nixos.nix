@@ -32,8 +32,8 @@
 
       packages = with pkgs; [
         foot
-        self'.packages.neovim
-        self'.packages.zen-browser
+        pwvucontrol_git
+        nautilus
       ];
 
       shell = {

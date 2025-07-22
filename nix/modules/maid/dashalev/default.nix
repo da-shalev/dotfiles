@@ -1,6 +1,16 @@
-{
+{ inputs, ... }: {
   flake.modules.maid.dashalev = { config, lib, pkgs, ... }: {
     imports = [ ./_hyprland ];
+
+    gsettings.package = let
+      gsettings-declarative =
+        import "${inputs.nix-maid}/gsettings-declarative" { inherit pkgs; };
+    in gsettings-declarative.overrideAttrs (prevAttrs: {
+      nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ pkgs.glib ];
+      buildInputs = prevAttrs.buildInputs or [ ] ++ [
+        pkgs.gsettings-desktop-schemas
+      ];
+    });
 
     dconf.settings = {
       "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
@@ -89,6 +99,9 @@
       yq
       fd
       fzf
+
+      inputs.self.packages.${pkgs.system}.neovim
+      inputs.self.packages.${pkgs.system}.zen-browser
 
       # nodePackages_latest.npm
       bun
