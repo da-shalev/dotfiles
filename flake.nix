@@ -6,7 +6,7 @@
     import-tree.url = "github:vic/import-tree";
 
     mcsimw = {
-      url = "github:mcsimw/.dotfiles";
+      url = "github:mcsimw/infra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -21,6 +21,7 @@
     };
 
     nix-maid.url = "github:viperML/nix-maid";
+    wrapper-manager.url = "github:viperML/wrapper-manager";
     impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";

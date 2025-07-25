@@ -1,13 +1,28 @@
+// zen stuff
+lockPref("zen.view.experimental-no-window-controls", false);
+lockPref("zen.welcome-screen.seen", true);
+lockPref("zen.watermark.enabled", false);
+
+// prevent extention installation popups
+lockPref("extensions.postDownloadThirdPartyPrompt", false);
+
+// firefox basis
 lockPref("network.trr.mode", 2);
 // lockPref("network.trr.uri", "https://adblock.dns.mullvad.net/dns-query");
 lockPref("privacy.donottrackheader.enabled", true);
+
+lockPref("startup.homepage_welcome_url", "");
+lockPref("startup.homepage_welcome_url.additional", "");
+lockPref("browser.aboutConfig.showWarning", false);
+lockPref("browser.aboutwelcome.enabled", false);
+lockPref("browser.warnOnQuit", false);
 
 lockPref("dom.disable_beforeunload", true);
 lockPref("dom.enable_performance", true);
 lockPref("media.webspeech.synth.enabled", false);
 lockPref("browser.uitour.enabled", false);
 lockPref("apps.update.auto", false);
-lockPref("browser.tabs.unloadOnLowMemory", false);
+lockPref("browser.tabs.unloadOnLowMemory", true);
 lockPref("browser.startup.homepage_override.mstone", "ignore");
 lockPref("browser.tabs.groups.smart.enabled", false);
 lockPref("browser.tabs.warnOnClose", false);
@@ -18,9 +33,6 @@ lockPref("full-screen-api.warning.delay", 0);
 lockPref("full-screen-api.warning.timeout", 0);
 lockPref("full-screen-api.transition-duration.enter", "0 0");
 lockPref("full-screen-api.transition-duration.leave", "0 0");
-lockPref("browser.aboutConfig.showWarning", false);
-lockPref("browser.aboutwelcome.enabled", false);
-lockPref("browser.warnOnQuit", false);
 lockPref("app.update.auto", false);
 lockPref("general.autoScroll", true);
 lockPref("browser.theme.native-theme", false);
@@ -244,13 +256,5 @@ lockPref("browser.urlbar.showSearchTerms.enabled", false);
 lockPref("network.manage-offline-status", false);
 lockPref("browser.preferences.moreFromMozilla", false);
 lockPref("browser.disableResetPrompt", true); // [HIDDEN PREF]
-// lockPref("xpinstall.signatures.required", false); // enforced extension signing (Nightly/ESR)
-//
-// MORE
-//
-// lockPref("security.insecure_connection_icon.enabled", ""); // [DEFAULT: true FF70+]
-// lockPref("security.mixed_content.block_active_content", ""); // [DEFAULT: true since at least FF60]
 lockPref("security.ssl.enable_ocsp_stapling", false); // [DEFAULT: true FF26+]
-// lockPref("webgl.disable-fail-if-major-performance-caveat", ""); // [DEFAULT: true FF86+]
-lockPref("webgl.enable-webgl2", false);
-// lockPref("webgl.min_capability_mode", "");
+lockPref("webgl.enable-webgl2", true);

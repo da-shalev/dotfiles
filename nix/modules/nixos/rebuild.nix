@@ -1,4 +1,4 @@
-{
+{ self, ... }: {
   flake.modules.nixos.rebuild = { lib, config, pkgs, ... }: {
     options.rebuild = {
       dir = lib.mkOption {
@@ -16,6 +16,20 @@
     };
 
     config = {
+      # regenerates dotfiles if deleted
+      systemd.services.setup-dotfiles = {
+        description = "Setup dotfiles directory";
+        wantedBy = [ "multi-user.target" ];
+        after = [ "local-fs.target" "systemd-sysusers.service" ];
+        serviceConfig = { Type = "oneshot"; };
+        script = ''
+          if [ ! -d ${config.rebuild.path} ]; then
+            mkdir -p ${config.rebuild.path}
+            cp -a "${self}/." ${config.rebuild.path}
+          fi
+        '';
+      };
+
       environment = {
         persistence."/nix/persist".directories = [ config.rebuild.path ];
         variables.NIXPKGS_CONFIG = lib.mkOverride 3 config.rebuild.path;

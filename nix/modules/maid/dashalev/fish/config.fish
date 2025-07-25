@@ -42,3 +42,7 @@ function fish_prompt
     (set_color "brred"; fish_git_prompt) \
     $SHELL_ICON
 end
+
+if status is-login; and test (tty) = /dev/tty1; and uwsm check may-start
+   exec uwsm start hyprland-uwsm.desktop
+end

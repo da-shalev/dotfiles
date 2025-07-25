@@ -38,13 +38,13 @@
         }
       ];
       Default = "Brave Search";
-      Remove =
-        [ "Google" "Amazon.com" "Bing" "DuckDuckGo" "eBay" "Wikipedia (en)" ];
+      Remove = [ "Amazon.com" "Bing" "DuckDuckGo" "eBay" "Wikipedia (en)" ];
     };
     AutofillAddressEnabled = false;
     AutofillCreditCardEnabled = false;
     DisableAppUpdate = true;
     DisableFirefoxAccounts = true;
+    DisableAccounts = true;
     DisableFirefoxScreenshots = true;
     DisableFirefoxStudies = true;
     DisableMasterPasswordCreation = true;
@@ -54,41 +54,40 @@
     DisplayBookmarksToolbar = "never";
     DontCheckDefaultBrowser = true;
     ExtensionSettings = {
+      "*".installation_mode = "blocked";
       "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
         installation_mode = "force_installed";
         install_url =
           "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager";
+        default_area = "navbar";
         install_warning = false;
+        welcome = false;
       };
 
       "uBlock0@raymondhill.net" = {
+        installation_mode = "force_installed";
         install_url =
           "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin";
-        installation_mode = "force_installed";
         allowed_in_private_browsing = true;
         install_warning = false;
+        default_area = "navbar";
       };
 
       "{84601290-bec9-494a-b11c-1baa897a9683}" = {
+        installation_mode = "force_installed";
         install_url =
           "https://addons.mozilla.org/firefox/downloads/latest/ctrl-number-to-switch-tabs";
-        installation_mode = "force_installed";
         allowed_in_private_browsing = true;
         install_warning = false;
+        default_area = "unified-extensions-area";
       };
 
-      # "{74145f27-f039-47ce-a470-a662b129930a}" = {
-      #   install_url =
-      #     "https://addons.mozilla.org/firefox/downloads/latest/clearurls";
-      #   installation_mode = "force_installed";
-      #   install_warning = false;
-      # };
-
       "sponsorBlocker@ajay.app" = {
+        installation_mode = "force_installed";
         install_url =
           "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock";
-        installation_mode = "force_installed";
         install_warning = false;
+        default_area = "unified-extensions-area";
       };
     };
 
@@ -106,6 +105,7 @@
     NoDefaultBookmarks = true;
     OfferToSaveLogins = false;
     # OfferToSaveLoginsDefault = false;
+    BackgroundAppUpdate = false;
     PasswordManagerEnabled = false;
     PromptForDownloadLocation = true;
     SanitizeOnShutdown = { FormData = true; };

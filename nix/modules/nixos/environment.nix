@@ -1,6 +1,6 @@
-{
+{ inputs, ... }: {
   # modifications to system wide defaults that make a lot of sense
-  flake.modules.nixos.environment = { lib, config, pkgs, inputs, ... }: {
+  flake.modules.nixos.environment = { lib, config, pkgs, ... }: {
     systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
     environment = {
       variables = {
@@ -9,6 +9,13 @@
             (old: { src = inputs.alsa-ucm-conf; })
           }/share/alsa/ucm2";
       };
+
+      systemPackages = with pkgs;
+        [
+          (lib.mkIf
+            (builtins.elem "nvidia" config.services.xserver.videoDrivers)
+            nvitop)
+        ];
 
       persistence."/nix/persist" = {
         enable = lib.mkDefault false;

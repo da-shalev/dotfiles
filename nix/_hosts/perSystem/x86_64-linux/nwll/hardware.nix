@@ -59,12 +59,9 @@
 
   hardware = {
     enableAllFirmware = lib.mkForce true;
-    wirelessRegulatoryDatabase = true;
     bluetooth = { inherit (config.hardware.graphics) enable; };
 
     graphics = {
-      enable = true;
-      enable32Bit = true;
       extraPackages = with pkgs; [ nvidia-vaapi-driver ];
       extraPackages32 = with pkgs; [ nvidia-vaapi-driver ];
     };

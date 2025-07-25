@@ -7,9 +7,8 @@
         import "${inputs.nix-maid}/gsettings-declarative" { inherit pkgs; };
     in gsettings-declarative.overrideAttrs (prevAttrs: {
       nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ pkgs.glib ];
-      buildInputs = prevAttrs.buildInputs or [ ] ++ [
-        pkgs.gsettings-desktop-schemas
-      ];
+      buildInputs = prevAttrs.buildInputs or [ ]
+        ++ [ pkgs.gsettings-desktop-schemas ];
     });
 
     dconf.settings = {
@@ -66,7 +65,7 @@
 
         MOZ_CRASHREPORTER_DISABLE = "1";
         NIXPKGS_ALLOW_UNFREE = "1";
-        EDITOR = "nvim";
+        EDITOR = "vim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
         GOPATH = "$XDG_DATA_HOME/go";
@@ -99,6 +98,7 @@
       yq
       fd
       fzf
+      npins
 
       inputs.self.packages.${pkgs.system}.neovim
       inputs.self.packages.${pkgs.system}.zen-browser

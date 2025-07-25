@@ -1,22 +1,10 @@
-{ pkgs, lib, self', self, inputs', ... }: {
+{ pkgs, lib, self, ... }: {
+  imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
-
-  programs.hyprland = {
-    enable = true;
-    package = inputs'.hyprland.packages.hyprland;
-    portalPackage = inputs'.hyprland.packages.xdg-desktop-portal-hyprland;
-  };
-
-  xdg.portal.config.common = { hyprland = [ "hyprland" "gtk" ]; };
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "steam" "libvirt" ];
+    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
     isNormalUser = true;
     shell = pkgs.fish;
     initialPassword = "boobs";
@@ -32,26 +20,13 @@
       ];
 
       packages = with pkgs; [
-        foot
-        pwvucontrol_git
-        nautilus
-
-        (brave.override {
-          commandLineArgs =
-            [ "--enable-features=WaylandLinuxDrmSyncobj,RustyPng" ];
-        })
-
         # aseprite
-        blender
+        # blender
         # krita
         # gimp3
         zathura
-
         signal-desktop-bin
-        nvitop
-
         mangohud
-        mullvad-vpn
         # nicotine-plus
         # qbittorrent
         # heroic
@@ -77,7 +52,6 @@
           env = LIBVA_DRIVER_NAME,nvidia
           env = __GLX_VENDOR_LIBRARY_NAME,nvidia
           env = __GL_GSYNC_ALLOWED,true
-          env = AQ_DRM_DEVICES,/dev/dri/card0
         '';
       };
 

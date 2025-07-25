@@ -8,8 +8,8 @@
 
     packages = {
       neovim = inputs.mnw.lib.wrap pkgs (import ./_neovim pkgs);
-      firefox = import ./_mozilla/firefox.nix { inherit inputs' pkgs; };
-      zen-browser = import ./_mozilla/zen-browser.nix { inherit inputs' pkgs; };
+      firefox = import ./_mozilla/firefox.nix { inherit inputs' inputs pkgs; };
+      zen-browser = import ./_mozilla/zen-browser.nix { inherit inputs' inputs pkgs; };
     };
   };
 }

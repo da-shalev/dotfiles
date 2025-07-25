@@ -5,7 +5,15 @@
     inputs.impermanence.nixosModules.impermanence
     self.modules.nixos.rebuild
     self.modules.nixos.environment
+    self.modules.nixos.fonts
   ];
+
+  hardware = {
+    graphics.enable = true;
+    wirelessRegulatoryDatabase = true;
+  };
+
+  networking.firewall = { allowedTCPPorts = [ 4321 8096 8097 ]; };
 
   rebuild.dir = "dotfiles";
   documentation = {
@@ -64,6 +72,7 @@
   };
 
   programs = {
+    localsend.enable = true;
     direnv = {
       enable = true;
       silent = true;
@@ -90,8 +99,6 @@
       wget
       unzip
       p7zip
-      rar
-      unrar
       zip
       tree
       vimv
@@ -102,13 +109,17 @@
       dysk
       bat
       hyperfine
-      neovim
 
       asciiquarium-transparent
       nyancat
       cmatrix
       sl
       nix-tree
+      rsync
+
+      foot
+      pwvucontrol
+      nautilus
     ];
   };
 
