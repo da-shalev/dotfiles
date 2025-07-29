@@ -26,6 +26,7 @@
           if [ ! -d ${config.rebuild.path} ]; then
             mkdir -p ${config.rebuild.path}
             cp -a "${self}/." ${config.rebuild.path}
+            sudo chmod -R gu+rw ${config.rebuild.path}
           fi
         '';
       };

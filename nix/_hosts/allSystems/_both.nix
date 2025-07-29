@@ -8,6 +8,8 @@
     self.modules.nixos.fonts
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_testing;
+
   hardware = {
     graphics.enable = true;
     wirelessRegulatoryDatabase = true;

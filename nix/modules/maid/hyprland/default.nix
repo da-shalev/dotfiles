@@ -4,6 +4,7 @@
       enable = lib.mkEnableOption "Configures hyprland." // {
         default = false;
       };
+
       mod = lib.mkOption {
         type = lib.types.str;
         default = "SUPER";

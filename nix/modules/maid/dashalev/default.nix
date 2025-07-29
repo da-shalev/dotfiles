@@ -70,8 +70,8 @@
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
         GOPATH = "$XDG_DATA_HOME/go";
         CARGO_HOME = "$XDG_DATA_HOME/cargo";
-        # NPM_CONFIG_PREFIX = "$XDG_DATA_HOME/npm";
-        # NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+        NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
+        NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
         LESSHISTFILE = "/dev/null";
 
         # XDG compliance
@@ -103,7 +103,6 @@
       inputs.self.packages.${pkgs.system}.neovim
       inputs.self.packages.${pkgs.system}.zen-browser
 
-      # nodePackages_latest.npm
       bun
       nodejs
 
