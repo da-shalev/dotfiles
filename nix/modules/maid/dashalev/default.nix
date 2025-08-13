@@ -65,7 +65,7 @@
 
         MOZ_CRASHREPORTER_DISABLE = "1";
         NIXPKGS_ALLOW_UNFREE = "1";
-        EDITOR = "vim";
+        EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
         GOPATH = "$XDG_DATA_HOME/go";
@@ -105,6 +105,7 @@
 
       bun
       nodejs
+      deno
 
       smartmontools
       pinentry-tty

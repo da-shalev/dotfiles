@@ -23,7 +23,6 @@ function fzf_cmd
     cd $fzfn
   else
     cd $(dirname $fzfn)
-    $EDITOR $(basename $fzfn)
   end
 
   echo -e ""

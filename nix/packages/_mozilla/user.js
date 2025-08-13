@@ -1,12 +1,17 @@
-// zen stuff
-lockPref("zen.view.experimental-no-window-controls", false);
+/// zen stuff
+
+lockPref("zen.view.experimental-no-window-controls", true);
 lockPref("zen.welcome-screen.seen", true);
 lockPref("zen.watermark.enabled", false);
+// lockPref("zen.urlbar.replace-newtab", true);
+lockPref("zen.theme.content-element-separation", 0);
+lockPref("zen.view.compact.animate-sidebar", true);
 
 // prevent extention installation popups
 lockPref("extensions.postDownloadThirdPartyPrompt", false);
 
-// firefox basis
+/// firefox
+
 lockPref("network.trr.mode", 2);
 // lockPref("network.trr.uri", "https://adblock.dns.mullvad.net/dns-query");
 lockPref("privacy.donottrackheader.enabled", true);

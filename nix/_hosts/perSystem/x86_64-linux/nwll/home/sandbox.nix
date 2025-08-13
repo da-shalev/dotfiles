@@ -2,41 +2,28 @@
   imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
 
-  users.users.dashalev = {
-    uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
+  users.users.sandbox = {
     isNormalUser = true;
+    extraGroups = [ "wheel" "video" "networkmanager" "dotfiles" ];
     shell = pkgs.fish;
     initialPassword = "boobs";
 
     maid = {
       imports = with self.modules.maid; [
         shell
-        wayland
         tmux
         fish
-        hyprland
         dashalev
+        hyprland
+        wayland
       ];
 
-      packages = with pkgs; [
-        krita
-        chromium
-        zathura
-        signal-desktop-bin
-        telegram-desktop
-        mangohud
-        vulkan-hdr-layer-kwin6
-        prismlauncher
-
-        qbittorrent
-        nicotine-plus
-      ];
+      packages = with pkgs; [ qbittorrent nicotine-plus ];
 
       shell = {
         package = pkgs.fish;
-        colour = "magenta";
-        icon = "🗿";
+        colour = "cyan";
+        icon = "📦";
       };
 
       hyprland = {

@@ -8,14 +8,17 @@
     self.modules.nixos.fonts
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot = {
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_testing;
+    # zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
+    supportedFilesystems = { zfs = lib.mkForce false; };
+  };
 
   hardware = {
     graphics.enable = true;
-    wirelessRegulatoryDatabase = true;
   };
 
-  networking.firewall = { allowedTCPPorts = [ 4321 8096 8097 ]; };
+  networking.firewall = { allowedTCPPorts = [ 25565 4321 8096 8097 2234 ]; };
 
   rebuild.dir = "dotfiles";
   documentation = {
@@ -62,9 +65,6 @@
       use-cgroups = true;
       auto-allocate-uids = true;
       warn-dirty = false;
-      trusted-users = [ "@wheel" ];
-      allowed-users = lib.mapAttrsToList (_: u: u.name)
-        (lib.filterAttrs (_: user: user.isNormalUser) config.users.users);
     };
   };
 
@@ -74,6 +74,11 @@
   };
 
   programs = {
+    appimage = {
+      enable = true;
+      binfmt = true;
+    };
+    gnupg.agent.enable = true;
     localsend.enable = true;
     direnv = {
       enable = true;
@@ -125,7 +130,7 @@
     ];
   };
 
-  users.mutableUsers = lib.mkDefault false;
+  users.mutableUsers = lib.mkDefault true;
   security = { rtkit = { inherit (config.services.pipewire) enable; }; };
 
   services = {

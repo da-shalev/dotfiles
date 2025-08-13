@@ -161,9 +161,6 @@ lspconfig.astro.setup({
   settings = {
     astro = {
       contentIntellisense = true,
-      updateImportsOnFileMove = {
-        enabled = true,
-      },
     }
   },
 })
