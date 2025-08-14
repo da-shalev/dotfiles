@@ -1,5 +1,5 @@
 pkgs: {
-  appName = "vim";
+  appName = "nvim";
   desktopEntry = false;
 
   providers = {
@@ -70,5 +70,5 @@ pkgs: {
     shfmt
   ];
 
-  aliases = [ "v" ];
+  aliases = [ "v" "vim" ];
 }

@@ -1,5 +1,5 @@
 { pkgs, lib, self, ... }: {
-  imports = [ self.modules.nixos.hyprland self.modules.nixos.mullvad-vpn ];
+  imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
 
   users.users.dashalev = {

@@ -43,24 +43,45 @@ let
     done
   '';
 in {
+  # hyprland.config = ''
+  #   ${builtins.readFile ./hyprland.conf}
+  #
+  #   bind=$mod, Return, exec, uwsm app -- ${lib.getExe' pkgs.foot "footclient"}
+  #   bind=$mod+Shift, S, exec, uwsm app -- ${
+  #     lib.getExe pkgs.hyprshot
+  #   } -m region --clipboard-only
+  #   bind=$mod+Shift, N, exec, uwsm app -- pkill hyprsunset || ${
+  #     lib.getExe pkgs.hyprsunset
+  #   } -t 4000
+  #   bind=$mod+Shift, C, exec, uwsm app -- pkill hyprpicker || ${
+  #     lib.getExe pkgs.hyprpicker
+  #   } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
+  #   bind=$mod, Space, exec, uwsm app -- pkill wmenu || ${lib.getExe menu.run}
+  #   bind=$mod, Z, exec, uwsm app -- ${lib.getExe bookmarkPaste}
+  #   bind=$mod, F9, exec, uwsm app -- ${lib.getExe toggleBitdepth}
+  #
+  #   exec-once=uwsm app -- ${lib.getExe pkgs.mako}
+  #   exec-once=uwsm app -- ${lib.getExe pkgs.foot} --server --log-no-syslog
+  # '';
+
   hyprland.config = ''
     ${builtins.readFile ./hyprland.conf}
 
-    bind=$mod, Return, exec, uwsm app -- ${lib.getExe' pkgs.foot "footclient"}
-    bind=$mod+Shift, S, exec, uwsm app -- ${
+    bind=$mod, Return, exec, ${lib.getExe' pkgs.foot "footclient"}
+    bind=$mod+Shift, S, exec, ${
       lib.getExe pkgs.hyprshot
     } -m region --clipboard-only
-    bind=$mod+Shift, N, exec, uwsm app -- pkill hyprsunset || ${
+    bind=$mod+Shift, N, exec, pkill hyprsunset || ${
       lib.getExe pkgs.hyprsunset
     } -t 4000
-    bind=$mod+Shift, C, exec, uwsm app -- pkill hyprpicker || ${
+    bind=$mod+Shift, C, exec, pkill hyprpicker || ${
       lib.getExe pkgs.hyprpicker
     } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
-    bind=$mod, Space, exec, uwsm app -- pkill wmenu || ${lib.getExe menu.run}
-    bind=$mod, Z, exec, uwsm app -- ${lib.getExe bookmarkPaste}
-    bind=$mod, F9, exec, uwsm app -- ${lib.getExe toggleBitdepth}
+    bind=$mod, Space, exec, pkill wmenu || ${lib.getExe menu.run}
+    bind=$mod, Z, exec, ${lib.getExe bookmarkPaste}
+    bind=$mod, F9, exec, ${lib.getExe toggleBitdepth}
 
-    exec-once=uwsm app -- ${lib.getExe pkgs.mako}
-    exec-once=uwsm app -- ${lib.getExe pkgs.foot} --server --log-no-syslog
+    exec-once=${lib.getExe pkgs.mako}
+    exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
   '';
 }

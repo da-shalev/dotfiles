@@ -5,6 +5,8 @@ blocks:
 - date
 - name
 classic: false
+icons:
+  when: never
 date: +%b %d
 dereference: false
 display: almost-all

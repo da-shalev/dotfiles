@@ -6,6 +6,8 @@
     self.modules.nixos.rebuild
     self.modules.nixos.environment
     self.modules.nixos.fonts
+    self.modules.nixos.mullvad-vpn
+    ./nixcfg.nix
   ];
 
   boot = {
@@ -14,11 +16,15 @@
     supportedFilesystems = { zfs = lib.mkForce false; };
   };
 
-  hardware = {
-    graphics.enable = true;
+  console = {
+    packages = with pkgs; [ spleen ];
+    font = "spleen-16x32";
   };
 
-  networking.firewall = { allowedTCPPorts = [ 25565 4321 8096 8097 2234 ]; };
+  hardware.graphics.enable = true;
+  networking.firewall = {
+    allowedTCPPorts = [ 25565 4321 8096 8097 2234 8888 ];
+  };
 
   rebuild.dir = "dotfiles";
   documentation = {
@@ -30,48 +36,6 @@
   };
 
   time.timeZone = lib.mkDefault "Canada/Eastern";
-  nix = {
-    package = pkgs.nixVersions.latest;
-    registry.nixpkgs.flake = lib.mkOverride 3 inputs.nixpkgs;
-    channel.enable = false;
-    settings = {
-      nix-path = "nixpkgs=flake:nixpkgs";
-      max-substitution-jobs = 128;
-      download-buffer-size = 134217728;
-      substituters = [
-        "https://nix-community.cachix.org"
-        "https://hyprland.cachix.org"
-        "https://chaotic-nyx.cachix.org/"
-      ];
-      trusted-substituters = [
-        "https://nix-community.cachix.org"
-        "https://hyprland.cachix.org"
-        "https://chaotic-nyx.cachix.org/"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      ];
-      extra-experimental-features = [
-        "nix-command"
-        "flakes"
-        "cgroups"
-        "auto-allocate-uids"
-        "fetch-closure"
-        "dynamic-derivations"
-        "pipe-operators"
-      ];
-      use-cgroups = true;
-      auto-allocate-uids = true;
-      warn-dirty = false;
-    };
-  };
-
-  system = {
-    rebuild.enableNg = true;
-    tools.nixos-option.enable = false;
-  };
 
   programs = {
     appimage = {
@@ -91,7 +55,6 @@
   };
 
   environment = {
-    # override all default packages from nix
     defaultPackages = [ ];
     systemPackages = with pkgs; [
       # utils
@@ -125,7 +88,6 @@
       rsync
 
       foot
-      pwvucontrol
       nautilus
     ];
   };
@@ -135,7 +97,7 @@
 
   services = {
     fstrim.enable = true;
-    pulseaudio.enable = false;
+    pulseaudio.enable = lib.mkForce false;
     udisks2.enable = true;
     dbus.implementation = "broker";
     openssh.enable = true;

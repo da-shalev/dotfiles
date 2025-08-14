@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ lib, config, ... }: {
   services = { blueman.enable = true; };
 
   boot = {

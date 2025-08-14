@@ -73,20 +73,6 @@ M.on_attach = function(_, bufnr)
   end, { desc = "Format current buffer" })
 end
 
-vim.diagnostic.config({
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "",
-      [vim.diagnostic.severity.WARN] = "",
-      [vim.diagnostic.severity.HINT] = "󰌶",
-      [vim.diagnostic.severity.INFO] = "",
-    },
-  },
-  float = {
-    border = "none",
-  },
-})
-
 local lspconfig = require("lspconfig")
 
 lspconfig.nil_ls.setup({

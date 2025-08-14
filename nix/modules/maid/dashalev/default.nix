@@ -117,7 +117,9 @@
 
     tmux = {
       enable = true;
-      config = "${builtins.readFile ./tmux.conf}";
+      config = ''
+        ${builtins.readFile ./tmux.conf}
+      '';
       plugins = with pkgs.tmuxPlugins; [ yank ];
     };
 

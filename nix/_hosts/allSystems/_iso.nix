@@ -1,4 +1,3 @@
-{ lib, self, ... }: {
-  imports = [ self.modules.nixos.mullvad-vpn ];
+{ lib, ... }: {
   time.hardwareClockInLocalTime = lib.mkDefault true;
 }

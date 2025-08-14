@@ -16,7 +16,7 @@
       packages = with pkgs; [ tmux ];
       file.xdg_config = let
         plugins = builtins.concatStringsSep "\n" (map (plugin:
-          "run-shell ${plugin}/share/tmux-plugins/${plugin.pname}/${plugin.pname}.tmux")
+          "run-shell ${plugin}/share/tmux-plugins/${plugin.pluginName}/${plugin.pluginName}.tmux")
           config.tmux.plugins);
       in {
         "tmux/tmux.conf".text = ''

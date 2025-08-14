@@ -9,7 +9,6 @@ vim.opt.ignorecase = true
 vim.opt.mouse = "a"
 vim.opt.showtabline = 0
 vim.opt.swapfile = false
-vim.opt.termguicolors = true
 vim.opt.updatetime = 50
 vim.opt.writebackup = false
 vim.opt.expandtab = true
@@ -41,6 +40,9 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.g.netrw_list_hide = ".DS_Store"
 vim.g.netrw_sort_reverse = 1
+
+vim.g.is_tty = os.getenv("TERM") == "linux"
+vim.opt.termguicolors = not vim.g.is_tty
 
 -- stop commenting on new lines
 vim.api.nvim_create_autocmd("FileType", {

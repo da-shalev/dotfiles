@@ -2,10 +2,10 @@
   services = {
     xserver.videoDrivers = [ "nvidia" ];
     blueman.enable = true;
-    # scx = {
-    #   enable = true;
-    #   scheduler = "scx_lavd";
-    # };
+    scx = {
+      enable = true;
+      scheduler = "scx_lavd";
+    };
 
     pipewire.wireplumber.extraConfig."zz-device-profiles" = {
       "monitor.alsa.rules" = [

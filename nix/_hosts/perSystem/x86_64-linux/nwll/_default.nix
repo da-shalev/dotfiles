@@ -2,7 +2,7 @@
   imports = [
     ./hardware.nix
     ./disko
-    ./programs
+    ./steam.nix
     ./home/dashalev.nix
     ./home/sandbox.nix
     self.modules.nixos.disable-sleep

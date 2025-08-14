@@ -18,7 +18,7 @@
         wayland
       ];
 
-      packages = with pkgs; [ qbittorrent nicotine-plus ];
+      packages = with pkgs; [ qbittorrent nicotine-plus heroic ];
 
       shell = {
         package = pkgs.fish;
@@ -36,10 +36,6 @@
           monitor=DP-3,highres@highrr,auto,1
           monitor=DP-4,highres@highrr,auto,1
           monitor=Virtual-1,highres@highrr,auto,1
-          env = GBM_BACKEND,nvidia-drm
-          env = LIBVA_DRIVER_NAME,nvidia
-          env = __GLX_VENDOR_LIBRARY_NAME,nvidia
-          env = __GL_GSYNC_ALLOWED,true
         '';
       };
 
