@@ -41,9 +41,10 @@
 
     # XDG compliance
     file.xdg_config = {
-      # "npm/npmrc".text = ''
-      #   cache=$XDG_CACHE_HOME/npm
-      # '';
+      # gotta love npm
+      "npm/npmrc".text = ''
+        cache=/home/dashalev/.cache/npm
+      '';
       "git/ignore".source = ./git/ignore;
       "git/config".source = ./git/config;
       "mimeapps.list".source = ./mimeapps.list;
@@ -90,6 +91,7 @@
     };
 
     packages = with pkgs; [
+      # GLOBAL DASHALEV PACKAGES
       lsd
       tmux-sessionizer
       woff2
@@ -108,11 +110,35 @@
       deno
 
       smartmontools
-      pinentry-tty
-      imagemagick
       exiftool
 
       mpv
+
+      ffmpeg-full
+      yt-dlp
+      wget
+      unzip
+      p7zip
+      zip
+      tree
+      vimv
+      onefetch
+      fastfetch
+      btop
+      htop
+      dysk
+      bat
+      hyperfine
+
+      asciiquarium-transparent
+      nyancat
+      cmatrix
+      sl
+      nix-tree
+      rsync
+
+      foot
+      pulsemixer
     ];
 
     tmux = {

@@ -1,6 +1,4 @@
 { lib, config, ... }: {
-  services = { blueman.enable = true; };
-
   boot = {
     kernelParams = [
       # Laptops and dekstops don't need Watchdog
@@ -14,11 +12,7 @@
   };
 
   powerManagement.cpuFreqGovernor = "performance";
-
-  hardware = {
-    enableAllFirmware = lib.mkForce true;
-    bluetooth = { inherit (config.hardware.graphics) enable; };
-  };
+  hardware = { enableAllFirmware = true; };
 
   boot = {
     initrd.availableKernelModules =

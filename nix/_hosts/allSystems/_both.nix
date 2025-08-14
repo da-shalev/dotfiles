@@ -6,7 +6,7 @@
     self.modules.nixos.rebuild
     self.modules.nixos.environment
     self.modules.nixos.fonts
-    self.modules.nixos.mullvad-vpn
+    # self.modules.nixos.mullvad-vpn
     ./nixcfg.nix
   ];
 
@@ -21,7 +21,6 @@
     font = "spleen-16x32";
   };
 
-  hardware.graphics.enable = true;
   networking.firewall = {
     allowedTCPPorts = [ 25565 4321 8096 8097 2234 8888 ];
   };
@@ -50,7 +49,7 @@
     };
 
     command-not-found.enable = false;
-    fuse.userAllowOther = true;
+    # fuse.userAllowOther = true;
     git = { enable = true; };
   };
 
@@ -62,33 +61,6 @@
       pciutils
       file
       libva-utils
-
-      # me
-      ffmpeg-full
-      yt-dlp
-      wget
-      unzip
-      p7zip
-      zip
-      tree
-      vimv
-      onefetch
-      fastfetch
-      btop
-      htop
-      dysk
-      bat
-      hyperfine
-
-      asciiquarium-transparent
-      nyancat
-      cmatrix
-      sl
-      nix-tree
-      rsync
-
-      foot
-      nautilus
     ];
   };
 
@@ -96,9 +68,10 @@
   security = { rtkit = { inherit (config.services.pipewire) enable; }; };
 
   services = {
+    # gvfs.enable = true;
     fstrim.enable = true;
     pulseaudio.enable = lib.mkForce false;
-    udisks2.enable = true;
+    # udisks2.enable = true;
     dbus.implementation = "broker";
     openssh.enable = true;
     rsyncd.enable = true;

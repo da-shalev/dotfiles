@@ -1,7 +1,7 @@
-{ pkgs, inputs, lib, ... }: {
+{ pkgs, inputs, lib, config, ... }: {
   hardware = {
     nvidia.open = lib.mkDefault false;
-    graphics = { enable32Bit = true; };
+    graphics = { enable32Bit = config.hardware.graphics.enable; };
   };
 
   # currently cachix is only compiled for x86

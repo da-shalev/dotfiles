@@ -59,10 +59,11 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   hardware = {
-    enableAllFirmware = lib.mkForce true;
-    bluetooth = { inherit (config.hardware.graphics) enable; };
+    enableAllFirmware = true;
+    bluetooth.enable = true;
 
     graphics = {
+      enable = true;
       extraPackages = with pkgs; [ nvidia-vaapi-driver ];
       extraPackages32 = with pkgs; [ nvidia-vaapi-driver ];
     };
