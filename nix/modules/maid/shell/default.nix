@@ -80,8 +80,7 @@
         } // config.user_dirs;
 
         variables = {
-          # canada btw
-          SHELL_COLOUR = "${config.shell.colour}";
+          SHELL_COLOR = "${config.shell.colour}";
           SHELL_ICON = "${config.shell.icon}";
           PATH = lib.concatStringsSep ":" (config.shell.paths ++ [ "$PATH" ]);
         };

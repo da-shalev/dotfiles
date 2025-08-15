@@ -21,9 +21,19 @@ bind -M default \cs $fish_clear
 function fish_mode_prompt
 end
 
+function fzf_cmd
+  set target (fzf-media)
+  if test -n "$target"
+    cd "$target"
+  end
+
+  clear
+  fish_prompt
+end
+
 function fish_prompt
   printf '%s%s%s %s%s%s\n%s ' \
-    (set_color "$SHELL_COLOUR")(whoami) \
+    (set_color "$SHELL_COLOR")(whoami) \
     (set_color "brwhite")@ \
     (set_color "bryellow")(hostname) \
     (set_color "brgreen") (prompt_pwd) \

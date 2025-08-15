@@ -1,6 +1,6 @@
-{ inputs, ... }: {
+{ inputs, self, ... }: {
   flake.modules.maid.dashalev = { config, lib, pkgs, ... }: {
-    imports = [ ./_hyprland ];
+    imports = [ (import ./_hyprland { inherit self lib pkgs; }) ];
 
     gsettings.package = let
       gsettings-declarative =
@@ -26,17 +26,23 @@
       #   name = "WhiteSur-dark";
       #   package = pkgs.whitesur-icon-theme;
       # };
+
+      icon_theme = {
+        # name = "WhiteSur-dark";
+        package = null;
+      };
     };
 
     user_dirs = {
+      XDG_DOCUMENTS_DIR = lib.mkDefault "$HOME/media/dox/";
+      XDG_MUSIC_DIR = lib.mkDefault "$HOME/media/mus/";
+      XDG_VIDEOS_DIR = lib.mkDefault "$HOME/media/vid";
+      XDG_PICTURES_DIR = lib.mkDefault "$HOME/media/pix";
+
       XDG_DESKTOP_DIR = lib.mkDefault "$HOME/";
       XDG_DOWNLOAD_DIR = lib.mkDefault "$HOME/dow";
-      XDG_DOCUMENTS_DIR = lib.mkDefault "$HOME/media/dox";
-      XDG_MUSIC_DIR = lib.mkDefault "$HOME/media/mus";
-      XDG_PICTURES_DIR = lib.mkDefault "$HOME/media/pix";
-      XDG_PUBLICSHARE_DIR = lib.mkDefault "$HOME/media";
+      XDG_PUBLICSHARE_DIR = lib.mkDefault "$HOME/";
       XDG_TEMPLATES_DIR = lib.mkDefault "$HOME/";
-      XDG_VIDEOS_DIR = lib.mkDefault "$HOME/media/vid";
     };
 
     # XDG compliance
@@ -69,7 +75,7 @@
         NIXPKGS_ALLOW_UNFREE = "1";
         EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
-        FZF_DEFAULT_OPTS = "--height=100% --layout=reverse --exact";
+        FZF_DEFAULT_OPTS = "--height=100% --layout=reverse";
         GOPATH = "$XDG_DATA_HOME/go";
         CARGO_HOME = "$XDG_DATA_HOME/cargo";
         NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
@@ -100,11 +106,11 @@
       jq
       yq
       fd
-      fzf
       npins
 
-      inputs.self.packages.${pkgs.system}.neovim
-      inputs.self.packages.${pkgs.system}.zen-browser
+      self.packages.${pkgs.system}.neovim
+      self.packages.${pkgs.system}.zen-browser
+      self.packages.${pkgs.system}.fzf-media
 
       bun
       nodejs
@@ -161,12 +167,6 @@
 
       interactive = ''
         ${builtins.readFile ./fish/config.fish}
-
-        function fzf_cmd
-          ${./fzf.sh}
-          clear
-          fish_prompt
-        end
       '';
     };
   };
