@@ -1,5 +1,6 @@
 /// zen stuff
 
+lockPref("zen.workspaces.continue-where-left-off", true);
 lockPref("zen.view.experimental-no-window-controls", true);
 lockPref("zen.welcome-screen.seen", true);
 lockPref("zen.watermark.enabled", false);

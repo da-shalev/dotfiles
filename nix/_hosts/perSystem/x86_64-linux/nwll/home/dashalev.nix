@@ -20,7 +20,6 @@
       ];
 
       packages = with pkgs; [
-        krita
         chromium
         zathura
         signal-desktop-bin

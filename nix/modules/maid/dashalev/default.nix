@@ -30,13 +30,13 @@
 
     user_dirs = {
       XDG_DESKTOP_DIR = lib.mkDefault "$HOME/";
-      XDG_DOCUMENTS_DIR = lib.mkDefault "$HOME/dox";
       XDG_DOWNLOAD_DIR = lib.mkDefault "$HOME/dow";
-      XDG_MUSIC_DIR = lib.mkDefault "$HOME/";
-      XDG_PICTURES_DIR = lib.mkDefault "$HOME/pix";
+      XDG_DOCUMENTS_DIR = lib.mkDefault "$HOME/media/dox";
+      XDG_MUSIC_DIR = lib.mkDefault "$HOME/media/mus";
+      XDG_PICTURES_DIR = lib.mkDefault "$HOME/media/pix";
       XDG_PUBLICSHARE_DIR = lib.mkDefault "$HOME/media";
       XDG_TEMPLATES_DIR = lib.mkDefault "$HOME/";
-      XDG_VIDEOS_DIR = lib.mkDefault "$HOME/vid";
+      XDG_VIDEOS_DIR = lib.mkDefault "$HOME/media/vid";
     };
 
     # XDG compliance
@@ -53,6 +53,7 @@
       "lsd/config.yaml".source = ./lsd.yaml;
       "tms/config.toml".source = ./tms.toml;
       "mpv/mpv.conf".source = ./mpv.conf;
+      "fd/ignore".source = ./fd_ignore;
     };
 
     dirs = [ "$XDG_STATE_HOME/bash" "$XDG_DATA_HOME/wineprefixes" ];
@@ -160,6 +161,12 @@
 
       interactive = ''
         ${builtins.readFile ./fish/config.fish}
+
+        function fzf_cmd
+          ${./fzf.sh}
+          clear
+          fish_prompt
+        end
       '';
     };
   };

@@ -28,22 +28,25 @@ M.grep = function()
   M.builtin.live_grep(M.themes.get_dropdown(M.opts))
 end
 
-M.telescope.setup({
-  defaults = {
-    prompt_prefix = " ",
-    selection_caret = " ",
-    file_ignore_patterns = {
-      ".direnv",
-      "target",
-      "%.git",
-      "%.ase",
-      "%.jpeg",
-      "%.jpg",
-      "%.png",
-      ".vscode",
-    },
+M.opts = {
+  file_ignore_patterns = {
+    ".direnv",
+    "target",
+    "%.git",
+    "%.ase",
+    "%.jpeg",
+    "%.jpg",
+    "%.png",
+    ".vscode",
   },
-})
+};
+
+if not vim.g.is_tty then
+  M.opts.prompt_prefix = " "
+  M.opts.selection_caret = " "
+end
+
+M.telescope.setup({ defaults = M.opts })
 
 vim.keymap.set("n", "<leader>f", function() M.find() end, M.opt)
 vim.keymap.set("n", "<leader>F", function() M.grep() end, M.opt)
