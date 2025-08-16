@@ -1,10 +1,9 @@
-{ pkgs, lib, self, ... }: {
-  imports = [ self.modules.nixos.hyprland ];
+{ pkgs, self, ... }: {
   programs.fish.enable = true;
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
+    extraGroups = [ "wheel" "video" "networkmanager" ];
     isNormalUser = true;
     shell = pkgs.fish;
     initialPassword = "boobs";
@@ -19,24 +18,10 @@
         dashalev
       ];
 
-      packages = with pkgs; [ qbittorrent nicotine-plus ];
-
       shell = {
         package = pkgs.fish;
         colour = "white";
         icon = "👙";
-      };
-
-      hyprland = {
-        enable = true;
-        extraConfig = ''
-          monitor=HDMI-A-1,highrr,auto,1
-        '';
-      };
-
-      wayland = {
-        enable = true;
-        cursor_theme.size = lib.mkDefault 40;
       };
     };
   };

@@ -12,6 +12,15 @@
       xwayland.enable = true;
     };
 
+    hardware.graphics.enable = true;
+
+    # WM's don't need these
+    xdg = {
+      autostart.enable = lib.mkDefault false;
+      sounds.enable = lib.mkDefault false;
+      menus.enable = lib.mkDefault false;
+    };
+
     nix.settings = {
       substituters = [ "https://hyprland.cachix.org" ];
       trusted-substituters = [ "https://hyprland.cachix.org" ];

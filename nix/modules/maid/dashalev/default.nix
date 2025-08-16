@@ -1,15 +1,18 @@
-{ inputs, self, ... }: {
+{ self, inputs, ... }: {
   flake.modules.maid.dashalev = { config, lib, pkgs, ... }: {
     imports = [ (import ./_hyprland { inherit self lib pkgs; }) ];
 
-    gsettings.package = let
+    gsettings = let
       gsettings-declarative =
         import "${inputs.nix-maid}/gsettings-declarative" { inherit pkgs; };
-    in gsettings-declarative.overrideAttrs (prevAttrs: {
-      nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ pkgs.glib ];
-      buildInputs = prevAttrs.buildInputs or [ ]
-        ++ [ pkgs.gsettings-desktop-schemas ];
-    });
+    in if config.hyprland.enable then {
+      package = gsettings-declarative.overrideAttrs (prevAttrs: {
+        nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ pkgs.glib ];
+        buildInputs = prevAttrs.buildInputs or [ ]
+          ++ [ pkgs.gsettings-desktop-schemas ];
+      });
+    } else
+      { };
 
     dconf.settings = {
       "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
@@ -111,6 +114,7 @@
       self.packages.${pkgs.system}.neovim
       self.packages.${pkgs.system}.zen-browser
       self.packages.${pkgs.system}.fzf-media
+      zathura
 
       bun
       nodejs

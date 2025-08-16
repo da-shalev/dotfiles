@@ -6,7 +6,6 @@
     self.modules.nixos.rebuild
     self.modules.nixos.environment
     self.modules.nixos.fonts
-    # self.modules.nixos.mullvad-vpn
     ./nixcfg.nix
   ];
 
@@ -26,13 +25,13 @@
   };
 
   rebuild.dir = "dotfiles";
-  documentation = {
-    enable = true;
-    man.enable = true;
-    doc.enable = false;
-    nixos.enable = false;
-    info.enable = false;
-  };
+  # documentation = {
+  #   enable = true;
+  #   man.enable = true;
+  #   doc.enable = false;
+  #   nixos.enable = false;
+  #   info.enable = false;
+  # };
 
   time.timeZone = lib.mkDefault "Canada/Eastern";
 
@@ -49,7 +48,6 @@
     };
 
     command-not-found.enable = false;
-    # fuse.userAllowOther = true;
     git = { enable = true; };
   };
 

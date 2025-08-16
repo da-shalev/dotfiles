@@ -105,6 +105,7 @@
         pulsemixer
         xorg.xeyes
         imv
+        libxcvt
       ];
     };
   };

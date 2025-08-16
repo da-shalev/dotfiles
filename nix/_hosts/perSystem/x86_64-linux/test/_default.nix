@@ -1,12 +1,8 @@
 { self, lib, ... }: {
   imports = [
     ./hardware.nix
-    ./disko
-    ./home/dashalev.nix
     self.modules.nixos.disable-sleep
-    self.modules.nixos.tty-only
   ];
 
-  environment.persistence."/nix/persist" = { enable = true; };
   system.stateVersion = lib.mkForce "25.05";
 }

@@ -63,7 +63,6 @@
     bluetooth.enable = true;
 
     graphics = {
-      enable = true;
       extraPackages = with pkgs; [ nvidia-vaapi-driver ];
       extraPackages32 = with pkgs; [ nvidia-vaapi-driver ];
     };

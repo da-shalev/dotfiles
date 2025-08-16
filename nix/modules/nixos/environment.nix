@@ -2,6 +2,7 @@
   # modifications to system wide defaults that make a lot of sense
   flake.modules.nixos.environment = { lib, config, pkgs, ... }: {
     systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
+
     environment = {
       variables = {
         ALSA_CONFIG_UCM2 = "${

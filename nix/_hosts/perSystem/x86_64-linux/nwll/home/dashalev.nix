@@ -21,7 +21,6 @@
 
       packages = with pkgs; [
         chromium
-        zathura
         signal-desktop-bin
         telegram-desktop
         mangohud

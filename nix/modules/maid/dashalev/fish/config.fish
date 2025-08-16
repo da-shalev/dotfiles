@@ -6,6 +6,9 @@ history merge
 function fish_vi_cursor
 end
 
+function fish_mode_prompt
+end
+
 fish_vi_key_bindings
 fish_config theme choose fishsticks
 
@@ -13,13 +16,22 @@ bind -M default \cf fzf_cmd
 bind -M insert \cf fzf_cmd
 bind -M visual \cf fzf_cmd
 
-set -x fish_clear 'clear; commandline -f repaint'
-bind -M insert \cs $fish_clear
-bind -M visual \cs $fish_clear
-bind -M default \cs $fish_clear
-
-function fish_mode_prompt
+function clear
+  command clear
+  repaint
 end
+
+function repaint
+  commandline -f repaint
+end
+
+bind -M default \cg 'tms; repaint'
+bind -M insert \cg 'tms; repaint'
+bind -M visual \cg 'tms; repaint'
+
+bind -M insert \cs 'clear'
+bind -M visual \cs 'clear'
+bind -M default \cs 'clear'
 
 function fzf_cmd
   set target (fzf-media)
@@ -28,7 +40,6 @@ function fzf_cmd
   end
 
   clear
-  fish_prompt
 end
 
 function fish_prompt

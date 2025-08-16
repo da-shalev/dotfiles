@@ -21,7 +21,7 @@
       };
     };
 
-    config = lib.mkIf config.fish.enable {
+    config = lib.mkIf config.hyprland.enable {
       file.xdg_config."hypr/hyprland.conf".text = ''
         $mod=${config.hyprland.mod}
         ${config.hyprland.config}
