@@ -28,6 +28,9 @@ end
 bind -M default \cg 'tms; repaint'
 bind -M insert \cg 'tms; repaint'
 bind -M visual \cg 'tms; repaint'
+bind -M default \ce '$EDITOR .; repaint'
+bind -M insert \ce '$EDITOR .; repaint'
+bind -M visual \ce '$EDITOR .; repaint'
 
 bind -M insert \cs 'clear'
 bind -M visual \cs 'clear'

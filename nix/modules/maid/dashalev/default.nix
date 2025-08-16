@@ -29,11 +29,6 @@
       #   name = "WhiteSur-dark";
       #   package = pkgs.whitesur-icon-theme;
       # };
-
-      icon_theme = {
-        # name = "WhiteSur-dark";
-        package = null;
-      };
     };
 
     user_dirs = {
@@ -41,9 +36,9 @@
       XDG_MUSIC_DIR = lib.mkDefault "$HOME/media/mus/";
       XDG_VIDEOS_DIR = lib.mkDefault "$HOME/media/vid";
       XDG_PICTURES_DIR = lib.mkDefault "$HOME/media/pix";
+      XDG_DOWNLOAD_DIR = lib.mkDefault "$HOME/media/dow";
 
       XDG_DESKTOP_DIR = lib.mkDefault "$HOME/";
-      XDG_DOWNLOAD_DIR = lib.mkDefault "$HOME/dow";
       XDG_PUBLICSHARE_DIR = lib.mkDefault "$HOME/";
       XDG_TEMPLATES_DIR = lib.mkDefault "$HOME/";
     };
@@ -51,9 +46,9 @@
     # XDG compliance
     file.xdg_config = {
       # gotta love npm
-      "npm/npmrc".text = ''
-        cache=/home/dashalev/.cache/npm
-      '';
+      # "npm/npmrc".text = ''
+      #   cache=/home/dashalev/.cache/npm
+      # '';
       "git/ignore".source = ./git/ignore;
       "git/config".source = ./git/config;
       "mimeapps.list".source = ./mimeapps.list;
@@ -65,10 +60,10 @@
       "fd/ignore".source = ./fd_ignore;
     };
 
-    dirs = [ "$XDG_STATE_HOME/bash" "$XDG_DATA_HOME/wineprefixes" ];
-    shell = rec {
+    dirs = [ "$XDG_STATE_HOME/bash" ];
+    shell = {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-      paths = [ "${variables.CARGO_HOME}/bin" ];
+      # paths = [ "${variables.CARGO_HOME}/bin" ];
       variables = {
         JAVA_HOME = "${pkgs.jdk21}";
         JAVA_RUN = "${lib.getExe' pkgs.jdk21 "java"}";
@@ -79,78 +74,77 @@
         EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse";
-        GOPATH = "$XDG_DATA_HOME/go";
-        CARGO_HOME = "$XDG_DATA_HOME/cargo";
-        NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
-        NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
+        # GOPATH = "$XDG_DATA_HOME/go";
+        # CARGO_HOME = "$XDG_DATA_HOME/cargo";
+        # NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
+        # NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
         LESSHISTFILE = "/dev/null";
 
         # XDG compliance
         HISTFILE = "$XDG_STATE_HOME/bash/history";
         WGETRC = "$XDG_CONFIG_HOME/wgetrc";
-        MAVEN_OPTS = "-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository";
-        MAVEN_ARGS = "--settings $XDG_CONFIG_HOME/maven/settings.xml";
-        NUGET_PACKAGES = "$XDG_CACHE_HOME/NuGetPackages";
-        OMNISHARPHOME = "$XDG_CONFIG_HOME/omnisharp";
-        # java fonts
-        _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
-        CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
-        GNUPGHOME = "$XDG_DATA_HOME/gnupg";
-        WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
+        # MAVEN_OPTS = "-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository";
+        # MAVEN_ARGS = "--settings $XDG_CONFIG_HOME/maven/settings.xml";
+        # NUGET_PACKAGES = "$XDG_CACHE_HOME/NuGetPackages";
+        # OMNISHARPHOME = "$XDG_CONFIG_HOME/omnisharp";
+        # # java fonts
+        # _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
+        # CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
+        # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
+        # WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
       };
     };
 
-    packages = with pkgs; [
-      # GLOBAL DASHALEV PACKAGES
-      lsd
-      tmux-sessionizer
-      woff2
-      ripgrep
-      jq
-      yq
-      fd
-      npins
+    packages = with pkgs;
+      [
+        lsd
+        tmux-sessionizer
+        woff2
+        ripgrep
+        jq
+        yq
+        fd
+        npins
 
-      self.packages.${pkgs.system}.neovim
-      self.packages.${pkgs.system}.zen-browser
-      self.packages.${pkgs.system}.fzf-media
-      zathura
+        bun
+        nodejs
 
-      bun
-      nodejs
-      deno
+        smartmontools
+        exiftool
 
-      smartmontools
-      exiftool
+        mpv
 
-      mpv
+        ffmpeg-full
+        yt-dlp
+        wget
+        unzip
+        p7zip
+        zip
+        tree
+        vimv
+        onefetch
+        fastfetch
+        btop
+        htop
+        dysk
+        bat
+        hyperfine
 
-      ffmpeg-full
-      yt-dlp
-      wget
-      unzip
-      p7zip
-      zip
-      tree
-      vimv
-      onefetch
-      fastfetch
-      btop
-      htop
-      dysk
-      bat
-      hyperfine
-
-      asciiquarium-transparent
-      nyancat
-      cmatrix
-      sl
-      nix-tree
-      rsync
-
-      foot
-      pulsemixer
-    ];
+        asciiquarium-transparent
+        nyancat
+        cmatrix
+        sl
+        nix-tree
+        rsync
+      ] ++ lib.optionals config.hyprland.enable [
+        self.packages.${pkgs.system}.neovim
+        self.packages.${pkgs.system}.zen-browser
+        self.packages.${pkgs.system}.fzf-media
+        zathura
+        nautilus
+        pulsemixer
+        foot
+      ];
 
     tmux = {
       enable = true;

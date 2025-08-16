@@ -31,7 +31,7 @@ in {
   hyprland.config = ''
     ${builtins.readFile ./hyprland.conf}
 
-    bind=$mod, Return, exec, ${lib.getExe' pkgs.foot "footclient"}
+    bind=$mod, Return, exec, ${lib.getExe' pkgs.foot "footclient"} -D ~/media
     bind=$mod+Shift, S, exec, ${
       lib.getExe pkgs.hyprshot
     } -m region --clipboard-only

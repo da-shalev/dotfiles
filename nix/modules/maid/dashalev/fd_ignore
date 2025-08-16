@@ -4,7 +4,5 @@ node_modules/
 .DS_Store
 *.tmp
 .vscode/
-__pycache__/
 .idea/
-games/
-backup/
+_*

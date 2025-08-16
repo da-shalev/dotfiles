@@ -4,11 +4,11 @@ pkgs.writeShellApplication {
   runtimeInputs = [ pkgs.fd pkgs.fzf pkgs.gnused pkgs.coreutils ];
   text = ''
     fzfn=$(
-      fd . ~/media /mnt/*/media "$NIXPKGS_CONFIG" --hidden |
+      fd . ~/media /mnt/*/media --hidden |
       # split output into raw path - and filtered paths without /media/
       sed 's|.*|&\t&|; s|\t.*\/media\/|\t|' |
       # sort by the filtered paths only
-      sort --key=2 |
+      sort --key=2 -t/ |
       fzf --delimiter='\t' --with-nth=2 \
         --bind 'ctrl-o:execute(test -f {1} && xdg-open {1})+accept' \
         --bind 'ctrl-e:execute(nvim {1})+abort' |
