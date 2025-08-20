@@ -1,15 +1,15 @@
 /// zen stuff
 
-lockPref("zen.workspaces.continue-where-left-off", true);
-lockPref("zen.view.experimental-no-window-controls", true);
-lockPref("zen.welcome-screen.seen", true);
-lockPref("zen.watermark.enabled", false);
-// lockPref("zen.urlbar.replace-newtab", true);
-lockPref("zen.theme.content-element-separation", 0);
-lockPref("zen.view.compact.animate-sidebar", true);
-
-// prevent extention installation popups
-lockPref("extensions.postDownloadThirdPartyPrompt", false);
+// lockPref("zen.workspaces.continue-where-left-off", true);
+// lockPref("zen.view.experimental-no-window-controls", true);
+// lockPref("zen.welcome-screen.seen", true);
+// lockPref("zen.watermark.enabled", false);
+// // lockPref("zen.urlbar.replace-newtab", true);
+// lockPref("zen.theme.content-element-separation", 0);
+// lockPref("zen.view.compact.animate-sidebar", true);
+//
+// // prevent extention installation popups
+// lockPref("extensions.postDownloadThirdPartyPrompt", false);
 
 /// firefox
 

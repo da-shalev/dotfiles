@@ -1,10 +1,10 @@
-{ pkgs, lib, self, ... }: {
+{ pkgs, lib, inputs', self, ... }: {
   imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "steam" ];
+    extraGroups = [ "wheel" "video" "networkmanager" "kvm" "input" ];
     isNormalUser = true;
     shell = pkgs.fish;
     initialPassword = "boobs";
@@ -20,15 +20,19 @@
       ];
 
       packages = with pkgs; [
+        obs-studio
         chromium
         signal-desktop-bin
         telegram-desktop
         mangohud
         vulkan-hdr-layer-kwin6
         prismlauncher
+        looking-glass-client
 
         qbittorrent
         nicotine-plus
+
+        davinci-resolve
       ];
 
       shell = {

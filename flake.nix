@@ -5,11 +5,6 @@
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     import-tree.url = "github:vic/import-tree";
 
-    mcsimw = {
-      url = "github:mcsimw/infra";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";

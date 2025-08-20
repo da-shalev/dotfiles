@@ -1,6 +1,5 @@
 { self, lib, ... }: {
   imports = [
-    ./hardware.nix
     self.modules.nixos.disable-sleep
   ];
 

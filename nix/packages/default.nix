@@ -3,7 +3,15 @@
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
-      overlays = [ inputs.chaotic.overlays.default ];
+      overlays = [
+        inputs.chaotic.overlays.default
+        (final: prev: {
+          stable = import inputs.nixpkgs-stable {
+            inherit (final) system;
+            config.allowUnfree = true;
+          };
+        })
+      ];
     };
 
     packages = let

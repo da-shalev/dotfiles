@@ -33,7 +33,7 @@
 
       environment = {
         persistence."/nix/persist".directories = [ config.rebuild.path ];
-        variables.NIXPKGS_CONFIG = lib.mkOverride 1 config.rebuild.path;
+        variables.NIXPKGS_CONFIG = lib.mkForce config.rebuild.path;
         systemPackages = [
           (pkgs.writeShellScriptBin "upgrade" ''
             ${lib.getExe pkgs.libnotify} "System upgrade started"

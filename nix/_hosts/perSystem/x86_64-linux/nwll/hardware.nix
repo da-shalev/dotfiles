@@ -29,32 +29,50 @@
   };
 
   boot = {
+    kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
+    kernelPackages = pkgs.linuxPackages_cachyos;
+    tmp.cleanOnBoot = true;
+
+    extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
+
     kernelParams = [
-      # Laptops and dekstops don't need Watchdog
+      # laptops and dekstops don't need Watchdog
       "nowatchdog"
       # https://www.phoronix.com/news/Linux-Splitlock-Hurts-Gaming
       "split_lock_detect=off"
-      # Input–Output Memory Management Unit, grants VM exclusive DMA access to igpu
-      # "amd_iommu=on"
-      # "iommu=pt"
+      # enable AMD IOMMU hardware + passthrough mode
+      "amd_iommu=on"
+      "iommu=pt"
     ];
 
-    # # Load KVM and VFIO modules so QEMU can use hardware acceleration and pass the AMD iGPU
-    # kernelModules = [ "kvm_amd" "vfio-pci" ];
-    # prevent amdgpu drivers from being loaded, disable igpu
-    blacklistedKernelModules = [ "amdgpu" ];
+    kernelModules = [
+      # load VFIO driver for device passthrough
+      "vfio-pci"
+      # looking glass kernel module
+      "kvmfr"
+    ];
 
-    # # vfio-pci only binds ID 1002:13c0
-    # extraModprobeConfig = ''
-    #   options vfio-pci ids=1002:13c0
-    # '';
+    blacklistedKernelModules = [
+      # prevent amdgpu drivers from being loaded, disable igpu
+      "amdgpu"
+      # blacklist its audio module
+      "snd_hda_intel"
+    ];
 
-    kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
-    # kernelPackages = pkgs.linuxPackages_cachyos-rc;
-    #kernelPackages = pkgs.linuxPackages_6_12;
-    kernelPackages = pkgs.linuxPackages_cachyos;
-    tmp.cleanOnBoot = true;
+    extraModprobeConfig = ''
+      options vfio-pci ids=1002:13c0,1002:1640
+      options kvmfr static_size_mb=256
+    '';
   };
+
+  # add group "kvm" to gain permission to access the actual gpu device
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", OWNER="dashalev", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="kvmfr", OWNER="dashalev", GROUP="kvm", MODE="0660"
+  '';
+
+  # increase pathetic 8MB of vram limit for VMS
+  systemd.settings.Manager.DefaultLimitMEMLOCK = "infinity";
 
   powerManagement.cpuFreqGovernor = "performance";
 

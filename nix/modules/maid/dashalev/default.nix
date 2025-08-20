@@ -74,6 +74,7 @@
         EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse";
+        QT_QPA_PLATFORM = "xcb";
         # GOPATH = "$XDG_DATA_HOME/go";
         # CARGO_HOME = "$XDG_DATA_HOME/cargo";
         # NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
@@ -138,10 +139,9 @@
         rsync
       ] ++ lib.optionals config.hyprland.enable [
         self.packages.${pkgs.system}.neovim
-        self.packages.${pkgs.system}.zen-browser
+        self.packages.${pkgs.system}.firefox
         self.packages.${pkgs.system}.fzf-media
         zathura
-        nautilus
         pulsemixer
         foot
       ];

@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }: {
+{ pkgs, inputs, ... }: {
   system = {
     rebuild.enableNg = true;
     tools.nixos-option.enable = false;
@@ -6,7 +6,7 @@
 
   nix = {
     package = pkgs.nixVersions.latest;
-    registry.nixpkgs.flake = lib.mkOverride 3 inputs.nixpkgs;
+    registry.nixpkgs.flake = inputs.nixpkgs;
     channel.enable = false;
     settings = {
       nix-path = "nixpkgs=flake:nixpkgs";

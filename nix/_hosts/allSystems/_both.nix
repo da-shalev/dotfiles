@@ -21,7 +21,7 @@
   };
 
   networking.firewall = {
-    allowedTCPPorts = [ 25565 4321 8096 8097 2234 8888 ];
+    allowedTCPPorts = [ 22 25565 4321 8096 8097 2234 8888 ];
   };
 
   rebuild.dir = "dotfiles";
