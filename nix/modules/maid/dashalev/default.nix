@@ -74,7 +74,6 @@
         EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
         FZF_DEFAULT_OPTS = "--height=100% --layout=reverse";
-        QT_QPA_PLATFORM = "xcb";
         # GOPATH = "$XDG_DATA_HOME/go";
         # CARGO_HOME = "$XDG_DATA_HOME/cargo";
         # NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";

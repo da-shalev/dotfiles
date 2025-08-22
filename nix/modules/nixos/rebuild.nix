@@ -35,62 +35,58 @@
         persistence."/nix/persist".directories = [ config.rebuild.path ];
         variables.NIXPKGS_CONFIG = lib.mkForce config.rebuild.path;
         systemPackages = [
-          (pkgs.writeShellScriptBin "upgrade" ''
-            ${lib.getExe pkgs.libnotify} "System upgrade started"
-
-            SECONDS=0
-            if nixos-rebuild switch --flake ${config.rebuild.path}/# --sudo; then
-              ${
-                lib.getExe pkgs.libnotify
-              } "Upgrade complete" "Finished in $SECONDS seconds" -u low
-            else
-              ${
-                lib.getExe pkgs.libnotify
-              } "Upgrade failed" "Failed after $SECONDS seconds" -u critical
-            fi
-          '')
-          (pkgs.writeShellScriptBin "bootgrade" ''
-            ${lib.getExe pkgs.libnotify} "System bootgrade started"
-
-            SECONDS=0
-            if nixos-rebuild boot --flake ${config.rebuild.path}/# --sudo; then
-              ${
-                lib.getExe pkgs.libnotify
-              } "Bootgrade complete" "Finished in $SECONDS seconds" -u low
-            else
-              ${
-                lib.getExe pkgs.libnotify
-              } "Bootgrade failed" "Failed after $SECONDS seconds" -u critical
-            fi
-          '')
-          (pkgs.writeShellScriptBin "update" ''
-            ${lib.getExe pkgs.libnotify} "System update started"
-
-            SECONDS=0
-            if nix flake update --flake ${config.rebuild.path}; then
-              ${
-                lib.getExe pkgs.libnotify
-              } "Update complete" "Finished in $SECONDS seconds" -u low
-            else
-              ${
-                lib.getExe pkgs.libnotify
-              } "Update failed" "Failed after $SECONDS seconds" -u critical
-            fi
-          '')
-          (pkgs.writeShellScriptBin "cleanup" ''
-            ${lib.getExe pkgs.libnotify} "System cleanup started"
-
-            SECONDS=0
-            if sudo nix-collect-garbage -d; then
-              ${
-                lib.getExe pkgs.libnotify
-              } "Cleanup complete" "Finished in $SECONDS seconds" -u low
-            else
-              ${
-                lib.getExe pkgs.libnotify
-              } "Cleanup failed" "Failed after $SECONDS seconds" -u critical
-            fi
-          '')
+          (pkgs.writeShellApplication {
+            name = "upgrade";
+            runtimeInputs = with pkgs; [ libnotify nixos-rebuild ];
+            text = ''
+              notify-send "System upgrade started"
+              SECONDS=0
+              if nixos-rebuild switch --flake ${config.rebuild.path}/# --sudo; then
+                notify-send "Upgrade complete" "Finished in $SECONDS seconds" -u low
+              else
+                notify-send "Upgrade failed" "Failed after $SECONDS seconds" -u critical
+              fi
+            '';
+          })
+          (pkgs.writeShellApplication {
+            name = "bootgrade";
+            runtimeInputs = with pkgs; [ libnotify nixos-rebuild ];
+            text = ''
+              notify-send "System bootgrade started"
+              SECONDS=0
+              if nixos-rebuild boot --flake ${config.rebuild.path}/# --sudo; then
+                notify-send "Bootgrade complete" "Finished in $SECONDS seconds" -u low
+              else
+                notify-send "Bootgrade failed" "Failed after $SECONDS seconds" -u critical
+              fi
+            '';
+          })
+          (pkgs.writeShellApplication {
+            name = "update";
+            runtimeInputs = with pkgs; [ libnotify nix ];
+            text = ''
+              notify-send "System update started"
+              SECONDS=0
+              if nix flake update --flake ${config.rebuild.path}; then
+                notify-send "Update complete" "Finished in $SECONDS seconds" -u low
+              else
+                notify-send "Update failed" "Failed after $SECONDS seconds" -u critical
+              fi
+            '';
+          })
+          (pkgs.writeShellApplication {
+            name = "cleanup";
+            runtimeInputs = with pkgs; [ libnotify nix ];
+            text = ''
+              notify-send "System cleanup started"
+              SECONDS=0
+              if sudo nix-collect-garbage -d; then
+                notify-send "Cleanup complete" "Finished in $SECONDS seconds" -u low
+              else
+                notify-send "Cleanup failed" "Failed after $SECONDS seconds" -u critical
+              fi
+            '';
+          })
         ];
       };
     };

@@ -75,7 +75,6 @@
         MOZ_ENABLE_WAYLAND = 1;
         PROTON_ENABLE_WAYLAND = 1;
         DXVK_HDR = 1;
-        QT_QPA_PLATFORM = "wayland";
         NIXOS_OZONE_WL = 1;
         ENABLE_HDR_WSI = 1;
       } // lib.optionalAttrs (config.wayland.cursor_theme.package != null) {
