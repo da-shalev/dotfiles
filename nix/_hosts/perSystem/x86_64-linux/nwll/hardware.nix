@@ -1,30 +1,15 @@
 { pkgs, lib, config, ... }: {
+  networking.networkmanager = {
+    enable = true;
+    wifi = { powersave = false; };
+  };
+
   services = {
     xserver.videoDrivers = [ "nvidia" ];
     blueman.enable = true;
     scx = {
       enable = true;
       scheduler = "scx_lavd";
-    };
-
-    pipewire.wireplumber.extraConfig."zz-device-profiles" = {
-      "monitor.alsa.rules" = [
-        {
-          matches = [{ "device.name" = "alsa_card.pci-0000_01_00.1"; }];
-          actions = { update-props = { "device.profile" = "off"; }; };
-        }
-        {
-          matches = [{
-            "device.name" =
-              "alsa_card.usb-Focusrite_Scarlett_Solo_4th_Gen_S12A7663300686-00";
-          }];
-          actions = { update-props = { "device.profile" = "pro-audio"; }; };
-        }
-        {
-          matches = [{ "device.name" = "alsa_card.usb-Topping_DX3_Pro_-00"; }];
-          actions = { update-props = { "device.profile" = "pro-audio"; }; };
-        }
-      ];
     };
   };
 

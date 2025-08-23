@@ -10,7 +10,7 @@
   ];
 
   boot = {
-    kernelPackages = lib.mkDefault pkgs.linuxPackages_testing;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     # zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
     supportedFilesystems = { zfs = lib.mkForce false; };
   };
@@ -25,23 +25,16 @@
   };
 
   rebuild.dir = "dotfiles";
-  # documentation = {
-  #   enable = true;
-  #   man.enable = true;
-  #   doc.enable = false;
-  #   nixos.enable = false;
-  #   info.enable = false;
-  # };
-
   time.timeZone = lib.mkDefault "Canada/Eastern";
 
   programs = {
+    fish.package = lib.mkDefault pkgs.fishMinimal;
     appimage = {
       enable = true;
       binfmt = true;
     };
     gnupg.agent.enable = true;
-    localsend.enable = true;
+    localsend = { inherit (config.hardware.graphics) enable; };
     direnv = {
       enable = true;
       silent = true;
@@ -81,6 +74,27 @@
         support32Bit = true;
       };
       jack.enable = true;
+
+      wireplumber.extraConfig."zz-device-profiles" = {
+        "monitor.alsa.rules" = [
+          {
+            matches = [{ "device.name" = "alsa_card.pci-0000_01_00.1"; }];
+            actions = { update-props = { "device.profile" = "off"; }; };
+          }
+          {
+            matches = [{
+              "device.name" =
+                "alsa_card.usb-Focusrite_Scarlett_Solo_4th_Gen_S12A7663300686-00";
+            }];
+            actions = { update-props = { "device.profile" = "pro-audio"; }; };
+          }
+          {
+            matches =
+              [{ "device.name" = "alsa_card.usb-Topping_DX3_Pro_-00"; }];
+            actions = { update-props = { "device.profile" = "pro-audio"; }; };
+          }
+        ];
+      };
     };
   };
 }

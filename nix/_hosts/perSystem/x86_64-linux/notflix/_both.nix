@@ -1,8 +1,4 @@
 { ... }: {
-  networking.networkmanager = {
-    enable = true;
-    wifi = { powersave = false; };
-  };
-
+  imports = [ ./hardware.nix ];
   system.stateVersion = "25.05";
 }

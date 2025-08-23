@@ -10,6 +10,8 @@
             inherit (final) system;
             config.allowUnfree = true;
           };
+
+          custom = packages;
         })
       ];
     };
@@ -30,9 +32,8 @@
           (builtins.readDir ./_custom);
       in builtins.listToAttrs (lib.mapAttrsToList (dirName: _: {
         name = dirName;
-        value = import ./_custom/${dirName} {
-          inherit inputs' self' self inputs lib pkgs;
-        };
+        value =
+          import ./_custom/${dirName} { inherit inputs' inputs lib pkgs; };
       }) scriptDirs);
 
     in wrapperPackages // customPackages // {

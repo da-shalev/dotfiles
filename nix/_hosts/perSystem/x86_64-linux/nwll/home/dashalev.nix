@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs', self, ... }: {
+{ pkgs, lib, self, ... }: {
   imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
 

@@ -12,7 +12,6 @@
 
       fontconfig = {
         enable = true;
-        # hinting.enable = false;
         defaultFonts = {
           serif = [ "Inter" ];
           sansSerif = [ "Inter" ];

@@ -1,5 +1,5 @@
 {
-  fileSystems = { "/".neededForBoot = true; };
+  fileSystems."/".neededForBoot = true;
   disko.devices = {
     nodev = {
       "/" = {

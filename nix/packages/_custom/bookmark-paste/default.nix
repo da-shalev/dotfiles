@@ -1,6 +1,6 @@
-{ pkgs, lib, self', ... }:
+{ pkgs, lib, ... }:
 pkgs.writeShellScriptBin "bookmark-paste" ''
   touch ~/media/bookmarks
   pkill wmenu; ${lib.getExe pkgs.wtype} "$(cat ~/media/bookmarks | ${
-    lib.getExe' self'.packages.wmenu "wmenu"
+    lib.getExe' pkgs.custom.wmenu "wmenu"
   })"''

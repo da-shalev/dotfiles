@@ -1,12 +1,36 @@
-{ self, lib, ... }: {
+{ self, pkgs, ... }: {
   imports = [
-    ./hardware.nix
-    ./disko
-    ./home/dashalev.nix
+    ./disko.nix
     self.modules.nixos.disable-sleep
     self.modules.nixos.tty-only
   ];
 
-  environment.persistence."/nix/persist" = { enable = true; };
-  system.stateVersion = lib.mkForce "25.05";
+  programs.fish.enable = true;
+
+  users.users.dashalev = {
+    uid = 1000;
+    extraGroups = [ "wheel" "video" "networkmanager" ];
+    isNormalUser = true;
+    shell = pkgs.fish;
+    initialPassword = "boobs";
+
+    maid = {
+      imports = with self.modules.maid; [
+        shell
+        wayland
+        tmux
+        fish
+        hyprland
+        dashalev
+      ];
+
+      shell = {
+        package = pkgs.fish;
+        colour = "white";
+        icon = "👙";
+      };
+    };
+  };
+
+  environment.persistence."/nix/persist".enable = true;
 }

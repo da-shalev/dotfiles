@@ -1,7 +1,6 @@
-{ self, pkgs, lib, ... }: {
+{ self, pkgs, ... }: {
   imports = [
-    ./hardware.nix
-    ./disko
+    ./disko.nix
     ./home/dashalev.nix
     ./home/sandbox.nix
     self.modules.nixos.disable-sleep
@@ -13,6 +12,5 @@
     extraCompatPackages = [ pkgs.proton-ge-custom ];
   };
 
-  environment.persistence."/nix/persist" = { enable = true; };
-  system.stateVersion = lib.mkForce "24.05";
+  environment.persistence."/nix/persist".enable = true;
 }

@@ -1,6 +1,6 @@
-{ self, inputs, ... }: {
+{ inputs, ... }: {
   flake.modules.maid.dashalev = { config, lib, pkgs, ... }: {
-    imports = [ (import ./_hyprland { inherit self lib pkgs; }) ];
+    imports = [ ./_hyprland ];
 
     gsettings = let
       gsettings-declarative =
@@ -136,10 +136,10 @@
         sl
         nix-tree
         rsync
+        custom.neovim
       ] ++ lib.optionals config.hyprland.enable [
-        self.packages.${pkgs.system}.neovim
-        self.packages.${pkgs.system}.firefox
-        self.packages.${pkgs.system}.fzf-media
+        custom.firefox
+        custom.fzf-media
         zathura
         pulsemixer
         foot

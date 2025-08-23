@@ -1,4 +1,9 @@
 { lib, config, ... }: {
+  networking.networkmanager = {
+    enable = true;
+    wifi = { powersave = false; };
+  };
+
   boot = {
     kernelParams = [
       # Laptops and dekstops don't need Watchdog

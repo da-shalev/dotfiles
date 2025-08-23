@@ -1,4 +1,4 @@
-{ lib, self, pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   toggleBitdepth = pkgs.writeShellApplication {
     name = "toggle-bitdepth";
@@ -42,9 +42,9 @@ in {
       lib.getExe pkgs.hyprpicker
     } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
     bind=$mod, Space, exec, pkill wmenu || ${
-      lib.getExe' self.packages.${pkgs.system}.wmenu "wmenu-run"
+      lib.getExe' pkgs.custom.wmenu "wmenu-run"
     }
-    bind=$mod, Z, exec, ${lib.getExe self.packages.${pkgs.system}.bookmark-paste}
+    bind=$mod, Z, exec, ${lib.getExe pkgs.custom.bookmark-paste}
     bind=$mod, F9, exec, ${lib.getExe toggleBitdepth}
 
     exec-once=${lib.getExe pkgs.mako}
