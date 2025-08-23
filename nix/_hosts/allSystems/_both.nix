@@ -67,7 +67,7 @@
     openssh.enable = true;
     rsyncd.enable = true;
     pipewire = {
-      inherit (config.hardware.graphics) enable;
+      enable = true;
       pulse.enable = true;
       alsa = {
         enable = true;

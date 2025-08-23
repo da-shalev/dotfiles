@@ -28,6 +28,7 @@
         vulkan-hdr-layer-kwin6
         prismlauncher
         looking-glass-client
+        audacity
 
         qbittorrent
         nicotine-plus

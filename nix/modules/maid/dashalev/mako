@@ -8,7 +8,6 @@ on-notify=none
 font=monospace 20
 background-color=#000000FF
 text-color=#FFFFFFFF
-border-color=#b16286FF
 width=550
 height=200
 margin=15
@@ -30,3 +29,12 @@ ignore-timeout=0
 group-by=none
 max-visible=5
 anchor=top-right
+
+[urgency=critical]
+border-color=#fb4934ff
+
+[urgency=normal]
+border-color=#fabd2fff
+
+[urgency=low]
+border-color=#b16286FF

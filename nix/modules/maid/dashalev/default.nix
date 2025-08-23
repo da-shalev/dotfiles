@@ -73,7 +73,12 @@
         NIXPKGS_ALLOW_UNFREE = "1";
         EDITOR = "nvim";
         QT_SCALE_FACTOR = 1.5;
-        FZF_DEFAULT_OPTS = "--height=100% --layout=reverse";
+        FZF_DEFAULT_OPTS = ''
+          --height=100%
+          --layout=reverse
+          --bind 'ctrl-o:execute(test -f {1} && xdg-open {1})+accept' 
+          --bind 'ctrl-e:execute(nvim {1})+abort'
+        '';
         # GOPATH = "$XDG_DATA_HOME/go";
         # CARGO_HOME = "$XDG_DATA_HOME/cargo";
         # NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
@@ -136,10 +141,13 @@
         sl
         nix-tree
         rsync
+
         custom.neovim
+        custom.fzf-media
+        custom.fzf
+        custom.sys_notify
       ] ++ lib.optionals config.hyprland.enable [
         custom.firefox
-        custom.fzf-media
         zathura
         pulsemixer
         foot

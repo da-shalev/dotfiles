@@ -1,7 +1,7 @@
 { pkgs, ... }:
 pkgs.writeShellApplication {
   name = "fzf-media";
-  runtimeInputs = [ pkgs.fd pkgs.fzf pkgs.gnused pkgs.coreutils ];
+  runtimeInputs = with pkgs; [ fd fzf gnused coreutils ];
   text = ''
     fzfn=$(
       fd . ~/media /mnt/*/media --hidden |
@@ -9,9 +9,7 @@ pkgs.writeShellApplication {
       sed 's|.*|&\t&|; s|\t.*\/media\/|\t|' |
       # sort by the filtered paths only
       sort --key=2 -t/ |
-      fzf --delimiter='\t' --with-nth=2 \
-        --bind 'ctrl-o:execute(test -f {1} && xdg-open {1})+accept' \
-        --bind 'ctrl-e:execute(nvim {1})+abort' |
+      fzf --delimiter='\t' --with-nth=2 |
       cut -f1
     )
 
