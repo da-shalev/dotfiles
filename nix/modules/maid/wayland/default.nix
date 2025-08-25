@@ -101,7 +101,6 @@
       packages = with pkgs; [
         wl-clipboard
         libnotify
-        pulsemixer
         xorg.xeyes
         imv
         libxcvt

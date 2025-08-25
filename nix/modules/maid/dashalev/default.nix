@@ -68,7 +68,6 @@
         JAVA_HOME = "${pkgs.jdk21}";
         JAVA_RUN = "${lib.getExe' pkgs.jdk21 "java"}";
         JDK21 = pkgs.jdk21;
-
         MOZ_CRASHREPORTER_DISABLE = "1";
         NIXPKGS_ALLOW_UNFREE = "1";
         EDITOR = "nvim";
@@ -150,6 +149,7 @@
         custom.firefox
         zathura
         pulsemixer
+        bluetuith
         foot
       ];
 

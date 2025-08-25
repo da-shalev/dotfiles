@@ -4,7 +4,7 @@ pkgs.writeShellApplication {
   runtimeInputs = with pkgs; [ fd fzf gnused coreutils ];
   text = ''
     fzfn=$(
-      fd . ~/media /mnt/*/media --hidden |
+      fd . ~/media --hidden |
       # split output into raw path - and filtered paths without /media/
       sed 's|.*|&\t&|; s|\t.*\/media\/|\t|' |
       # sort by the filtered paths only

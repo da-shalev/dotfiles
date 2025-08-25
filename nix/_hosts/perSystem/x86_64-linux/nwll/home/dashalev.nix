@@ -21,14 +21,14 @@
 
       packages = with pkgs; [
         obs-studio
-        chromium
+        ungoogled-chromium
         signal-desktop-bin
         telegram-desktop
-        mangohud
         vulkan-hdr-layer-kwin6
         prismlauncher
         looking-glass-client
         audacity
+        mtpfs
 
         qbittorrent
         nicotine-plus

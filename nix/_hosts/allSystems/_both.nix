@@ -59,7 +59,6 @@
   security = { rtkit = { inherit (config.services.pipewire) enable; }; };
 
   services = {
-    # gvfs.enable = true;
     fstrim.enable = true;
     pulseaudio.enable = lib.mkForce false;
     # udisks2.enable = true;

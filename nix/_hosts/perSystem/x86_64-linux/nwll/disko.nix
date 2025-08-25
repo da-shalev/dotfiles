@@ -1,13 +1,13 @@
 {
   fileSystems = {
     "/".neededForBoot = true;
-    "/mnt/a" = {
+    "/home/dashalev/media/vms" = {
       device = "/dev/disk/by-partlabel/disk-foozilla-gaming";
       fsType = "xfs";
       options = [ "defaults" "nofail" ];
     };
 
-    "/mnt/b" = {
+    "/home/dashalev/media/entertainment" = {
       device = "/dev/disk/by-partlabel/disk-tomatoes-media";
       fsType = "xfs";
       options = [ "defaults" "nofail" ];

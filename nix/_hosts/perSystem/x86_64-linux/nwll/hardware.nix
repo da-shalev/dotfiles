@@ -6,7 +6,6 @@
 
   services = {
     xserver.videoDrivers = [ "nvidia" ];
-    blueman.enable = true;
     scx = {
       enable = true;
       scheduler = "scx_lavd";
