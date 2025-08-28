@@ -46,12 +46,8 @@
         enable = true;
         extraConfig = ''
           monitor=HDMI-A-1,highrr,auto,1
-          monitor=DP-0,highres@highrr,auto,1
           monitor=DP-1,highres@highrr,auto,1
-          monitor=DP-2,highres@highrr,auto,1
-          monitor=DP-3,highres@highrr,auto,1
-          monitor=DP-4,highres@highrr,auto,1
-          monitor=Virtual-1,highres@highrr,auto,1
+          env = GSK_RENDERER,ngl
         '';
       };
 

@@ -45,12 +45,10 @@
 
     # XDG compliance
     file.xdg_config = {
-      # gotta love npm
-      # "npm/npmrc".text = ''
-      #   cache=/home/dashalev/.cache/npm
-      # '';
       "git/ignore".source = ./git/ignore;
       "git/config".source = ./git/config;
+      "mpd/mpd.conf".source = ./mpd.conf;
+      "rpmc/config.ron".source = ./rmpc/config.ron;
       "mimeapps.list".source = ./mimeapps.list;
       "mako/config".source = ./mako;
       "foot/foot.ini".source = ./foot.ini;
@@ -114,7 +112,6 @@
         nodejs
 
         smartmontools
-        exiftool
 
         mpv
 
@@ -140,6 +137,18 @@
         sl
         nix-tree
         rsync
+
+        exiftool
+
+        # music stuff
+        spek
+        beets
+        python313Packages.audiotools
+        flac
+        eyed3
+        rmpc
+
+        nautilus
 
         custom.neovim
         custom.fzf-media

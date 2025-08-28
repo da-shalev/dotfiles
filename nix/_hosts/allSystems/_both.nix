@@ -55,13 +55,13 @@
     ];
   };
 
-  users.mutableUsers = lib.mkDefault true;
+  users.mutableUsers = lib.mkDefault false;
   security = { rtkit = { inherit (config.services.pipewire) enable; }; };
 
   services = {
     fstrim.enable = true;
     pulseaudio.enable = lib.mkForce false;
-    # udisks2.enable = true;
+    udisks2.enable = true;
     dbus.implementation = "broker";
     openssh.enable = true;
     rsyncd.enable = true;

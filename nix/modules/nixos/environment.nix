@@ -6,7 +6,7 @@
     environment = {
       variables = {
         ALSA_CONFIG_UCM2 = "${
-            pkgs.alsa-ucm-conf.overrideAttrs
+            pkgs.stable.alsa-ucm-conf.overrideAttrs
             (old: { src = inputs.alsa-ucm-conf; })
           }/share/alsa/ucm2";
       };

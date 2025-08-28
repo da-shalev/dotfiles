@@ -49,5 +49,10 @@ in {
 
     exec-once=${lib.getExe pkgs.mako}
     exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
+    exec-once=${lib.getExe pkgs.mpd}
+
+    bind = , XF86AudioPlay, exec, ${lib.getExe pkgs.mpc} toggle
+    bind = , XF86AudioPrev, exec, ${lib.getExe pkgs.mpc} prev
+    bind = , XF86AudioNext, exec, ${lib.getExe pkgs.mpc} next
   '';
 }
