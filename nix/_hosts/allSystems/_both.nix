@@ -2,10 +2,9 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.nix-maid.nixosModules.default
-    inputs.impermanence.nixosModules.impermanence
+    inputs.preservation.nixosModules.default
     self.modules.nixos.rebuild
     self.modules.nixos.environment
-    self.modules.nixos.fonts
     ./nixcfg.nix
   ];
 
@@ -13,6 +12,27 @@
     kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     # zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
     supportedFilesystems = { zfs = lib.mkForce false; };
+  };
+
+  fonts = {
+    enableDefaultPackages = false;
+    packages = with pkgs; [
+      corefonts
+      iosevka
+      inter
+      nerd-fonts.symbols-only
+      twitter-color-emoji
+    ];
+
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        serif = [ "Inter" ];
+        sansSerif = [ "Inter" ];
+        monospace = [ "Iosevka" "Symbols Nerd Font Mono" ];
+        emoji = [ "Twitter Color Emoji" ];
+      };
+    };
   };
 
   console = {

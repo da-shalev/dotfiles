@@ -1,2 +1,2 @@
-local remap = require "usr.remap"
+local remap = require "me.remap"
 vim.keymap.set("n", "<leader>u", function() vim.cmd("UndotreeToggle") end, remap.opt)

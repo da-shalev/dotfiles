@@ -18,20 +18,42 @@
             nvitop)
         ];
 
-      persistence."/nix/persist" = {
-        enable = lib.mkDefault false;
-        hideMounts = true;
-        directories =
-          [ "/var/lib/nixos" "/var/log" "/var/lib/systemd/coredump" "/tmp" ]
-          ++ lib.optionals config.networking.networkmanager.enable [
-            "/var/lib/NetworkManager/"
-            "/etc/NetworkManager/"
-          ] ++ lib.optionals config.hardware.bluetooth.enable
-          [ "/var/lib/bluetooth/" ];
-      };
-
       sessionVariables = { NIXPKGS_ALLOW_UNFREE = "1"; };
       localBinInPath = lib.mkDefault true;
+    };
+
+    preservation.preserveAt."/nix/persist" = {
+      commonMountOptions = [ "x-gvfs-hide" "x-gdu.hide" ];
+      directories = [
+        "/var/log"
+        "/var/lib/systemd/coredump"
+        {
+          directory = "/tmp";
+          mode = "1777";
+        }
+      ] ++ lib.optionals config.networking.networkmanager.enable [
+        "/var/lib/NetworkManager/"
+        "/etc/NetworkManager/"
+      ] ++ lib.optionals config.hardware.bluetooth.enable
+        [ "/var/lib/bluetooth/" ];
+      files = [
+        {
+          file = "/var/lib/systemd/random-seed";
+          how = "symlink";
+          inInitrd = true;
+          configureParent = true;
+        }
+        {
+          file = "/etc/machine-id";
+          inInitrd = true;
+          how = "symlink";
+          configureParent = true;
+        }
+      ];
+    };
+
+    systemd = {
+      suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
     };
 
     hardware.bluetooth.settings.General = {

@@ -46,15 +46,6 @@
                 resumeDevice = true;
               };
             };
-            home = {
-              size = "750G";
-              content = {
-                type = "filesystem";
-                format = "xfs";
-                mountpoint = "/home";
-                mountOptions = [ "defaults" "pquota" "noatime" ];
-              };
-            };
             nix = {
               end = "-10G";
               content = {

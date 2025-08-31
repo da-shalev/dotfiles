@@ -1,4 +1,4 @@
-local remap = require("usr.remap")
+local remap = require("me.remap")
 local M = {}
 
 M.telescope = require "telescope"

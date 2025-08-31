@@ -160,7 +160,8 @@
         pulsemixer
         bluetuith
         foot
-      ];
+      ] ++ lib.optionals (config.hyprland.enable && pkgs.stdenv.isx86_64)
+      [ tutanota-desktop ];
 
     tmux = {
       enable = true;

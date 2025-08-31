@@ -7,6 +7,10 @@
 
   programs.fish.enable = true;
 
+  preservation = {
+    enable = true;
+  };
+
   users.users.dashalev = {
     uid = 1000;
     extraGroups = [ "wheel" "video" "networkmanager" ];
@@ -31,6 +35,4 @@
       };
     };
   };
-
-  preservation.enable = true;
 }

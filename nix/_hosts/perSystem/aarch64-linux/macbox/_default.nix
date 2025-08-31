@@ -1,11 +1,10 @@
 { self, pkgs, ... }: {
-  imports = [ ./disko.nix ];
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "virtio_pci" "usbhid" "usb_storage" "sr_mod" ];
 
   system.stateVersion = "25.11";
 
-  imports = [ self.modules.nixos.hyprland ];
+  imports = [ self.modules.nixos.hyprland ./disko.nix ];
   programs.fish.enable = true;
 
   users.users.dashalev = {

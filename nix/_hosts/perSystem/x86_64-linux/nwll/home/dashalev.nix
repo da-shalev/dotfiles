@@ -1,6 +1,12 @@
-{ pkgs, lib, self, ... }: {
+{ pkgs, lib, self, config, ... }: {
   imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
+
+  preservation.preserveAt."/nix/persist".directories = [{
+    directory = config.users.users.dashalev.home;
+    user = "dashalev";
+    group = "users";
+  }];
 
   users.users.dashalev = {
     uid = 1000;

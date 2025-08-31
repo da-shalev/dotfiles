@@ -17,7 +17,7 @@
 
     nix-maid.url = "github:viperML/nix-maid";
     wrapper-manager.url = "github:viperML/wrapper-manager";
-    impermanence.url = "github:nix-community/impermanence";
+    preservation.url = "github:nix-community/preservation/default-user-ownership";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     mnw.url = "github:Gerg-L/mnw";

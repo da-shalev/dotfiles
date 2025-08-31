@@ -2,7 +2,7 @@
   imports = [
     ./disko.nix
     ./home/dashalev.nix
-    ./home/sandbox.nix
+    # ./home/sandbox.nix
     self.modules.nixos.disable-sleep
     self.modules.nixos.mullvad-vpn
   ];
@@ -12,5 +12,5 @@
     extraCompatPackages = [ pkgs.proton-ge-custom ];
   };
 
-  environment.persistence."/nix/persist".enable = true;
+  preservation.enable = true;
 }

@@ -23,16 +23,19 @@
         after = [ "local-fs.target" "systemd-sysusers.service" ];
         serviceConfig = { Type = "oneshot"; };
         script = ''
-          if [ ! -d ${config.rebuild.path} ]; then
+          if [ ! -d ${config.rebuild.path}/.static ]; then
             mkdir -p ${config.rebuild.path}
             cp -a "${self}/." ${config.rebuild.path}
-            sudo chmod -R gu+rw ${config.rebuild.path}
+            ${lib.getExe pkgs.sudo} chmod -R gu+rw ${config.rebuild.path}
           fi
         '';
       };
 
+      preservation.preserveAt."/nix/persist" = {
+        directories = [ config.rebuild.path ];
+      };
+
       environment = {
-        persistence."/nix/persist".directories = [ config.rebuild.path ];
         variables.NIXPKGS_CONFIG = lib.mkForce config.rebuild.path;
         systemPackages = [
           (pkgs.writeShellApplication {
