@@ -13,6 +13,11 @@
         readOnly = true;
         default = "/etc/${config.rebuild.dir}";
       };
+
+      owner = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+      };
     };
 
     config = {
@@ -23,16 +28,26 @@
         after = [ "local-fs.target" "systemd-sysusers.service" ];
         serviceConfig = { Type = "oneshot"; };
         script = ''
-          if [ ! -d ${config.rebuild.path}/.static ]; then
+          if [ ! -f ${config.rebuild.path}/.static ]; then
             mkdir -p ${config.rebuild.path}
             cp -a "${self}/." ${config.rebuild.path}
             ${lib.getExe pkgs.sudo} chmod -R gu+rw ${config.rebuild.path}
+            ${lib.optionalString (config.rebuild.owner or null != null) ''
+              ${lib.getExe pkgs.sudo} chown -R ${config.rebuild.owner}:users ${config.rebuild.path}
+            ''}
           fi
         '';
       };
 
       preservation.preserveAt."/nix/persist" = {
-        directories = [ config.rebuild.path ];
+        directories = [
+          ({
+            directory = config.rebuild.path;
+          } // lib.optionalAttrs (config.rebuild.owner != null) {
+            user = config.rebuild.owner;
+            group = "users";
+          })
+        ];
       };
 
       environment = {
@@ -40,15 +55,15 @@
         systemPackages = [
           (pkgs.writeShellApplication {
             name = "upgrade";
-            runtimeInputs = with pkgs; [ custom.sys_notify nixos-rebuild ];
+            runtimeInputs = with pkgs; [ libnotify nixos-rebuild ];
             text = ''
-              sys_notify "System upgrade started" -u low
+              [ "$TERM" != "linux" ] && notify-send "System upgrade started" -u normal
               SECONDS=0
 
               if nixos-rebuild switch --flake ${config.rebuild.path}/# --sudo; then
-                sys_notify "Upgrade complete" "Finished in $SECONDS seconds" -u low
+                [ "$TERM" != "linux" ] && notify-send "Upgrade complete" "Finished in $SECONDS seconds" -u normal
               else
-                sys_notify "Upgrade failed" "Failed after $SECONDS seconds" -u critical
+                [ "$TERM" != "linux" ] && notify-send "Upgrade failed" "Failed after $SECONDS seconds" -u critical
               fi
             '';
           })
@@ -56,12 +71,12 @@
             name = "bootgrade";
             runtimeInputs = with pkgs; [ libnotify nixos-rebuild ];
             text = ''
-              sys_notify "System bootgrade started" -u low
+              [ "$TERM" != "linux" ] && notify-send "System bootgrade started" -u normal
               SECONDS=0
               if nixos-rebuild boot --flake ${config.rebuild.path}/# --sudo; then
-                sys_notify "Bootgrade complete" "Finished in $SECONDS seconds" -u low
+                [ "$TERM" != "linux" ] && notify-send "Bootgrade complete" "Finished in $SECONDS seconds" -u normal
               else
-                sys_notify "Bootgrade failed" "Failed after $SECONDS seconds" -u critical
+                [ "$TERM" != "linux" ] && notify-send "Bootgrade failed" "Failed after $SECONDS seconds" -u critical
               fi
             '';
           })
@@ -69,12 +84,12 @@
             name = "update";
             runtimeInputs = with pkgs; [ libnotify nix ];
             text = ''
-              sys_notify "System update started" -u low
+              [ "$TERM" != "linux" ] && notify-send "System update started" -u normal
               SECONDS=0
               if nix flake update --flake ${config.rebuild.path}; then
-                sys_notify "Update complete" "Finished in $SECONDS seconds" -u low
+                [ "$TERM" != "linux" ] && notify-send "Update complete" "Finished in $SECONDS seconds" -u normal
               else
-                sys_notify "Update failed" "Failed after $SECONDS seconds" -u critical
+                [ "$TERM" != "linux" ] && notify-send "Update failed" "Failed after $SECONDS seconds" -u critical
               fi
             '';
           })
@@ -82,12 +97,12 @@
             name = "cleanup";
             runtimeInputs = with pkgs; [ libnotify nix ];
             text = ''
-              sys_notify "System cleanup started" -u low
+              [ "$TERM" != "linux" ] && notify-send "System cleanup started" -u normal
               SECONDS=0
               if sudo nix-collect-garbage -d; then
-                sys_notify "Cleanup complete" "Finished in $SECONDS seconds" -u low
+                [ "$TERM" != "linux" ] && notify-send "Cleanup complete" "Finished in $SECONDS seconds" -u normal
               else
-                sys_notify "Cleanup failed" "Failed after $SECONDS seconds" -u critical
+                [ "$TERM" != "linux" ] && notify-send "Cleanup failed" "Failed after $SECONDS seconds" -u critical
               fi
             '';
           })

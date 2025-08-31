@@ -2,6 +2,7 @@
   imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
 
+  rebuild.owner = "dashalev";
   preservation.preserveAt."/nix/persist".directories = [{
     directory = config.users.users.dashalev.home;
     user = "dashalev";

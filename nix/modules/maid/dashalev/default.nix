@@ -50,7 +50,21 @@
       "mpd/mpd.conf".source = ./mpd.conf;
       "rpmc/config.ron".source = ./rmpc/config.ron;
       "mimeapps.list".source = ./mimeapps.list;
-      "mako/config".source = ./mako;
+      "fnott/fnott.ini".text = ''
+        ${builtins.readFile ./fnott/fnott.ini}
+        play-sound=${lib.getExe' pkgs.pipewire "pw-play"} ''${filename}
+
+        [critical]
+        border-color=fb4934ff
+        sound-file=${./fnott/critical.flac}
+
+        [normal]
+        border-color=b16286FF
+        sound-file=${./fnott/info.flac}
+
+        [low]
+        border-color=b16286FF
+      '';
       "foot/foot.ini".source = ./foot.ini;
       "lsd/config.yaml".source = ./lsd.yaml;
       "tms/config.toml".source = ./tms.toml;
@@ -153,7 +167,6 @@
         custom.neovim
         custom.fzf-media
         custom.fzf
-        custom.sys_notify
       ] ++ lib.optionals config.hyprland.enable [
         custom.firefox
         zathura
