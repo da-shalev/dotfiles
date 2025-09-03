@@ -15,7 +15,7 @@
 
   boot = {
     kernel.sysctl."kernel.unprivileged_userns_clone" = 1;
-    # kernelPackages = pkgs.linuxPackages_cachyos;
+    kernelPackages = pkgs.linuxPackages_cachyos;
     tmp.cleanOnBoot = true;
 
     extraModulePackages = [ config.boot.kernelPackages.kvmfr ];

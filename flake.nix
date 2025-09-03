@@ -23,11 +23,6 @@
     mnw.url = "github:Gerg-L/mnw";
     hyprland.url = "github:hyprwm/Hyprland";
 
-    zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     alsa-ucm-conf = {
       url = "github:geoffreybennett/alsa-ucm-conf";
       flake = false;
