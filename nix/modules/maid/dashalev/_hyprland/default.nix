@@ -42,14 +42,13 @@ in {
       lib.getExe pkgs.hyprpicker
     } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
     bind=$mod, Space, exec, pkill wmenu || ${
-      lib.getExe' pkgs.custom.wmenu "wmenu-run"
+      lib.getExe' pkgs.user.wmenu "wmenu-run"
     }
-    bind=$mod, Z, exec, ${lib.getExe pkgs.custom.bookmark-paste}
+    bind=$mod, Z, exec, ${lib.getExe pkgs.user.bookmark-paste}
     bind=$mod, F9, exec, ${lib.getExe toggleBitdepth}
 
     exec-once=${lib.getExe pkgs.fnott}
     exec-once=${lib.getExe pkgs.foot} --server --log-no-syslog
-    exec-once=${lib.getExe pkgs.mpd}
 
     bind = , XF86AudioPlay, exec, ${lib.getExe pkgs.mpc} toggle
     bind = , XF86AudioPrev, exec, ${lib.getExe pkgs.mpc} prev

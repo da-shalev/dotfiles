@@ -1,7 +1,4 @@
-{ pkgs, lib, self, config, ... }: {
-  imports = [ self.modules.nixos.hyprland ];
-  programs.fish.enable = true;
-
+{ pkgs, lib, config, ... }: {
   rebuild.owner = "dashalev";
   preservation.preserveAt."/nix/persist".directories = [{
     directory = config.users.users.dashalev.home;
@@ -17,15 +14,6 @@
     initialPassword = "boobs";
 
     maid = {
-      imports = with self.modules.maid; [
-        shell
-        wayland
-        tmux
-        fish
-        hyprland
-        dashalev
-      ];
-
       packages = with pkgs; [
         obs-studio
         ungoogled-chromium
@@ -35,12 +23,13 @@
         prismlauncher
         looking-glass-client
         audacity
-        mtpfs
+        figma-agent
 
         qbittorrent
         nicotine-plus
 
         davinci-resolve
+        tutanota-desktop
       ];
 
       shell = {
@@ -54,7 +43,8 @@
         extraConfig = ''
           monitor=HDMI-A-1,highrr,auto,1
           monitor=DP-1,highres@highrr,auto,1
-          env = GSK_RENDERER,ngl
+          env=GSK_RENDERER,ngl
+          exec-once=${lib.getExe pkgs.mpd}
         '';
       };
 

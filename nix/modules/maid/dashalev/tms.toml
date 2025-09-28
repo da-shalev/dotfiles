@@ -1,4 +1,4 @@
-excluded_dirs = [".direnv", "_games_"]
+excluded_dirs = [".direnv", "_games_", "_stale_"]
 
 [[search_dirs]]
 path = "$NIXPKGS_CONFIG/"

@@ -1,5 +1,5 @@
 { lib, ... }: {
-  flake.modules.nixos.disable-sleep.systemd.targets =
+  flake.modules.nixos.no-sleep.systemd.targets =
     lib.genAttrs [ "sleep" "suspend" "hibernate" "hybrid-sleep" ]
     (_: { enable = lib.mkForce false; });
 }

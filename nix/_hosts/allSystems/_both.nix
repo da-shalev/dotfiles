@@ -4,14 +4,20 @@
     inputs.nix-maid.nixosModules.default
     inputs.preservation.nixosModules.default
     self.modules.nixos.rebuild
-    self.modules.nixos.environment
     ./nixcfg.nix
   ];
 
-  boot = {
-    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
-    # zfs.package = lib.mkOverride 99 pkgs.zfs_cachyos;
-    supportedFilesystems = { zfs = lib.mkForce false; };
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
+  maid = {
+    sharedModules = with self.modules.maid; [
+      shell
+      wayland
+      tmux
+      fish
+      hyprland
+      dashalev
+    ];
   };
 
   fonts = {
@@ -22,13 +28,14 @@
       inter
       nerd-fonts.symbols-only
       twitter-color-emoji
+      fraunces
     ];
 
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Inter" ];
-        sansSerif = [ "Inter" ];
+        serif = [ "Fraunces" "Symbols Nerd Font" ];
+        sansSerif = [ "Inter Variable" "Symbols Nerd Font" ];
         monospace = [ "Iosevka" "Symbols Nerd Font Mono" ];
         emoji = [ "Twitter Color Emoji" ];
       };
@@ -53,6 +60,7 @@
       enable = true;
       binfmt = true;
     };
+
     gnupg.agent.enable = true;
     localsend = { inherit (config.hardware.graphics) enable; };
     direnv = {
@@ -66,23 +74,37 @@
 
   environment = {
     defaultPackages = [ ];
+
+    variables = {
+      ALSA_CONFIG_UCM2 = "${
+          pkgs.stable.alsa-ucm-conf.overrideAttrs
+          (old: { src = inputs.alsa-ucm-conf; })
+        }/share/alsa/ucm2";
+    };
+
     systemPackages = with pkgs; [
-      # utils
       usbutils
       pciutils
       file
       libva-utils
+      (lib.mkIf (builtins.elem "nvidia" config.services.xserver.videoDrivers)
+        nvitop)
     ];
+
+    sessionVariables = { NIXPKGS_ALLOW_UNFREE = "1"; };
+    localBinInPath = lib.mkDefault true;
   };
 
   users.mutableUsers = lib.mkDefault false;
-  security = { rtkit = { inherit (config.services.pipewire) enable; }; };
+  security.rtkit = { inherit (config.services.pipewire) enable; };
 
   services = {
+    gvfs.enable = true;
     fstrim.enable = true;
     pulseaudio.enable = lib.mkForce false;
     udisks2.enable = true;
     dbus.implementation = "broker";
+    userborn.enable = true;
     openssh.enable = true;
     rsyncd.enable = true;
     pipewire = {
@@ -116,4 +138,49 @@
       };
     };
   };
+
+  preservation.preserveAt."/nix/persist" = {
+    commonMountOptions = [ "x-gvfs-hide" "x-gdu.hide" ];
+    directories = [
+      "/var/log"
+      "/var/lib/systemd/coredump"
+      {
+        directory = "/tmp";
+        mode = "1777";
+      }
+    ] ++ lib.optionals config.networking.networkmanager.enable [
+      "/var/lib/NetworkManager/"
+      "/etc/NetworkManager/"
+    ] ++ lib.optionals config.hardware.bluetooth.enable
+      [ "/var/lib/bluetooth/" ]
+      ++ lib.optionals config.services.mullvad-vpn.enable [
+        "/etc/mullvad-vpn"
+        "/var/cache/mullvad-vpn"
+      ];
+    files = [
+      {
+        file = "/var/lib/systemd/random-seed";
+        how = "symlink";
+        inInitrd = true;
+        configureParent = true;
+      }
+      {
+        file = "/etc/machine-id";
+        inInitrd = true;
+        how = "symlink";
+        configureParent = true;
+      }
+    ];
+  };
+
+  systemd = {
+    suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+  };
+
+  hardware.bluetooth.settings.General = {
+    Enable = "Source,Sink,Media,Socket";
+    Experimental = true;
+  };
+
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 }

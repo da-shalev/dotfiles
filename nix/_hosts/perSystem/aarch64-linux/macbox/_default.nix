@@ -15,15 +15,6 @@
     initialPassword = "boobs";
 
     maid = {
-      imports = with self.modules.maid; [
-        shell
-        wayland
-        tmux
-        fish
-        hyprland
-        dashalev
-      ];
-
       shell = {
         package = pkgs.fish;
         colour = "green";

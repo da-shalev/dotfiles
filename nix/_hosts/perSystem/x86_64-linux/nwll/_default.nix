@@ -2,14 +2,23 @@
   imports = [
     ./disko.nix
     ./home/dashalev.nix
-    # ./home/sandbox.nix
-    self.modules.nixos.disable-sleep
-    self.modules.nixos.mullvad-vpn
+    ./home/sandbox.nix
+    self.modules.nixos.no-sleep
+    self.modules.nixos.hyprland
   ];
 
-  programs.steam = {
+  programs = {
+    steam = {
+      enable = true;
+      extraCompatPackages = [ pkgs.proton-ge-custom ];
+    };
+
+    fish.enable = true;
+  };
+
+  services.mullvad-vpn = {
     enable = true;
-    extraCompatPackages = [ pkgs.proton-ge-custom ];
+    package = pkgs.stable.mullvad-vpn;
   };
 
   preservation.enable = true;

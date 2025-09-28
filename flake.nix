@@ -2,7 +2,7 @@
   description = "Shalev's blood.";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     import-tree.url = "github:vic/import-tree";
 
     flake-parts = {
@@ -17,7 +17,7 @@
 
     nix-maid.url = "github:viperML/nix-maid";
     wrapper-manager.url = "github:viperML/wrapper-manager";
-    preservation.url = "github:nix-community/preservation/default-user-ownership";
+    preservation.url = "github:nix-community/preservation";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     mnw.url = "github:Gerg-L/mnw";

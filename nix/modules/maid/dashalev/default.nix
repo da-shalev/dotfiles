@@ -1,18 +1,6 @@
-{ inputs, ... }: {
+{ ... }: {
   flake.modules.maid.dashalev = { config, lib, pkgs, ... }: {
     imports = [ ./_hyprland ];
-
-    gsettings = let
-      gsettings-declarative =
-        import "${inputs.nix-maid}/gsettings-declarative" { inherit pkgs; };
-    in if config.hyprland.enable then {
-      package = gsettings-declarative.overrideAttrs (prevAttrs: {
-        nativeBuildInputs = prevAttrs.nativeBuildInputs or [ ] ++ [ pkgs.glib ];
-        buildInputs = prevAttrs.buildInputs or [ ]
-          ++ [ pkgs.gsettings-desktop-schemas ];
-      });
-    } else
-      { };
 
     dconf.settings = {
       "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
@@ -24,11 +12,6 @@
         name = "macOS";
         package = pkgs.apple-cursor;
       };
-
-      # icon_theme = {
-      #   name = "WhiteSur-dark";
-      #   package = pkgs.whitesur-icon-theme;
-      # };
     };
 
     user_dirs = {
@@ -75,7 +58,6 @@
     dirs = [ "$XDG_STATE_HOME/bash" ];
     shell = {
       aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
-      # paths = [ "${variables.CARGO_HOME}/bin" ];
       variables = {
         JAVA_HOME = "${pkgs.jdk21}";
         JAVA_RUN = "${lib.getExe' pkgs.jdk21 "java"}";
@@ -90,24 +72,6 @@
           --bind 'ctrl-o:execute(test -f {1} && xdg-open {1})+accept' 
           --bind 'ctrl-e:execute(nvim {1})+abort'
         '';
-        # GOPATH = "$XDG_DATA_HOME/go";
-        # CARGO_HOME = "$XDG_DATA_HOME/cargo";
-        # NPM_CONFIG_PREFIX = "$XDG_CONFIG_HOME/npm";
-        # NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/npmrc";
-        LESSHISTFILE = "/dev/null";
-
-        # XDG compliance
-        HISTFILE = "$XDG_STATE_HOME/bash/history";
-        WGETRC = "$XDG_CONFIG_HOME/wgetrc";
-        # MAVEN_OPTS = "-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository";
-        # MAVEN_ARGS = "--settings $XDG_CONFIG_HOME/maven/settings.xml";
-        # NUGET_PACKAGES = "$XDG_CACHE_HOME/NuGetPackages";
-        # OMNISHARPHOME = "$XDG_CONFIG_HOME/omnisharp";
-        # # java fonts
-        # _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java";
-        # CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
-        # GNUPGHOME = "$XDG_DATA_HOME/gnupg";
-        # WINEPREFIX = "$XDG_DATA_HOME/wineprefixes/default";
       };
     };
 
@@ -162,19 +126,17 @@
         eyed3
         rmpc
 
-        nautilus
-
-        custom.neovim
-        custom.fzf-media
-        custom.fzf
+        user.neovim
+        user.fzf-media
+        user.fzf
       ] ++ lib.optionals config.hyprland.enable [
-        custom.firefox
+        user.firefox
+        nautilus
         zathura
         pulsemixer
         bluetuith
         foot
-      ] ++ lib.optionals (config.hyprland.enable && pkgs.stdenv.isx86_64)
-      [ tutanota-desktop ];
+      ];
 
     tmux = {
       enable = true;

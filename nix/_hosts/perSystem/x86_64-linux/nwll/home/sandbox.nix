@@ -1,6 +1,12 @@
-{ pkgs, lib, self, ... }: {
+{ pkgs, lib, self, config, ... }: {
   imports = [ self.modules.nixos.hyprland ];
   programs.fish.enable = true;
+
+  preservation.preserveAt."/nix/persist".directories = [{
+    directory = config.users.users.sandbox.home;
+    user = "sandbox";
+    group = "users";
+  }];
 
   users.users.sandbox = {
     isNormalUser = true;
@@ -9,15 +15,6 @@
     initialPassword = "boobs";
 
     maid = {
-      imports = with self.modules.maid; [
-        shell
-        tmux
-        fish
-        dashalev
-        hyprland
-        wayland
-      ];
-
       packages = with pkgs; [ qbittorrent nicotine-plus heroic ];
 
       shell = {

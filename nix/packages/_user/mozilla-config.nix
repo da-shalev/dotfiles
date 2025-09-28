@@ -54,7 +54,7 @@
     DisplayBookmarksToolbar = "never";
     DontCheckDefaultBrowser = true;
     ExtensionSettings = {
-      "*".installation_mode = "blocked";
+      # "*".installation_mode = "blocked";
       "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
         installation_mode = "force_installed";
         install_url =
@@ -71,6 +71,12 @@
         allowed_in_private_browsing = true;
         install_warning = false;
         default_area = "navbar";
+      };
+
+      "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
+        install_url =
+          "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi";
+        installation_mode = "force_installed";
       };
 
       "{84601290-bec9-494a-b11c-1baa897a9683}" = {
