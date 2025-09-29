@@ -11,7 +11,7 @@
         colour = lib.mkOption { type = with lib.types; nonEmptyStr; };
         icon = lib.mkOption { type = with lib.types; nonEmptyStr; };
 
-        # NOTE: sources env and ensures important dirs exist, only runs on log in
+        # NOTE: sources env and ensures important dirs exist, only runs on login
         source_env = lib.mkOption {
           type = lib.types.package;
           default = pkgs.writeShellScriptBin "source-env" ''

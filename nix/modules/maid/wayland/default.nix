@@ -43,16 +43,22 @@
     };
 
     config = lib.mkIf config.wayland.enable {
-      systemd.tmpfiles.dynamicRules = [
-        (lib.mkIf (config.wayland.cursor_theme.package != null)
-          "L+ {{xdg_data_home}}/icons/${config.wayland.cursor_theme.name} - - - - ${config.wayland.cursor_theme.package}/share/icons/${config.wayland.cursor_theme.name}")
-        (lib.mkIf (config.wayland.icon_theme.package != null)
-          "L+ {{xdg_data_home}}/icons/${config.wayland.icon_theme.name} - - - - ${config.wayland.icon_theme.package}/share/icons/${config.wayland.icon_theme.name}")
-        (lib.mkIf (config.wayland.theme.package != null)
-          "L+ {{xdg_data_home}}/themes/${config.wayland.theme.name} - - - - ${config.wayland.theme.package}/share/themes/${config.wayland.theme.name}")
-      ];
-
       file = {
+        xdg_data = lib.mkMerge [
+          (lib.mkIf (config.wayland.cursor_theme.package != null) {
+            "icons/${config.wayland.cursor_theme.name}".source =
+              "${config.wayland.cursor_theme.package}/share/icons/${config.wayland.cursor_theme.name}";
+          })
+          (lib.mkIf (config.wayland.icon_theme.package != null) {
+            "icons/${config.wayland.icon_theme.name}".source =
+              "${config.wayland.icon_theme.package}/share/icons/${config.wayland.icon_theme.name}";
+          })
+          (lib.mkIf (config.wayland.theme.package != null) {
+            "themes/${config.wayland.theme.name}".source =
+              "${config.wayland.theme.package}/share/themes/${config.wayland.theme.name}";
+          })
+        ];
+
         xdg_config = {
           "gtk-3.0/settings.ini".text = lib.concatStringsSep "\n"
             (lib.filter (s: s != "") [
@@ -98,13 +104,7 @@
         })
       ];
 
-      packages = with pkgs; [
-        wl-clipboard
-        libnotify
-        xorg.xeyes
-        imv
-        libxcvt
-      ];
+      packages = with pkgs; [ wl-clipboard libnotify xorg.xeyes imv libxcvt ];
     };
   };
 }

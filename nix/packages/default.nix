@@ -3,16 +3,14 @@
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
       config.allowUnfree = true;
-      overlays = with inputs; [
-        chaotic.overlays.default
-
+      overlays = [
         (final: prev: {
           stable = import inputs.nixpkgs-stable {
             inherit (final) system;
             config.allowUnfree = true;
           };
 
-          user = packages;
+          da = packages;
         })
       ];
     };
@@ -28,15 +26,15 @@
         specialArgs = { inherit self inputs'; };
       }).config.build.packages;
 
-      userPackages = let
+      daPackages = let
         scriptDirs =
-          lib.filterAttrs (_n: t: t == "directory") (builtins.readDir ./_user);
+          lib.filterAttrs (_n: t: t == "directory") (builtins.readDir ./_da);
       in builtins.listToAttrs (lib.mapAttrsToList (dirName: _: {
         name = dirName;
-        value = import ./_user/${dirName} { inherit inputs' inputs lib pkgs; };
+        value = import ./_da/${dirName} { inherit inputs' inputs lib pkgs; };
       }) scriptDirs);
 
-    in wrapperPackages // userPackages // {
+    in wrapperPackages // daPackages // {
       neovim = inputs.mnw.lib.wrap pkgs (import ./_neovim pkgs);
     };
   };

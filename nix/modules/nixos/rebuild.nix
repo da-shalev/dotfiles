@@ -4,7 +4,7 @@
       dir = lib.mkOption {
         type = lib.types.str;
         description =
-          "Path in /etc/ to the flake-based NIXPKGS_CONFIG directory, usually '/etc/nixos'";
+          "Path in `/etc/` to the flake-based NIXPKGS_CONFIG directory, usually `/etc/nixos/`";
         default = "nixos";
       };
 
@@ -32,9 +32,13 @@
             mkdir -p ${config.rebuild.path}
             cp -a "${self}/." ${config.rebuild.path}
             ${lib.getExe pkgs.sudo} chmod -R gu+rw ${config.rebuild.path}
-            ${lib.optionalString (config.rebuild.owner or null != null) ''
-              ${lib.getExe pkgs.sudo} chown -R ${config.rebuild.owner}:users ${config.rebuild.path}
-            ''}
+            ${
+              lib.optionalString (config.rebuild.owner or null != null) ''
+                ${
+                  lib.getExe pkgs.sudo
+                } chown -R ${config.rebuild.owner}:users ${config.rebuild.path}
+              ''
+            }
           fi
         '';
       };

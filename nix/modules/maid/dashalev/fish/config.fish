@@ -12,13 +12,13 @@ end
 fish_vi_key_bindings
 fish_config theme choose fishsticks
 
-bind -M default \cf 'sys_fzf "fzf-media"'
-bind -M insert \cf 'sys_fzf "fzf-media"'
-bind -M visual \cf 'sys_fzf "fzf-media"'
+bind -M default \cf 'cd_fzf "fzf-media"'
+bind -M insert \cf 'cd_fzf "fzf-media"'
+bind -M visual \cf 'cd_fzf "fzf-media"'
 
-bind -M default \cn 'sys_fzf "fzf"'
-bind -M insert \cn 'sys_fzf "fzf"'
-bind -M visual \cn 'sys_fzf "fzf"'
+bind -M default \cn 'cd_fzf "fzf"'
+bind -M insert \cn 'cd_fzf "fzf"'
+bind -M visual \cn 'cd_fzf "fzf"'
 
 function clear
   command clear
@@ -40,11 +40,12 @@ bind -M insert \cs 'clear'
 bind -M visual \cs 'clear'
 bind -M default \cs 'clear'
 
-function sys_fzf
+function cd_fzf
   set target ($argv[1])
   if test -n "$target"
     cd "$target"
   end
+
   clear
 end
 

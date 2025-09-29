@@ -15,11 +15,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-maid.url = "github:viperML/nix-maid";
+    nix-maid.url = "github:viperML/nix-maid/all-fileconfig";
     wrapper-manager.url = "github:viperML/wrapper-manager";
     preservation.url = "github:nix-community/preservation";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     mnw.url = "github:Gerg-L/mnw";
     hyprland.url = "github:hyprwm/Hyprland";
 

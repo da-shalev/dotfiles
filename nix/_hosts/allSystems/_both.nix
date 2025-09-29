@@ -9,18 +9,16 @@
 
   boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
-  maid = {
-    sharedModules = with self.modules.maid; [
-      shell
-      wayland
-      tmux
-      fish
-      hyprland
-      dashalev
-    ];
-  };
+  maid.sharedModules = with self.modules.maid; [
+    shell
+    wayland
+    tmux
+    fish
+    hyprland
+    dashalev
+  ];
 
-  fonts = {
+  fonts = lib.mkIf config.hardware.graphics.enable {
     enableDefaultPackages = false;
     packages = with pkgs; [
       corefonts
@@ -69,7 +67,7 @@
     };
 
     command-not-found.enable = false;
-    git = { enable = true; };
+    git.enable = true;
   };
 
   environment = {

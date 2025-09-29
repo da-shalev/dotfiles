@@ -1,7 +1,7 @@
 { self, pkgs, ... }: {
   imports = [
     ./disko.nix
-    self.modules.nixos.disable-sleep
+    self.modules.nixos.no-sleep
     self.modules.nixos.tty-only
   ];
 
