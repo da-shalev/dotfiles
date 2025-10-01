@@ -1,7 +1,12 @@
 { pkgs, ... }:
 pkgs.writeShellApplication {
   name = "fzf";
-  runtimeInputs = with pkgs; [ fd fzf gnused coreutils ];
+  runtimeInputs = with pkgs; [
+    fd
+    fzf
+    gnused
+    coreutils
+  ];
   text = ''
     fzfn=$(fd | sort -t/ | fzf --delimiter='\t' | cut -f1)
 

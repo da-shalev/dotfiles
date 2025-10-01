@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }: {
+{
+  pkgs,
+  inputs,
+  ...
+}:
+{
   system = {
     rebuild.enableNg = true;
     tools.nixos-option.enable = false;

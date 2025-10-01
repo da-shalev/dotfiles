@@ -1,7 +1,12 @@
 { pkgs, ... }:
 pkgs.writeShellApplication {
   name = "fzf-media";
-  runtimeInputs = with pkgs; [ fd fzf gnused coreutils ];
+  runtimeInputs = with pkgs; [
+    fd
+    fzf
+    gnused
+    coreutils
+  ];
   text = ''
     fzfn=$(
       fd . ~/media --hidden |

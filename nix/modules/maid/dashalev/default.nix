@@ -1,6 +1,12 @@
-{ moduleWithSystem, ... }: {
-  flake.modules.maid.dashalev = moduleWithSystem ({ pkgs, ... }:
-    { config, lib, ... }: {
+{ moduleWithSystem, lib, ... }:
+{
+  flake.modules.maid.dashalev = moduleWithSystem (
+    { pkgs }:
+    {
+      config,
+      ...
+    }:
+    {
       dconf.settings = {
         "/org/gnome/desktop/interface/color-scheme" = "prefer-dark";
         "/org/gnome/desktop/wm/preferences/button-layout" = "";
@@ -56,7 +62,10 @@
 
       dirs = [ "$XDG_STATE_HOME/bash" ];
       shell = {
-        aliases = { s = "${lib.getExe pkgs.lsd} -lA"; };
+        package = lib.mkDefault pkgs.fish;
+        aliases = {
+          s = "${lib.getExe pkgs.lsd} -lA";
+        };
         variables = {
           JAVA_HOME = "${pkgs.jdk21}";
           JAVA_RUN = "${lib.getExe' pkgs.jdk21 "java"}";
@@ -74,7 +83,8 @@
         };
       };
 
-      packages = with pkgs;
+      packages =
+        with pkgs;
         [
           lsd
           tmux-sessionizer
@@ -112,7 +122,7 @@
           nyancat
           cmatrix
           sl
-          nix-tree
+          treefmt
           rsync
 
           exiftool
@@ -134,12 +144,16 @@
           da.da-time
           pulsemixer
           bluetuith
-        ] ++ lib.optionals config.hyprland.enable [
+        ]
+        ++ lib.optionals config.hyprland.enable [
           da.firefox
           da.wmenu
           nautilus
           zathura
           foot
+          love
+          aseprite
+          vscode
         ];
 
       tmux = {
@@ -155,11 +169,9 @@
 
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${lib.getExe pkgs.bash} -c '${
-              lib.getExe pkgs.mpc
-            } idleloop player | while read event; do ${
-              lib.getExe pkgs.tmux
-            } refresh-client -S 2>/dev/null || true; done'";
+          ExecStart = ''
+            ${lib.getExe pkgs.bash} -c '${lib.getExe pkgs.mpc} idleloop player | while read event; do ${lib.getExe pkgs.tmux} refresh-client -S 2>/dev/null || true; done'
+          '';
           Restart = "always";
           RestartSec = "5";
         };
@@ -169,16 +181,22 @@
 
       fish = {
         enable = true;
-        themes = [{
-          name = "fishsticks";
-          source = ./fish/fishsticks.theme;
-        }];
+        themes = [
+          {
+            name = "fishsticks";
+            source = ./fish/fishsticks.theme;
+          }
+        ];
 
-        plugins = with pkgs.fishPlugins; [ puffer autopair ];
+        plugins = with pkgs.fishPlugins; [
+          puffer
+          autopair
+        ];
 
         interactive = ''
           ${builtins.readFile ./fish/config.fish}
         '';
       };
-    });
+    }
+  );
 }

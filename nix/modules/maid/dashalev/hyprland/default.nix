@@ -1,9 +1,20 @@
-{ ... }: {
-  flake.modules.maid.dashalev = { config, lib, pkgs, ... }:
+{ moduleWithSystem, ... }:
+{
+  flake.modules.maid.dashalev = moduleWithSystem (
+    { pkgs, ... }:
+    {
+      config,
+      lib,
+      ...
+    }:
     let
       toggleBitdepth = pkgs.writeShellApplication {
         name = "toggle-bitdepth";
-        runtimeInputs = [ pkgs.hyprland pkgs.jq pkgs.libnotify ];
+        runtimeInputs = with pkgs; [
+          hyprland
+          jq
+          libnotify
+        ];
         text = ''
           hyprctl monitors -j | jq -c '.[]' | while read -r mon; do
             name=$(echo "$mon" | jq -r '.name')
@@ -28,25 +39,16 @@
           done
         '';
       };
-    in {
+    in
+    {
       hyprland.config = ''
         ${builtins.readFile ./hyprland.conf}
 
-        bind=$mod, Return, exec, ${
-          lib.getExe' pkgs.foot "footclient"
-        } -D ~/media
-        bind=$mod+Shift, S, exec, ${
-          lib.getExe pkgs.hyprshot
-        } -m region --clipboard-only
-        bind=$mod+Shift, N, exec, pkill hyprsunset || ${
-          lib.getExe pkgs.hyprsunset
-        } -t 4000
-        bind=$mod+Shift, C, exec, pkill hyprpicker || ${
-          lib.getExe pkgs.hyprpicker
-        } | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
-        bind=$mod, Space, exec, pkill wmenu || ${
-          lib.getExe' pkgs.da.wmenu "wmenu-run"
-        }
+        bind=$mod, Return, exec, ${lib.getExe' pkgs.foot "footclient"} -D ~/media
+        bind=$mod+Shift, S, exec, ${lib.getExe pkgs.hyprshot} -m region --clipboard-only
+        bind=$mod+Shift, N, exec, pkill hyprsunset || ${lib.getExe pkgs.hyprsunset} -t 4000
+        bind=$mod+Shift, C, exec, pkill hyprpicker || ${lib.getExe pkgs.hyprpicker} | ${lib.getExe' pkgs.wl-clipboard "wl-copy"}
+        bind=$mod, Space, exec, pkill wmenu || ${lib.getExe' pkgs.da.wmenu "wmenu-run"}
         bind=$mod, Z, exec, ${lib.getExe pkgs.da.bookmark-paste}
         bind=$mod, F9, exec, ${lib.getExe toggleBitdepth}
 
@@ -57,5 +59,6 @@
         bind = , XF86AudioPrev, exec, ${lib.getExe pkgs.mpc} prev
         bind = , XF86AudioNext, exec, ${lib.getExe pkgs.mpc} next
       '';
-    };
+    }
+  );
 }

@@ -18,6 +18,7 @@ pkgs: {
       gruvbox-nvim
       lualine-nvim
       telescope-nvim
+      conform-nvim
 
       todo-comments-nvim
 
@@ -44,13 +45,14 @@ pkgs: {
     stdenv.cc.cc
     vscode-langservers-extracted
     nil
-    nixfmt-classic
+    nixfmt
     lua-language-server
     tailwindcss-language-server
     yaml-language-server
     svelte-language-server
     typescript-language-server
     typescript
+    stylua
     # mdx-language-server
     astro-language-server
     emmet-ls
@@ -70,5 +72,8 @@ pkgs: {
     shfmt
   ];
 
-  aliases = [ "v" "vim" ];
+  aliases = [
+    "v"
+    "vim"
+  ];
 }

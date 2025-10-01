@@ -9,16 +9,14 @@
           Method = "GET";
           IconURL = "https://brave.com/static-assets/images/brave-favicon.png";
           Alias = "@b";
-          SuggestURLTemplate =
-            "https://search.brave.com/api/suggest?q={searchTerms}";
+          SuggestURLTemplate = "https://search.brave.com/api/suggest?q={searchTerms}";
         }
         {
           Name = "SearXNG RHSCZ";
           URLTemplate = "https://search.rhscz.eu/?q={searchTerms}";
           Alias = "@s";
           Method = "GET";
-          SuggestURLTemplate =
-            "https://search.rhscz.eu/api/suggest?q={searchTerms}";
+          SuggestURLTemplate = "https://search.rhscz.eu/api/suggest?q={searchTerms}";
         }
         {
           Name = "Nixpkgs";
@@ -38,7 +36,13 @@
         }
       ];
       Default = "Brave Search";
-      Remove = [ "Amazon.com" "Bing" "DuckDuckGo" "eBay" "Wikipedia (en)" ];
+      Remove = [
+        "Amazon.com"
+        "Bing"
+        "DuckDuckGo"
+        "eBay"
+        "Wikipedia (en)"
+      ];
     };
     AutofillAddressEnabled = false;
     AutofillCreditCardEnabled = false;
@@ -57,8 +61,7 @@
       # "*".installation_mode = "blocked";
       "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
         installation_mode = "force_installed";
-        install_url =
-          "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager";
         default_area = "navbar";
         install_warning = false;
         welcome = false;
@@ -66,23 +69,20 @@
 
       "uBlock0@raymondhill.net" = {
         installation_mode = "force_installed";
-        install_url =
-          "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin";
         allowed_in_private_browsing = true;
         install_warning = false;
         default_area = "navbar";
       };
 
       "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
-        install_url =
-          "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi";
         installation_mode = "force_installed";
       };
 
       "{84601290-bec9-494a-b11c-1baa897a9683}" = {
         installation_mode = "force_installed";
-        install_url =
-          "https://addons.mozilla.org/firefox/downloads/latest/ctrl-number-to-switch-tabs";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/ctrl-number-to-switch-tabs";
         allowed_in_private_browsing = true;
         install_warning = false;
         default_area = "unified-extensions-area";
@@ -90,8 +90,7 @@
 
       "sponsorBlocker@ajay.app" = {
         installation_mode = "force_installed";
-        install_url =
-          "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock";
         install_warning = false;
         default_area = "unified-extensions-area";
       };
@@ -114,7 +113,9 @@
     BackgroundAppUpdate = false;
     PasswordManagerEnabled = false;
     PromptForDownloadLocation = true;
-    SanitizeOnShutdown = { FormData = true; };
+    SanitizeOnShutdown = {
+      FormData = true;
+    };
     SearchSuggestEnabled = false;
     ShowHomeButton = false;
     SkipTermsOfUse = true;

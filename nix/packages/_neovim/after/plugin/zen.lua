@@ -1,13 +1,13 @@
-local remap = require "me.remap"
+local remap = require('me.remap')
 local M = {}
 
-M.plugin = require("zen-mode")
+M.plugin = require('zen-mode')
 M.plugin.setup({
   window = {
     backdrop = 1,
     width = 80,
     options = {
-      signcolumn = "no",
+      signcolumn = 'no',
       number = false,
       relativenumber = false,
       cursorline = false,
@@ -16,6 +16,8 @@ M.plugin.setup({
   },
 })
 
-vim.keymap.set("n", "<leader>z", function() M.plugin.toggle() end, remap.opt)
+vim.keymap.set('n', '<leader>z', function()
+  M.plugin.toggle()
+end, remap.opt)
 
 return M

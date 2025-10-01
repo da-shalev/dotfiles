@@ -1,9 +1,9 @@
-local remap = require("me.remap")
+local remap = require('me.remap')
 local M = {}
 
-M.telescope = require "telescope"
-M.builtin = require "telescope.builtin"
-M.themes = require "telescope.themes"
+M.telescope = require('telescope')
+M.builtin = require('telescope.builtin')
+M.themes = require('telescope.themes')
 M.opts = {
   previewer = true,
   hidden = true,
@@ -30,27 +30,35 @@ end
 
 M.opts = {
   file_ignore_patterns = {
-    ".direnv",
-    "target",
-    "%.git",
-    "%.ase",
-    "%.jpeg",
-    "%.jpg",
-    "%.png",
-    ".vscode",
+    '.direnv',
+    'target',
+    '%.git',
+    '%.ase',
+    '%.jpeg',
+    '%.jpg',
+    '%.png',
+    '.vscode',
   },
-};
+}
 
 if not vim.g.is_tty then
-  M.opts.prompt_prefix = " "
-  M.opts.selection_caret = " "
+  M.opts.prompt_prefix = ' '
+  M.opts.selection_caret = ' '
 end
 
 M.telescope.setup({ defaults = M.opts })
 
-vim.keymap.set("n", "<leader>f", function() M.find() end, M.opt)
-vim.keymap.set("n", "<leader>F", function() M.grep() end, M.opt)
-vim.keymap.set("n", "<leader>\"", function() M.split() end, M.opt)
-vim.keymap.set("n", "<leader>%", function() M.vsplit() end, M.opt)
+vim.keymap.set('n', '<leader>f', function()
+  M.find()
+end, M.opt)
+vim.keymap.set('n', '<leader>F', function()
+  M.grep()
+end, M.opt)
+vim.keymap.set('n', '<leader>"', function()
+  M.split()
+end, M.opt)
+vim.keymap.set('n', '<leader>%', function()
+  M.vsplit()
+end, M.opt)
 
 return M

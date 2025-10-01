@@ -1,10 +1,16 @@
 {
-  fileSystems = { "/".neededForBoot = true; };
+  fileSystems = {
+    "/".neededForBoot = true;
+  };
   disko.devices = {
     nodev = {
       "/" = {
         fsType = "tmpfs";
-        mountOptions = [ "size=1G" "defaults" "mode=755" ];
+        mountOptions = [
+          "size=1G"
+          "defaults"
+          "mode=755"
+        ];
       };
     };
     disk.main = {
@@ -37,7 +43,11 @@
               type = "filesystem";
               format = "xfs";
               mountpoint = "/nix";
-              mountOptions = [ "defaults" "pquota" "noatime" ];
+              mountOptions = [
+                "defaults"
+                "pquota"
+                "noatime"
+              ];
             };
           };
         };

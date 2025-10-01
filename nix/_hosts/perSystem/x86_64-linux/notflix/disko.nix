@@ -4,7 +4,11 @@
     nodev = {
       "/" = {
         fsType = "tmpfs";
-        mountOptions = [ "size=1G" "defaults" "mode=755" ];
+        mountOptions = [
+          "size=1G"
+          "defaults"
+          "mode=755"
+        ];
       };
     };
     disk = {
@@ -38,7 +42,11 @@
                 type = "filesystem";
                 format = "xfs";
                 mountpoint = "/home";
-                mountOptions = [ "defaults" "pquota" "noatime" ];
+                mountOptions = [
+                  "defaults"
+                  "pquota"
+                  "noatime"
+                ];
               };
             };
             nix = {
@@ -47,7 +55,11 @@
                 type = "filesystem";
                 format = "xfs";
                 mountpoint = "/nix";
-                mountOptions = [ "defaults" "pquota" "noatime" ];
+                mountOptions = [
+                  "defaults"
+                  "pquota"
+                  "noatime"
+                ];
               };
             };
           };

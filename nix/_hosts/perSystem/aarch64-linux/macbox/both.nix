@@ -10,6 +10,10 @@
   fileSystems."/mnt/a" = {
     device = "share";
     fsType = "9p";
-    options = [ "no-fail" "trans=virtio" "rw" ];
+    options = [
+      "no-fail"
+      "trans=virtio"
+      "rw"
+    ];
   };
 }

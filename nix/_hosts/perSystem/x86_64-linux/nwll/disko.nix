@@ -4,13 +4,19 @@
     "/home/dashalev/media/vms" = {
       device = "/dev/disk/by-partlabel/disk-foozilla-gaming";
       fsType = "xfs";
-      options = [ "defaults" "nofail" ];
+      options = [
+        "defaults"
+        "nofail"
+      ];
     };
 
     "/home/dashalev/media/entertainment" = {
       device = "/dev/disk/by-partlabel/disk-tomatoes-media";
       fsType = "xfs";
-      options = [ "defaults" "nofail" ];
+      options = [
+        "defaults"
+        "nofail"
+      ];
     };
   };
 
@@ -18,7 +24,11 @@
     nodev = {
       "/" = {
         fsType = "tmpfs";
-        mountOptions = [ "size=1G" "defaults" "mode=755" ];
+        mountOptions = [
+          "size=1G"
+          "defaults"
+          "mode=755"
+        ];
       };
     };
     disk = {
@@ -52,7 +62,11 @@
                 type = "filesystem";
                 format = "xfs";
                 mountpoint = "/nix";
-                mountOptions = [ "defaults" "pquota" "noatime" ];
+                mountOptions = [
+                  "defaults"
+                  "pquota"
+                  "noatime"
+                ];
               };
             };
           };

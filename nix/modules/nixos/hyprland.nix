@@ -1,10 +1,18 @@
-{ moduleWithSystem, ... }: {
-  flake.modules.nixos.hyprland = moduleWithSystem ({ pkgs, ... }:
-    { lib, config, ... }: {
+{ moduleWithSystem, lib, ... }:
+{
+  flake.modules.nixos.hyprland = moduleWithSystem (
+    { pkgs }:
+    {
+      config,
+      ...
+    }:
+    {
       xdg.portal = {
         enable = true;
         xdgOpenUsePortal = true;
-        config.common = { hyprland = [ "hyprland" ]; };
+        config.common = {
+          hyprland = [ "hyprland" ];
+        };
       };
 
       programs.hyprland = {
@@ -28,5 +36,6 @@
           "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         ];
       };
-    });
+    }
+  );
 }

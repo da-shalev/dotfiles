@@ -1,15 +1,33 @@
-{ self, pkgs, ... }: {
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "virtio_pci" "usbhid" "usb_storage" "sr_mod" ];
+{
+  self,
+  pkgs,
+  ...
+}:
+{
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "virtio_pci"
+    "usbhid"
+    "usb_storage"
+    "sr_mod"
+  ];
 
   system.stateVersion = "25.11";
 
-  imports = [ self.modules.nixos.hyprland ./disko.nix ];
+  imports = [
+    self.modules.nixos.hyprland
+    ./disko.nix
+  ];
   programs.fish.enable = true;
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" "dotfiles" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "networkmanager"
+      "dotfiles"
+    ];
     isNormalUser = true;
     shell = pkgs.fish;
     initialPassword = "boobs";

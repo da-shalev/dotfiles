@@ -1,7 +1,14 @@
-{ lib, config, ... }: {
+{
+  lib,
+  config,
+  ...
+}:
+{
   networking.networkmanager = {
     enable = true;
-    wifi = { powersave = false; };
+    wifi = {
+      powersave = false;
+    };
   };
 
   boot = {
@@ -17,14 +24,21 @@
   };
 
   powerManagement.cpuFreqGovernor = "performance";
-  hardware = { enableAllFirmware = true; };
+  hardware = {
+    enableAllFirmware = true;
+  };
 
   boot = {
-    initrd.availableKernelModules =
-      [ "nvme" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "uas" ];
+    initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "thunderbolt"
+      "usbhid"
+      "usb_storage"
+      "uas"
+    ];
   };
 
   networking.useDHCP = lib.mkDefault true;
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

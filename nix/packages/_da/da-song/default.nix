@@ -8,7 +8,7 @@ pkgs.writeShellApplication {
         s = substr($0, 1, len)
         gsub(/ +$/, "", s)
         print "🎵   " s "..."
-      } else 
+      } else
         print "🎵   " $0
     }' || echo ""
   '';

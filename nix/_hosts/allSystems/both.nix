@@ -1,4 +1,12 @@
-{ inputs, lib, pkgs, config, self, ... }: {
+{
+  inputs,
+  lib,
+  pkgs,
+  config,
+  self,
+  ...
+}:
+{
   imports = [
     inputs.disko.nixosModules.disko
     inputs.nix-maid.nixosModules.default
@@ -15,7 +23,6 @@
     tmux
     fish
     hyprland
-    dashalev
   ];
 
   fonts = lib.mkIf config.hardware.graphics.enable {
@@ -32,9 +39,18 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Fraunces" "Symbols Nerd Font" ];
-        sansSerif = [ "Inter Variable" "Symbols Nerd Font" ];
-        monospace = [ "Iosevka" "Symbols Nerd Font Mono" ];
+        serif = [
+          "Fraunces"
+          "Symbols Nerd Font"
+        ];
+        sansSerif = [
+          "Inter Variable"
+          "Symbols Nerd Font"
+        ];
+        monospace = [
+          "Iosevka"
+          "Symbols Nerd Font Mono"
+        ];
         emoji = [ "Twitter Color Emoji" ];
       };
     };
@@ -46,7 +62,15 @@
   };
 
   networking.firewall = {
-    allowedTCPPorts = [ 22 25565 4321 8096 8097 2234 8888 ];
+    allowedTCPPorts = [
+      22
+      25565
+      4321
+      8096
+      8097
+      2234
+      8888
+    ];
   };
 
   rebuild.dir = "dotfiles";
@@ -75,9 +99,10 @@
 
     variables = {
       ALSA_CONFIG_UCM2 = "${
-          pkgs.stable.alsa-ucm-conf.overrideAttrs
-          (old: { src = inputs.alsa-ucm-conf; })
-        }/share/alsa/ucm2";
+        pkgs.stable.alsa-ucm-conf.overrideAttrs (old: {
+          src = inputs.alsa-ucm-conf;
+        })
+      }/share/alsa/ucm2";
     };
 
     systemPackages = with pkgs; [
@@ -85,11 +110,12 @@
       pciutils
       file
       libva-utils
-      (lib.mkIf (builtins.elem "nvidia" config.services.xserver.videoDrivers)
-        nvitop)
+      (lib.mkIf (builtins.elem "nvidia" config.services.xserver.videoDrivers) nvitop)
     ];
 
-    sessionVariables = { NIXPKGS_ALLOW_UNFREE = "1"; };
+    sessionVariables = {
+      NIXPKGS_ALLOW_UNFREE = "1";
+    };
     localBinInPath = lib.mkDefault true;
   };
 
@@ -117,20 +143,32 @@
       wireplumber.extraConfig."zz-device-profiles" = {
         "monitor.alsa.rules" = [
           {
-            matches = [{ "device.name" = "alsa_card.pci-0000_01_00.1"; }];
-            actions = { update-props = { "device.profile" = "off"; }; };
+            matches = [ { "device.name" = "alsa_card.pci-0000_01_00.1"; } ];
+            actions = {
+              update-props = {
+                "device.profile" = "off";
+              };
+            };
           }
           {
-            matches = [{
-              "device.name" =
-                "alsa_card.usb-Focusrite_Scarlett_Solo_4th_Gen_S12A7663300686-00";
-            }];
-            actions = { update-props = { "device.profile" = "pro-audio"; }; };
+            matches = [
+              {
+                "device.name" = "alsa_card.usb-Focusrite_Scarlett_Solo_4th_Gen_S12A7663300686-00";
+              }
+            ];
+            actions = {
+              update-props = {
+                "device.profile" = "pro-audio";
+              };
+            };
           }
           {
-            matches =
-              [{ "device.name" = "alsa_card.usb-Topping_DX3_Pro_-00"; }];
-            actions = { update-props = { "device.profile" = "pro-audio"; }; };
+            matches = [ { "device.name" = "alsa_card.usb-Topping_DX3_Pro_-00"; } ];
+            actions = {
+              update-props = {
+                "device.profile" = "pro-audio";
+              };
+            };
           }
         ];
       };
@@ -138,7 +176,10 @@
   };
 
   preservation.preserveAt."/nix/persist" = {
-    commonMountOptions = [ "x-gvfs-hide" "x-gdu.hide" ];
+    commonMountOptions = [
+      "x-gvfs-hide"
+      "x-gdu.hide"
+    ];
     directories = [
       "/var/log"
       "/var/lib/systemd/coredump"
@@ -146,15 +187,16 @@
         directory = "/tmp";
         mode = "1777";
       }
-    ] ++ lib.optionals config.networking.networkmanager.enable [
+    ]
+    ++ lib.optionals config.networking.networkmanager.enable [
       "/var/lib/NetworkManager/"
       "/etc/NetworkManager/"
-    ] ++ lib.optionals config.hardware.bluetooth.enable
-      [ "/var/lib/bluetooth/" ]
-      ++ lib.optionals config.services.mullvad-vpn.enable [
-        "/etc/mullvad-vpn"
-        "/var/cache/mullvad-vpn"
-      ];
+    ]
+    ++ lib.optionals config.hardware.bluetooth.enable [ "/var/lib/bluetooth/" ]
+    ++ lib.optionals config.services.mullvad-vpn.enable [
+      "/etc/mullvad-vpn"
+      "/var/cache/mullvad-vpn"
+    ];
     files = [
       {
         file = "/var/lib/systemd/random-seed";
@@ -173,12 +215,11 @@
 
   systemd = {
     suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+    services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
   };
 
   hardware.bluetooth.settings.General = {
     Enable = "Source,Sink,Media,Socket";
     Experimental = true;
   };
-
-  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
 }

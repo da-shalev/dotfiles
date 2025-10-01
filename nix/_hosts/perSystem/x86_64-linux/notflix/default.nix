@@ -1,4 +1,9 @@
-{ self, pkgs, ... }: {
+{
+  self,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./disko.nix
     self.modules.nixos.no-sleep
@@ -9,7 +14,11 @@
 
   users.users.dashalev = {
     uid = 1000;
-    extraGroups = [ "wheel" "video" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "networkmanager"
+    ];
     isNormalUser = true;
     shell = pkgs.fish;
     initialPassword = "boobs";
