@@ -9,6 +9,7 @@ M.conform = require('conform')
 M.conform.setup({
   formatters_by_ft = {
     lua = { 'stylua' },
+    nix = { 'nixfmt' },
   },
 })
 
@@ -102,9 +103,6 @@ vim.lsp.config('nil_ls', {
         flake = {
           autoArchive = true,
         },
-      },
-      formatting = {
-        command = { 'nixfmt' },
       },
     },
   },

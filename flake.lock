@@ -504,6 +504,23 @@
         "type": "github"
       }
     },
+    "nvim-treesitter": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1759109949,
+        "narHash": "sha256-AAX/MECcahlb9zr9MUQFxbbpxo2guKI7eT3ihA66+IQ=",
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter",
+        "rev": "77362027f7aa850c87419fd571151e76b0b342a6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-treesitter",
+        "ref": "main",
+        "repo": "nvim-treesitter",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -554,6 +571,7 @@
         "nix-maid": "nix-maid",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
+        "nvim-treesitter": "nvim-treesitter",
         "preservation": "preservation",
         "treefmt-nix": "treefmt-nix",
         "wrapper-manager": "wrapper-manager"

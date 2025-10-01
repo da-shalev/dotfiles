@@ -26,6 +26,8 @@
 
             da = packages;
           })
+
+          (import ./_neovim/plugins.nix { inherit inputs; })
         ];
       };
 

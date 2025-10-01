@@ -122,7 +122,6 @@
           nyancat
           cmatrix
           sl
-          treefmt
           rsync
 
           exiftool
@@ -137,6 +136,7 @@
           mpc
 
           da.neovim
+
           da.fzf-media
           da.fzf
           da.da-song
@@ -151,9 +151,7 @@
           nautilus
           zathura
           foot
-          love
           aseprite
-          vscode
         ];
 
       tmux = {
