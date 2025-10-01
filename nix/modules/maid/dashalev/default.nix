@@ -125,6 +125,7 @@
           rsync
 
           exiftool
+          mdwatch
 
           # music stuff
           spek
@@ -152,6 +153,16 @@
           zathura
           foot
           aseprite
+
+          (vscode-with-extensions.override {
+            vscodeExtensions = with pkgs.vscode-marketplace; [
+              sumneko.lua
+              jnoortheen.nix-ide
+              vscodevim.vim
+              zainchen.json
+              johnnymorganz.stylua
+            ];
+          })
         ];
 
       tmux = {

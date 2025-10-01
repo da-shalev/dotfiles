@@ -45,6 +45,11 @@
       url = "github:geoffreybennett/alsa-ucm-conf";
       flake = false;
     };
+
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

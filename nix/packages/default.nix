@@ -28,6 +28,7 @@
           })
 
           (import ./_neovim/plugins.nix { inherit inputs; })
+          inputs.nix-vscode-extensions.overlays.default
         ];
       };
 
