@@ -11,7 +11,6 @@
       toggleBitdepth = pkgs.writeShellApplication {
         name = "toggle-bitdepth";
         runtimeInputs = with pkgs; [
-          hyprland
           jq
           libnotify
         ];

@@ -11,6 +11,9 @@ M.conform.setup({
     lua = { 'stylua' },
     nix = { 'nixfmt' },
   },
+  default_format_opts = {
+    lsp_format = 'fallback',
+  },
 })
 
 M.format = function(bufnr)
@@ -212,7 +215,7 @@ vim.lsp.config('ts_ls', {
     maxTsServerMemory = 8192,
   },
 })
-vim.lsp.enable('emmet_ls')
+vim.lsp.enable('ts_ls')
 
 vim.lsp.config('rust_analyzer', {
   capabilities = M.capabilities,
@@ -227,13 +230,13 @@ vim.lsp.config('rust_analyzer', {
     },
   },
 })
-vim.lsp.enable('emmet_ls')
+vim.lsp.enable('rust_analyzer')
 
 vim.lsp.config('zls', {
   capabilities = M.capabilities,
   on_attach = M.on_attach,
 })
-vim.lsp.enable('emmet_ls')
+vim.lsp.enable('zls')
 
 vim.lsp.config('yamlls', {
   capabilities = M.capabilities,
@@ -244,6 +247,6 @@ vim.lsp.config('yamlls', {
     },
   },
 })
-vim.lsp.enable('emmet_ls')
+vim.lsp.enable('yamlls')
 
 return M

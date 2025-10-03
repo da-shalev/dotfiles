@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    ./_disko.nix
+    ./disko.nix
     self.modules.nixos.no-sleep
     self.modules.nixos.tty-only
   ];

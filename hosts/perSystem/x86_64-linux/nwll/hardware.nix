@@ -49,6 +49,9 @@
       "snd_hda_intel"
     ];
 
+    # lspci | grep "Radeon Graphics"
+    # lspci -n -s 79:00.0
+    # lspci -n -s 79:00.1
     extraModprobeConfig = ''
       options vfio-pci ids=1002:13c0,1002:1640
       options kvmfr static_size_mb=256

@@ -15,7 +15,7 @@
   rebuild.owner = "dashalev";
 
   programs = {
-    steam.enable = true;
+    # steam.enable = true;
     fish.enable = true;
   };
 

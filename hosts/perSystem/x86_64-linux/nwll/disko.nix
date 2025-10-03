@@ -10,14 +10,14 @@
       ];
     };
 
-    "/home/dashalev/media/entertainment" = {
-      device = "/dev/disk/by-partlabel/disk-tomatoes-media";
-      fsType = "xfs";
-      options = [
-        "defaults"
-        "nofail"
-      ];
-    };
+    # "/home/dashalev/media/entertainment" = {
+    #   device = "/dev/disk/by-partlabel/disk-tomatoes-media";
+    #   fsType = "xfs";
+    #   options = [
+    #     "defaults"
+    #     "nofail"
+    #   ];
+    # };
   };
 
   disko.devices = {

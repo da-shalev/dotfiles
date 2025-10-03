@@ -1,7 +1,7 @@
 {
   flake.compootuers = {
-    perSystem = ../../_hosts/perSystem;
-    allSystems = ../../_hosts/allSystems;
-    perArch = ../../_hosts/perArch;
+    perSystem = ../../../hosts/perSystem;
+    allSystems = ../../../hosts/allSystems;
+    perArch = ../../../hosts/perArch;
   };
 }
