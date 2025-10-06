@@ -3,8 +3,8 @@ set -x fish_prompt_pwd_dir_length 50
 bind --erase --all
 history merge
 
-function fish_vi_cursor
-end
+# function fish_vi_cursor
+# end
 
 function fish_mode_prompt
 end

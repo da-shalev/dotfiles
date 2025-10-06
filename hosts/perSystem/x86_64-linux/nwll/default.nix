@@ -72,6 +72,7 @@
 
           davinci-resolve
           tutanota-desktop
+          heroic
         ];
 
         shell = {

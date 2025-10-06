@@ -18,7 +18,7 @@ pkgs: {
       gruvbox-nvim
       lualine-nvim
       telescope-nvim
-      conform-nvim
+      # conform-nvim
 
       todo-comments-nvim
 

@@ -1,34 +1,10 @@
-local remap = require('me.remap')
-local M = {}
-
-M.telescope = require('telescope')
-M.builtin = require('telescope.builtin')
-M.themes = require('telescope.themes')
-M.opts = {
+local telescope = require('telescope')
+local builtin = require('telescope.builtin')
+local themes = require('telescope.themes')
+local opts = {
   previewer = true,
   hidden = true,
   no_ignore = false,
-}
-
-M.vsplit = function()
-  remap.vsplit()
-  M.find()
-end
-
-M.split = function()
-  remap.split()
-  M.find()
-end
-
-M.find = function()
-  M.builtin.find_files(M.themes.get_dropdown(M.opts))
-end
-
-M.grep = function()
-  M.builtin.live_grep(M.themes.get_dropdown(M.opts))
-end
-
-M.opts = {
   file_ignore_patterns = {
     '.direnv',
     'target',
@@ -41,24 +17,34 @@ M.opts = {
   },
 }
 
-if not vim.g.is_tty then
-  M.opts.prompt_prefix = ' '
-  M.opts.selection_caret = ' '
+local find = function()
+  builtin.find_files(themes.get_dropdown(opts))
 end
 
-M.telescope.setup({ defaults = M.opts })
+local grep = function()
+  builtin.live_grep(themes.get_dropdown(opts))
+end
+
+if not vim.g.is_tty then
+  opts.prompt_prefix = ' '
+  opts.selection_caret = ' '
+end
+
+telescope.setup({ defaults = opts })
 
 vim.keymap.set('n', '<leader>f', function()
-  M.find()
-end, M.opt)
+  find()
+end, { silent = true })
 vim.keymap.set('n', '<leader>F', function()
-  M.grep()
-end, M.opt)
+  grep()
+end, { silent = true })
 vim.keymap.set('n', '<leader>"', function()
-  M.split()
-end, M.opt)
+  vim.cmd('split')
+  vim.cmd('Ex')
+  find()
+end, { silent = true })
 vim.keymap.set('n', '<leader>%', function()
-  M.vsplit()
-end, M.opt)
-
-return M
+  vim.cmd('vsplit')
+  vim.cmd('Ex')
+  find()
+end, { silent = true })

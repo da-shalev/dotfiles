@@ -75,11 +75,6 @@
         default_area = "navbar";
       };
 
-      "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/user-agent-string-switcher/latest.xpi";
-        installation_mode = "force_installed";
-      };
-
       "{84601290-bec9-494a-b11c-1baa897a9683}" = {
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/ctrl-number-to-switch-tabs";

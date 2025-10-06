@@ -1,8 +1,6 @@
-local remap = require('me.remap')
-local M = {}
+local plugin = require('zen-mode')
 
-M.plugin = require('zen-mode')
-M.plugin.setup({
+plugin.setup({
   window = {
     backdrop = 1,
     width = 80,
@@ -17,7 +15,5 @@ M.plugin.setup({
 })
 
 vim.keymap.set('n', '<leader>z', function()
-  M.plugin.toggle()
-end, remap.opt)
-
-return M
+  plugin.toggle()
+end, { silent = true })
