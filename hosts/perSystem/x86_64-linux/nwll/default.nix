@@ -70,7 +70,7 @@
           qbittorrent
           nicotine-plus
 
-          davinci-resolve
+          # davinci-resolve
           tutanota-desktop
           heroic
         ];

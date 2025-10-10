@@ -1,28 +1,40 @@
 require('lazydev').setup()
 require('Comment').setup()
 
--- M.conform = require('conform')
-
--- M.conform.setup({
---   formatters_by_ft = {
---     lua = { 'stylua' },
---     nix = { 'nixfmt' },
---   },
---   default_format_opts = {
---     lsp_format = 'fallback',
---   },
--- })
+local conform = require('conform')
+conform.setup({
+  formatters_by_ft = {
+    lua = { 'stylua' },
+    nix = { 'nixfmt' },
+    javascript = { 'prettier' },
+    javascriptreact = { 'prettier' },
+    typescript = { 'prettier' },
+    typescriptreact = { 'prettier' },
+    json = { 'prettier' },
+    jsonc = { 'prettier' },
+    md = { 'prettier' },
+    mdx = { 'prettier' },
+    astro = { 'prettier' },
+    css = { 'prettier' },
+    yaml = { lsp_format = 'fallback' },
+    toml = { lsp_format = 'fallback' },
+  },
+  -- knowing your formatter is nice
+  -- default_format_opts = {
+  -- lsp_format = 'fallback',
+  -- },
+})
 
 vim.lsp.enable({
   'nil_ls',
   'lua_ls',
-  'stylua',
   'jsonls',
   'svelte',
   'clangd',
   'pyright',
   'html',
   'astro',
+  'taplo',
   'tailwindcss',
   'cssls',
   'emmet_ls',
@@ -30,14 +42,15 @@ vim.lsp.enable({
   'rust_analyzer',
   'zls',
   'yamlls',
+  'eslint',
 })
 
 local capabilities = require('blink.cmp').get_lsp_capabilities()
 local inlay_hints = false
 
 local format = function(args)
-  vim.lsp.buf.format({ async = true })
-  -- M.conform.format({ bufnr = bufnr })
+  -- vim.lsp.buf.format({ async = true })
+  conform.format({ args = args })
 end
 
 local keymaps = function(bufnr)

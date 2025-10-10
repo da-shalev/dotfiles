@@ -1,4 +1,4 @@
-excluded_dirs = [".direnv", "_games_", "_stale_"]
+excluded_dirs = [".direnv", "_games_", "_stale_", "node_modules"]
 
 [[search_dirs]]
 path = "$NIXPKGS_CONFIG/"
@@ -6,4 +6,4 @@ depth = 5
 
 [[search_dirs]]
 path = "$HOME/media/"
-depth = 20
+depth = 10

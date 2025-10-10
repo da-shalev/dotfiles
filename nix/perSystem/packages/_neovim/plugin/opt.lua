@@ -35,8 +35,8 @@ vim.opt.smartindent = false
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.opt.list = true
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 vim.g.netrw_list_hide = '.DS_Store'
 vim.g.netrw_sort_reverse = 1

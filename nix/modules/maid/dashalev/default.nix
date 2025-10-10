@@ -129,7 +129,7 @@
 
           # music stuff
           spek
-          beets
+          # beets
           python313Packages.audiotools
           flac
           eyed3
@@ -137,6 +137,8 @@
           mpc
 
           da.neovim
+          treefmt
+          gh
 
           da.fzf-media
           da.fzf
@@ -152,7 +154,7 @@
           nautilus
           zathura
           foot
-          aseprite
+          # stable.aseprite
 
           (vscode-with-extensions.override {
             vscodeExtensions = with pkgs.vscode-marketplace; [
@@ -161,6 +163,10 @@
               vscodevim.vim
               zainchen.json
               johnnymorganz.stylua
+              astro-build.astro-vscode
+              esbenp.prettier-vscode
+              dbaeumer.vscode-eslint
+              tamasfe.even-better-toml
             ];
           })
         ];

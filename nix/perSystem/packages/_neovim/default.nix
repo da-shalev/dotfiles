@@ -18,7 +18,7 @@ pkgs: {
       gruvbox-nvim
       lualine-nvim
       telescope-nvim
-      # conform-nvim
+      conform-nvim
 
       todo-comments-nvim
 
@@ -53,8 +53,10 @@ pkgs: {
     typescript-language-server
     typescript
     stylua
+    prettier
     # mdx-language-server
     astro-language-server
+    taplo
     emmet-ls
 
     # jdt-language-server
