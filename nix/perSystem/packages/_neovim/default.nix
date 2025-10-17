@@ -57,7 +57,6 @@ pkgs: {
     # mdx-language-server
     astro-language-server
     taplo
-    emmet-ls
 
     # jdt-language-server
     pyright

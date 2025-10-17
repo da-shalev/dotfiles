@@ -139,6 +139,7 @@
           da.neovim
           treefmt
           gh
+          openssl
 
           da.fzf-media
           da.fzf

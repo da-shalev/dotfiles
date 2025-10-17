@@ -37,7 +37,6 @@ vim.lsp.enable({
   'taplo',
   'tailwindcss',
   'cssls',
-  'emmet_ls',
   'ts_ls',
   'rust_analyzer',
   'zls',
