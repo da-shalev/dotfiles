@@ -1,4 +1,4 @@
-vim.lsp.config('nil_ls', {
+vim.lsp.config('rust_analyzer', {
   settings = {
     ['rust_analyzer'] = {
       rust_analyzer = {

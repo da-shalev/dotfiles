@@ -2,7 +2,7 @@
 {
   imports = [
     inputs.flake-parts.flakeModules.modules
-    inputs.compootuers.modules.flake.default
+    inputs.compootuers.flakeModule
     inputs.treefmt-nix.flakeModule
   ];
 }

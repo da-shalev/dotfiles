@@ -40,6 +40,8 @@
     ];
   };
 
+  programs.steam.enable = true;
+
   users.users = {
     # USER: nwll - dashalev
     dashalev = {

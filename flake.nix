@@ -12,18 +12,8 @@
       };
     };
 
-    compootuers = {
-      url = "github:mcsimw/compootuers?ref=8472aa5bc4527918fd062e25badf87187ba1c596";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-
-    nvim-treesitter = {
-      url = "github:nvim-treesitter/nvim-treesitter/main";
-      flake = false;
-    };
+    compootuers.url = "github:mcsimw/compootuers?ref=05d336be427ea4019d648aca89c41b84d074329d";
+    nvim-treesitter-main.url = "github:iofq/nvim-treesitter-main";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
