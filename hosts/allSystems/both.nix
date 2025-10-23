@@ -197,6 +197,28 @@
     ++ lib.optionals config.services.mullvad-vpn.enable [
       "/etc/mullvad-vpn"
       "/var/cache/mullvad-vpn"
+    ]
+    ++ lib.optionals config.services.jellyfin.enable [
+      {
+        directory = config.services.jellyfin.configDir;
+        user = config.services.jellyfin.user;
+        group = config.services.jellyfin.group;
+      }
+      {
+        directory = config.services.jellyfin.cacheDir;
+        user = config.services.jellyfin.user;
+        group = config.services.jellyfin.group;
+      }
+      {
+        directory = config.services.jellyfin.dataDir;
+        user = config.services.jellyfin.user;
+        group = config.services.jellyfin.group;
+      }
+      {
+        directory = config.services.jellyfin.logDir;
+        user = config.services.jellyfin.user;
+        group = config.services.jellyfin.group;
+      }
     ];
     files = [
       {

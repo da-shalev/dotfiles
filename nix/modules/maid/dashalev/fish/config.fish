@@ -16,9 +16,9 @@ bind -M default \cf 'cd_fzf "fzf-media"'
 bind -M insert \cf 'cd_fzf "fzf-media"'
 bind -M visual \cf 'cd_fzf "fzf-media"'
 
-bind -M default \cn 'cd_fzf "fzf"'
-bind -M insert \cn 'cd_fzf "fzf"'
-bind -M visual \cn 'cd_fzf "fzf"'
+bind -M default \cn 'cd_fzf "fzf-search"'
+bind -M insert \cn 'cd_fzf "fzf-search"'
+bind -M visual \cn 'cd_fzf "fzf-search"'
 
 function clear
   command clear

@@ -1,6 +1,6 @@
 { pkgs, ... }:
 pkgs.writeShellApplication {
-  name = "fzf";
+  name = "fzf-search";
   runtimeInputs = with pkgs; [
     fd
     fzf

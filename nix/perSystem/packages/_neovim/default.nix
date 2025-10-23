@@ -17,7 +17,7 @@ pkgs: {
 
       gruvbox-nvim
       lualine-nvim
-      telescope-nvim
+      fzf-lua
       conform-nvim
 
       todo-comments-nvim
@@ -57,6 +57,11 @@ pkgs: {
     # mdx-language-server
     astro-language-server
     taplo
+
+    ripgrep
+    curl
+    git
+    fzf
 
     # jdt-language-server
     pyright

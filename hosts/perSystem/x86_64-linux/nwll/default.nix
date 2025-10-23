@@ -15,13 +15,40 @@
   rebuild.owner = "dashalev";
 
   programs = {
-    # steam.enable = true;
+    steam.enable = true;
     fish.enable = true;
   };
 
-  services.mullvad-vpn = {
+  services = {
+    mullvad-vpn = {
+      enable = true;
+      package = pkgs.stable.mullvad-vpn;
+    };
+
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
+  };
+
+  # exclude mullvad from 8096
+  networking.nftables = {
     enable = true;
-    package = pkgs.stable.mullvad-vpn;
+    tables = {
+      excludeTraffic = {
+        family = "inet";
+        content = ''
+          chain allowIncoming {
+            type filter hook prerouting priority -200; policy accept;
+            tcp dport 8096 ct mark set 0x00000f41 meta mark set 0x6d6f6c65
+          }
+          chain allowOutgoing {
+            type route hook output priority -100; policy accept;
+            tcp sport 8096 ct mark set 0x00000f41 meta mark set 0x6d6f6c65
+          }
+        '';
+      };
+    };
   };
 
   preservation = {
@@ -39,8 +66,6 @@
       }
     ];
   };
-
-  programs.steam.enable = true;
 
   users.users = {
     # USER: nwll - dashalev
@@ -64,7 +89,7 @@
           signal-desktop-bin
           telegram-desktop
           vulkan-hdr-layer-kwin6
-          prismlauncher
+          # prismlauncher
           looking-glass-client
           audacity
           figma-agent
