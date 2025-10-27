@@ -1,8 +1,8 @@
-vim.lsp.config('lua_ls', {
+return {
   settings = {
     Lua = {
       telemetry = { enable = false },
       format = { enable = false },
     },
   },
-})
+}

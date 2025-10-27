@@ -24,32 +24,27 @@
       enable = true;
       package = pkgs.stable.mullvad-vpn;
     };
-
-    jellyfin = {
-      enable = true;
-      openFirewall = true;
-    };
   };
 
-  # exclude mullvad from 8096
-  networking.nftables = {
-    enable = true;
-    tables = {
-      excludeTraffic = {
-        family = "inet";
-        content = ''
-          chain allowIncoming {
-            type filter hook prerouting priority -200; policy accept;
-            tcp dport 8096 ct mark set 0x00000f41 meta mark set 0x6d6f6c65
-          }
-          chain allowOutgoing {
-            type route hook output priority -100; policy accept;
-            tcp sport 8096 ct mark set 0x00000f41 meta mark set 0x6d6f6c65
-          }
-        '';
-      };
-    };
-  };
+  # # exclude mullvad from 8096
+  # networking.nftables = {
+  #   enable = true;
+  #   tables = {
+  #     excludeTraffic = {
+  #       family = "inet";
+  #       content = ''
+  #         chain allowIncoming {
+  #           type filter hook prerouting priority -200; policy accept;
+  #           tcp dport 8096 ct mark set 0x00000f41 meta mark set 0x6d6f6c65
+  #         }
+  #         chain allowOutgoing {
+  #           type route hook output priority -100; policy accept;
+  #           tcp sport 8096 ct mark set 0x00000f41 meta mark set 0x6d6f6c65
+  #         }
+  #       '';
+  #     };
+  #   };
+  # };
 
   preservation = {
     enable = true;
@@ -90,9 +85,9 @@
           telegram-desktop
           vulkan-hdr-layer-kwin6
           # prismlauncher
-          looking-glass-client
           audacity
           figma-agent
+          delfin
 
           qbittorrent
           nicotine-plus

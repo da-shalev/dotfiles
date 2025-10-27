@@ -1,4 +1,4 @@
-vim.lsp.config('rust_analyzer', {
+return {
   settings = {
     ['rust_analyzer'] = {
       rust_analyzer = {
@@ -8,4 +8,4 @@ vim.lsp.config('rust_analyzer', {
       },
     },
   },
-})
+}

@@ -1,4 +1,4 @@
-vim.lsp.config('nil_ls', {
+return {
   settings = {
     ['nil'] = {
       nix = {
@@ -8,4 +8,4 @@ vim.lsp.config('nil_ls', {
       },
     },
   },
-})
+}

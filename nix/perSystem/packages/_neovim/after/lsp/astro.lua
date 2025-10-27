@@ -1,7 +1,7 @@
-vim.lsp.config('astro', {
+return {
   settings = {
     astro = {
       contentIntellisense = true,
     },
   },
-})
+}
