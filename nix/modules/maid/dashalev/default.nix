@@ -1,7 +1,11 @@
-{ moduleWithSystem, lib, ... }:
+{
+  moduleWithSystem,
+  lib,
+  ...
+}:
 {
   flake.modules.maid.dashalev = moduleWithSystem (
-    { pkgs }:
+    { pkgs, inputs' }:
     {
       config,
       ...
@@ -93,12 +97,9 @@
           jq
           yq
           fd
-          npins
 
           bun
           nodejs
-
-          smartmontools
 
           mpv
 
@@ -140,6 +141,7 @@
           treefmt
           gh
           openssl
+          maven
 
           da.fzf-media
           da.fzf
@@ -155,7 +157,6 @@
           nautilus
           zathura
           foot
-          # stable.aseprite
 
           (vscode-with-extensions.override {
             vscodeExtensions = with pkgs.vscode-marketplace; [

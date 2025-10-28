@@ -60,8 +60,8 @@
 
   # add group "kvm" to gain permission to access the actual gpu device
   services.udev.extraRules = ''
-    SUBSYSTEM=="vfio", OWNER="dashalev", GROUP="kvm", MODE="0660"
-    SUBSYSTEM=="kvmfr", OWNER="dashalev", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="vfio", GROUP="kvm", MODE="0660"
+    SUBSYSTEM=="kvmfr", GROUP="kvm", MODE="0660"
   '';
 
   # increase pathetic 8MB of vram limit for VMS

@@ -62,6 +62,7 @@
   };
 
   networking.firewall = {
+    enable = lib.mkDefault true;
     allowedTCPPorts = [
       22
       25565

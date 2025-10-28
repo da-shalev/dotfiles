@@ -18,6 +18,7 @@ conform.setup({
     css = { 'prettier' },
     yaml = { lsp_format = 'fallback' },
     toml = { lsp_format = 'fallback' },
+    java = { lsp_format = 'fallback' },
   },
   -- knowing your formatter is nice
   -- default_format_opts = {
@@ -42,6 +43,7 @@ vim.lsp.enable({
   'zls',
   'yamlls',
   'eslint',
+  'jdtls',
 })
 
 local capabilities = require('blink.cmp').get_lsp_capabilities()

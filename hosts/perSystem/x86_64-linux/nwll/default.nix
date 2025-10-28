@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -78,16 +79,15 @@
 
       maid = {
         imports = with self.modules.maid; [ dashalev ];
+        file.xdg_config = {
+          "looking-glass/client.ini".source = ./looking-glass/client.ini;
+        };
         packages = with pkgs; [
           obs-studio
-          ungoogled-chromium
+          chromium
           signal-desktop-bin
-          telegram-desktop
           vulkan-hdr-layer-kwin6
-          # prismlauncher
           audacity
-          figma-agent
-          delfin
 
           qbittorrent
           nicotine-plus
@@ -95,6 +95,10 @@
           # davinci-resolve
           tutanota-desktop
           heroic
+          (inputs.wrapper-manager.lib.wrapWith pkgs {
+            basePackage = pkgs.looking-glass-client;
+            env."__NV_DISABLE_EXPLICIT_SYNC".value = "1";
+          })
         ];
 
         shell = {
